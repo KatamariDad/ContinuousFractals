@@ -107,6 +107,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>D:\Projects\ContinuousFractals\src;D:\Projects\ContinuousFractals;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,6 +156,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="src\Fractal\Fractal.h" />
     <ClInclude Include="src\Fractal\MandelBox\MandelBox.h" />
+    <ClInclude Include="src\Utility\CLI\CommandLineParser.h" />
     <ClInclude Include="src\Utility\Image\Image.h" />
     <ClInclude Include="src\Utility\Math\Vector3.h" />
     <ClInclude Include="src\Utility\PNG\png.h" />

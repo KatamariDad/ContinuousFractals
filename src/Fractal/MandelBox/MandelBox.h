@@ -13,6 +13,13 @@ public:
 		, m_formulaScale( formulaScale )
 	{}
 
+	void ResetParams(
+		float formulaScale,
+		uint32_t maxIterations )
+	{
+		m_formulaScale = formulaScale;
+		m_maxIterations = maxIterations;
+	}
 
 	virtual void GenerateColourForInput(
 		const Vector3f& Input,

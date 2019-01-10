@@ -18,8 +18,14 @@ public:
 
 	struct GenerateParams
 	{
+		GenerateParams()
+			: scale( 6.f )
+			, origin( 0.f )
+			, multithreadEnabled( true )
+		{}
+
 		Vector3f scale;
-		Vector3f Origin;
+		Vector3f origin;
 		bool multithreadEnabled;
 	};
 

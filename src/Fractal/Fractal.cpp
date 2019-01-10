@@ -32,7 +32,7 @@ void FractalGenerator3D::Generate(
 	const GenerateParams& params,
 	const FractalFunctor3D& fractalFunctor)
 {
-	const Vector3f& origin = params.Origin;
+	const Vector3f& origin = params.origin;
 	const Vector3f& scale = params.scale;
 	const uint32_t w = outImage.GetWidth();
 	const uint32_t h = outImage.GetHeight();
@@ -71,9 +71,8 @@ void FractalGenerator3D::Generate(
 		for( uint32_t y = 0; y < h; ++y )
 		{
 			input.x = bottomLeft.x;
-			ComputeRow(&outImage, input, incrementX, w, y, &fractalFunctor );
+			ComputeRow( &outImage, input, incrementX, w, y, &fractalFunctor );
 			input.y += incrementY;
 		}
-	
 	}
 }

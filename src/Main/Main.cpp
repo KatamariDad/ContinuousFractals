@@ -22,7 +22,11 @@
 
 #define _IMAGE_SIZE_ 256 
 
-void DrawBox( MandelBox mandelBox, int width, int height, std::string dir );
+void DrawBox(
+	const MandelBox& mandelBox,
+	const uint32_t width,
+	const uint32_t height,
+	const std::string& dir );
 
 std::string CurrentTimeAndDate()
 {
@@ -56,19 +60,19 @@ int main( int argc, char* argv[] )
 		sscanf_s( param, "%dx%d", &width, &height );
 	} );
 
-	MandelBox mandelBox( 2.f, 150 );
+	MandelBox mandelBox( 2.f, 300 );
 	bool drawBox = CLI::Match( "-box", argc, argv, [&mandelBox]( char* param ) {
 		float formulaScale = 2.f;
-		int iterationCount = 150;
+		int iterationCount = 300;
 		sscanf_s( param, "%f,%d", &formulaScale, &iterationCount );
-
-		mandelBox = MandelBox( formulaScale, iterationCount );
+		mandelBox.ResetParams( formulaScale, iterationCount );
 	} );
 
 
 	if (!CreateDirectoryA( directory.c_str(), NULL ))
 	{
-		std::cout << "Error creating directory to save fractal output";
+		std::cerr << "Error creating directory to save fractal output" << std::endl;
+		return 1;
 	}
 
 	DrawBox( mandelBox, height, width, directory );
@@ -76,7 +80,11 @@ int main( int argc, char* argv[] )
 	return 0;
 }
 
-void DrawBox( MandelBox mandelBox, int width, int height, std::string dir )
+void DrawBox( 
+	const MandelBox& mandelBox, 
+	const uint32_t width, 
+	const uint32_t height, 
+	const std::string& dir )
 {
 	const std::string filename( "mandelBox" );
 	const std::string extension( ".png" );
@@ -84,24 +92,21 @@ void DrawBox( MandelBox mandelBox, int width, int height, std::string dir )
 	// scale 2, max = 6
 	// scale 1.89: max = 6.49, width = 15
 	// scale -1.5: max = ? , width = 4, maxIt = 300
-	const float min = 0.000f;//6.489f;
-	const float max = 2.f;
+	const float minDepth = 0.000f;//6.489f;
+	const float maxDepth = 2.f;
 	const float increment = 0.05f;
-	float current = min;
-	int count = 10;
-	while( current <= max )
-	{
-		count--;
-		MandelBox mandelBox( -1.5f, 300 );
 
-		const uint32_t width = _IMAGE_SIZE_, height = _IMAGE_SIZE_;
+	float currentDepth = minDepth;
+	while( currentDepth <= maxDepth )
+	{
+		MandelBox mandelBox( -1.5f, 300 );
 
 		const std::string directory( "D:\\Projects\\ContinuousFractals\\out\\" );
 		const std::string filename( "mandelBox" );
 		const std::string extension( ".png" );
 
 		std::stringstream dimensionsStream;
-		dimensionsStream << width << "_x_" << height << "_" << mandelBox.GetParamDesc() << "_" << "z=" << current;
+		dimensionsStream << width << "_x_" << height << "_" << mandelBox.GetParamDesc() << "_" << "z=" << currentDepth;
 		const std::string dimensions( dimensionsStream.str() );
 
 
@@ -110,14 +115,15 @@ void DrawBox( MandelBox mandelBox, int width, int height, std::string dir )
 
 		FractalGenerator3D mandelBoxGenerator;
 		FractalGenerator3D::GenerateParams params;
-		params.Origin = Vector3f( 0.f, 0.f, current );
+		params.origin = Vector3f( 0.f, 0.f, currentDepth );
 		params.scale = Vector3f( 15.0f );
+		params.multithreadEnabled = true;
 		mandelBoxGenerator.Generate( image, params, mandelBox );
 
 		// write to file
 		image.Save();
 
-		current += increment;
+		currentDepth += increment;
 	}
 }
 

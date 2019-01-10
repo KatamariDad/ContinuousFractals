@@ -18,6 +18,7 @@
 #include "Utility/CLI/CommandLineParser.h"
 
 #include "Fractal/MandelBox/MandelBox.h"
+#include "Fractal/Colourizers/Colourizers.h"
 
 
 #define _IMAGE_SIZE_ 256 
@@ -75,7 +76,7 @@ int main( int argc, char* argv[] )
 		return 1;
 	}
 
-	DrawBox( mandelBox, height, width, directory );
+	DrawBox( mandelBox, width, height, directory );
 
 	return 0;
 }
@@ -113,8 +114,9 @@ void DrawBox(
 		const std::string fullpath = dir + "\\" + filename + dimensions + extension;
 		Image::Image image( width, height, fullpath );
 
+		SimpleColourScaledByFunctorOutputValue colourizer;
 		FractalGenerator3D mandelBoxGenerator;
-		FractalGenerator3D::GenerateParams params;
+		FractalGenerator3D::GenerateParams params(colourizer);
 		params.origin = Vector3f( 0.f, 0.f, currentDepth );
 		params.scale = Vector3f( 15.0f );
 		params.multithreadEnabled = true;

@@ -23,6 +23,7 @@ public:
 
 	virtual void GenerateColourForInput(
 		const Vector3f& Input,
+		const FractalColourizer& colourizer,
 		uint8_t& r,
 		uint8_t& g,
 		uint8_t& b ) const override;

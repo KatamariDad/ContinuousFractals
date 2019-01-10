@@ -2,6 +2,7 @@
 #include "Fractal.h"
 #include <stdio.h>
 
+#include <Fractal/Colourizers/Colourizers.h>
 #include <Utility/Image/Image.h>
 #include <Utility/Math/Vector3.h>
 
@@ -15,13 +16,16 @@ void ComputeRow(
 	float incrementX,
 	uint32_t numColumns,
 	uint32_t currentRow,
+	const FractalColourizer* colourizer,
 	const FractalFunctor3D* fractalFunctor )
 {
 	for( uint32_t x = 0; x < numColumns; ++x )
 	{
 		uint8_t r, g, b;
 		fractalFunctor->GenerateColourForInput( 
-			input, r, g, b );
+			input, 
+			*colourizer,
+			r, g, b );
 		outImage->WritePixel( x, currentRow, r, g, b );
 		input.x += incrementX;
 	}
@@ -56,7 +60,12 @@ void FractalGenerator3D::Generate(
 			input.x = bottomLeft.x;
 			threads[y] = std::thread( 
 				ComputeRow, 
-				&outImage, input, incrementX, w, y, &fractalFunctor );
+				&outImage, 
+				input, 
+				incrementX, 
+				w, y, 
+				&params.colourizer,
+				&fractalFunctor );
 			input.y += incrementY;
 		}
 
@@ -71,8 +80,26 @@ void FractalGenerator3D::Generate(
 		for( uint32_t y = 0; y < h; ++y )
 		{
 			input.x = bottomLeft.x;
-			ComputeRow( &outImage, input, incrementX, w, y, &fractalFunctor );
+			ComputeRow( 
+				&outImage, 
+				input, 
+				incrementX, 
+				w, y, 
+				&params.colourizer, 
+				&fractalFunctor );
 			input.y += incrementY;
 		}
 	}
+}
+
+
+FractalGenerator3D::GenerateParams::GenerateParams(const FractalColourizer& _colourizer)
+	: scale( 6.f )
+	, origin( 0.f )
+	, colourizer(_colourizer)
+	, multithreadEnabled( true )
+{}
+
+FractalGenerator3D::GenerateParams::~GenerateParams()
+{
 }

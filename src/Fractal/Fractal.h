@@ -4,6 +4,7 @@
 
 #include <Utility/Math/Vector3.h>
 
+class FractalColourizer;
 class FractalFunctor3D;
 class Vector3f;
 
@@ -16,16 +17,15 @@ class FractalGenerator3D
 {
 public:
 
-	struct GenerateParams
+	class GenerateParams
 	{
-		GenerateParams()
-			: scale( 6.f )
-			, origin( 0.f )
-			, multithreadEnabled( true )
-		{}
+	public:
+		GenerateParams(const FractalColourizer& _colourizer);
+		~GenerateParams();
 
 		Vector3f scale;
 		Vector3f origin;
+		const FractalColourizer& colourizer; 
 		bool multithreadEnabled;
 	};
 
@@ -45,6 +45,19 @@ private:
     float m_rotateZ;
 };
 
+class FractalColourizer
+{
+public:
+	virtual void GenerateColour(
+		const Vector3f& input,
+		const Vector3f& functionOutput,
+		const bool isInSet,
+		const uint32_t divergenceIteration,
+		uint8_t& r,
+		uint8_t& g,
+		uint8_t& b ) const = 0;
+};
+
 
 class FractalFunctor3D
 {
@@ -54,7 +67,8 @@ public:
     // given a complex number,
     // generate a colour.
 	virtual void GenerateColourForInput(
-		const Vector3f& Input,
+		const Vector3f& input,
+		const FractalColourizer& colourizer,
 		uint8_t& r,
 		uint8_t& g,
 		uint8_t& b ) const = 0;

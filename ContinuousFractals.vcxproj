@@ -153,9 +153,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="src\Fractal\Colourizers\Colourizers.h" />
     <ClInclude Include="src\Fractal\Fractal.h" />
     <ClInclude Include="src\Fractal\MandelBox\MandelBox.h" />
     <ClInclude Include="src\Utility\Image\Image.h" />
+    <ClInclude Include="src\Utility\Image\PixelColour.h" />
     <ClInclude Include="src\Utility\Math\Vector3.h" />
     <ClInclude Include="src\Utility\PNG\png.h" />
     <ClInclude Include="src\Utility\PNG\pngUtil.h" />

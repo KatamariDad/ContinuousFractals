@@ -2,7 +2,7 @@
 #include <Fractal/Fractal.h>
 #include <Utility/Image/PixelColour.h>
 
-class BlackAndWhite : public FractalColourizer
+class BlackAndWhite final : public FractalColourizer
 {
 public:
 	virtual void GenerateColour(
@@ -21,7 +21,7 @@ public:
 };
 
 
-class SimpleColourScaledByFunctorOutputValue : public FractalColourizer
+class SimpleColourScaledByFunctorOutputValue final : public FractalColourizer
 {
 public:
 	SimpleColourScaledByFunctorOutputValue()

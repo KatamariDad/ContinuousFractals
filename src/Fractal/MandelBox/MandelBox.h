@@ -3,7 +3,7 @@
 #include <Utility/Math/Vector3.h>
 
 
-class MandelBox : public FractalFunctor3D
+class MandelBox final : public FractalFunctor3D 
 {
 public:
 	MandelBox(

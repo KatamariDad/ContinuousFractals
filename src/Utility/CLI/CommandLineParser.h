@@ -12,11 +12,11 @@ namespace CLI
 		{
 			if (strcmp( op, argv[i] ) == 0)
 			{
-				if (i + 1 <= argc)
+				if (i + 1 < argc)
 				{
 					action( argv[i + 1] );
-					return true;
 				}
+				return true;
 			}
 		}
 		return false;

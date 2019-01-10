@@ -25,6 +25,7 @@
 
 void DrawBox(
 	const MandelBox& mandelBox,
+	FractalColourizer& colourizer,
 	const uint32_t width,
 	const uint32_t height,
 	const std::string& dir );
@@ -76,13 +77,27 @@ int main( int argc, char* argv[] )
 		return 1;
 	}
 
-	DrawBox( mandelBox, width, height, directory );
+	FractalColourizer* colourizer;
+	if (CLI::Match( "blue", argc, argv, []( char* param ) {} ))
+	{
+		colourizer = &ShadesOfBlueColourizer();
+	}
+	else if(CLI::Match( "white", argc, argv, []( char* param ) {} ))
+	{
+		colourizer = &BlackAndWhite();
+	}
+	else
+	{
+		colourizer = &SimpleColourScaledByFunctorOutputValue();
+	}
 
+	DrawBox( mandelBox, *colourizer, width, height, directory );
 	return 0;
 }
 
 void DrawBox( 
-	const MandelBox& mandelBox, 
+	const MandelBox& mandelBox,
+	FractalColourizer& colourizer,
 	const uint32_t width, 
 	const uint32_t height, 
 	const std::string& dir )
@@ -102,7 +117,6 @@ void DrawBox(
 	{
 		MandelBox mandelBox( -1.5f, 300 );
 
-		const std::string directory( "D:\\Projects\\ContinuousFractals\\out\\" );
 		const std::string filename( "mandelBox" );
 		const std::string extension( ".png" );
 
@@ -114,7 +128,6 @@ void DrawBox(
 		const std::string fullpath = dir + "\\" + filename + dimensions + extension;
 		Image::Image image( width, height, fullpath );
 
-		SimpleColourScaledByFunctorOutputValue colourizer;
 		FractalGenerator3D mandelBoxGenerator;
 		FractalGenerator3D::GenerateParams params(colourizer);
 		params.origin = Vector3f( 0.f, 0.f, currentDepth );

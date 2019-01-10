@@ -20,6 +20,7 @@ public:
 	{
 		Vector3f scale;
 		Vector3f Origin;
+		bool multithreadEnabled;
 	};
 
     void Generate(

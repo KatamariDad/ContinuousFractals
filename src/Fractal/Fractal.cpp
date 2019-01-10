@@ -42,24 +42,38 @@ void FractalGenerator3D::Generate(
 	const float incrementX = ( topRight.x - bottomLeft.x ) / static_cast<float>( w );
 	const float incrementY = ( topRight.y - bottomLeft.y ) / static_cast<float>( h );
 
-	std::vector<std::thread> threads;
-	for( uint32_t y = 0; y < h; ++y )
+	if( params.multithreadEnabled )
 	{
-		threads.push_back( std::thread() );
-	
-	}
-	Vector3f input( bottomLeft );
-	for( uint32_t y = 0; y < h; ++y )
-	{
-		input.x = bottomLeft.x;
-		threads[y] = std::thread( 
-			ComputeRow, 
-			&outImage, input, incrementX, w, y, &fractalFunctor );
-		input.y += incrementY;
-	}
+		std::vector<std::thread> threads;
+		for( uint32_t y = 0; y < h; ++y )
+		{
+			threads.push_back( std::thread() );
+		
+		}
+		Vector3f input( bottomLeft );
+		for( uint32_t y = 0; y < h; ++y )
+		{
+			input.x = bottomLeft.x;
+			threads[y] = std::thread( 
+				ComputeRow, 
+				&outImage, input, incrementX, w, y, &fractalFunctor );
+			input.y += incrementY;
+		}
 
-	for (auto& thread : threads)
+		for (auto& thread : threads)
+		{
+			thread.join();
+		}
+	}
+	else
 	{
-		thread.join();
+		Vector3f input( bottomLeft );
+		for( uint32_t y = 0; y < h; ++y )
+		{
+			input.x = bottomLeft.x;
+			ComputeRow(&outImage, input, incrementX, w, y, &fractalFunctor );
+			input.y += incrementY;
+		}
+	
 	}
 }

@@ -20,9 +20,7 @@ void MandelBox::BallFold( Vector3f& input ) const
 	}
 	else if( length < 1.f )
 	{
-		input.x = input.x / length;
-		input.y = input.y / length;
-		input.z = input.z / length;
+		input = input / length;
 	}
 }
 
@@ -39,20 +37,20 @@ void MandelBox::BoxFold( float& input ) const
 }
 
 void MandelBox::GenerateColourForInput(
-	const Vector3f& Input,
+	const Vector3f& input,
 	uint8_t& r,
 	uint8_t& g,
 	uint8_t& b ) const
 {
 	bool isInSet = true;
-	Vector3f localInput( Input );
+	Vector3f localInput( input );
 	for( uint32_t i = 0; i < m_maxIterations; ++i )
 	{
 		BoxFold( localInput.x );
 		BoxFold( localInput.y );
 		BoxFold( localInput.z );
 		BallFold( localInput );
-		localInput = m_formulaScale * localInput + Input;
+		localInput = m_formulaScale * localInput + input;
 	
 		if( localInput.IsInfinity() ) 
 		{
@@ -72,9 +70,6 @@ void MandelBox::GenerateColourForInput(
 		b = 255 - (localInput.z > 1.0f 
 			? static_cast<uint8_t>(255.f / localInput.z) 
 			: static_cast<uint8_t>(255.f * localInput.z));
-		r = 255;
-		g = 255;
-		b = 255;
 	}
 	else
 	{

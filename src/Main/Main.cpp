@@ -18,7 +18,7 @@
 #include "Fractal/MandelBox/MandelBox.h"
 
 
-#define _IMAGE_SIZE_ 256 
+#define _IMAGE_SIZE_ 360 
 
 std::string CurrentTimeAndDate()
 {
@@ -43,14 +43,18 @@ std::string CurrentTimeAndDate()
 
 int main()
 {
-	const float rad = 6.f;
-	const float increment = -0.0001f;
-	float current = rad;
+	// scale 2, max = 6
+	// scale 1.89: max = 6.49, width = 15
+	// scale -1.5: max = ? , width = 4, maxIt = 300
+	const float min = 0.000f;//6.489f;
+	const float max = 2.f;
+	const float increment = 0.05f;
+	float current = min;
 	int count = 10;
-	while( current > -rad && count > 0)
+	while( current <= max )
 	{
 		count--;
-		MandelBox mandelBox( 2.f, 150 );
+		MandelBox mandelBox( -1.5f, 300 );
 
 		const uint32_t width = _IMAGE_SIZE_, height = _IMAGE_SIZE_;
 
@@ -59,7 +63,7 @@ int main()
 		const std::string extension( ".png" );
 
 		std::stringstream dimensionsStream;
-		dimensionsStream << width << "_x_" << height << "_" << mandelBox.GetParamDesc() << "_" << "z=" << current;
+		dimensionsStream << width << "_x_" << height << "_" << mandelBox.GetParamDesc() << "_" << "z=" << current << "_";
 		const std::string dimensions( dimensionsStream.str() );
 
 
@@ -69,7 +73,8 @@ int main()
 		FractalGenerator3D mandelBoxGenerator;
 		FractalGenerator3D::GenerateParams params;
 		params.Origin = Vector3f( 0.f, 0.f, current );
-		params.scale = Vector3f( 15.0f );
+		params.scale = Vector3f( 4.0f );
+		params.multithreadEnabled = true;
 		mandelBoxGenerator.Generate( image, params, mandelBox );
 
 		// write to file

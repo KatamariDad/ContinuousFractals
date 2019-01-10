@@ -69,7 +69,7 @@ class ShadesOfBlueColourizer final : public FractalColourizer
 {
 public:
 	ShadesOfBlueColourizer()
-		: m_backgroundColour( 255 )
+		: m_backgroundColour( 0 )
 	{}
 
 	ShadesOfBlueColourizer(
@@ -88,12 +88,12 @@ public:
 	{
 		if (isInSet)
 		{
-			r = (255 - (functionOutput.x > 1.0f
+			r = (uint8_t)((functionOutput.x > 1.0f
 				? static_cast<uint8_t>(255.f / functionOutput.x)
-				: static_cast<uint8_t>(255.f * functionOutput.x))) * functionOutput.z;
-			g = (255 - (functionOutput.y > 1.0f
+				: static_cast<uint8_t>(255.f * functionOutput.x)) * functionOutput.z);
+			g = (uint8_t)((functionOutput.y > 1.0f
 				? static_cast<uint8_t>(255.f / functionOutput.y)
-				: static_cast<uint8_t>(255.f * functionOutput.y))) * functionOutput.z;
+				: static_cast<uint8_t>(255.f * functionOutput.y)) * functionOutput.z);
 			b = 255;
 		}
 		else

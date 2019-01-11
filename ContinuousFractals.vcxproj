@@ -160,6 +160,7 @@
     <ClInclude Include="src\Utility\CLI\CommandLineParser.h" />
     <ClInclude Include="src\Utility\Image\Image.h" />
     <ClInclude Include="src\Utility\Image\PixelColour.h" />
+    <ClInclude Include="src\Utility\Math\ComplexNumber.h" />
     <ClInclude Include="src\Utility\Math\Vector3.h" />
     <ClInclude Include="src\Utility\PNG\png.h" />
     <ClInclude Include="src\Utility\PNG\pngUtil.h" />

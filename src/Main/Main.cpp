@@ -80,18 +80,19 @@ int main( int argc, char* argv[] )
 	FractalColourizer* colourizer;
 	if (CLI::Match( "blue", argc, argv, []( char* param ) {} ))
 	{
-		colourizer = &ShadesOfBlueColourizer();
+		colourizer = new ShadesOfBlueColourizer();
 	}
 	else if(CLI::Match( "white", argc, argv, []( char* param ) {} ))
 	{
-		colourizer = &BlackAndWhite();
+		colourizer = new BlackAndWhite();
 	}
 	else
 	{
-		colourizer = &SimpleColourScaledByFunctorOutputValue();
+		colourizer = new SimpleColourScaledByFunctorOutputValue();
 	}
 
 	DrawBox( mandelBox, *colourizer, width, height, directory );
+	delete colourizer;
 	return 0;
 }
 

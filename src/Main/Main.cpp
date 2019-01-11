@@ -115,6 +115,7 @@ void DrawBox(
 	const float increment = 0.05f;
 
 	float currentDepth = minDepth;
+	const float totalDepthReciprocal = 100.f / ( ( maxDepth - minDepth != 0.f ? maxDepth - minDepth : 0.f ) );
 	while( currentDepth <= maxDepth )
 	{
 		std::clock_t start = std::clock();
@@ -136,7 +137,7 @@ void DrawBox(
 
 		// write to file
 		image.Save();
-		std::cout << currentDepth << " Done. (" << (std::clock() - start) / (double)CLOCKS_PER_SEC << " s)\n";
+		std::cout << "z = " << currentDepth <<" (" << (currentDepth - minDepth) * totalDepthReciprocal << "%) Done. (" << (std::clock() - start) / (double)CLOCKS_PER_SEC << " s)\n";
 		currentDepth += increment;
 	}
 }

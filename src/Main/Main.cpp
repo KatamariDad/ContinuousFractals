@@ -10,6 +10,7 @@
 #include <ctime>
 #include <iomanip> // put_time
 #include <time.h>
+#include <cstdio>
 #include <Windows.h>
 
 #include "Utility/PNG/png.h"
@@ -116,6 +117,8 @@ void DrawBox(
 	float currentDepth = minDepth;
 	while( currentDepth <= maxDepth )
 	{
+		std::clock_t start = std::clock();
+
 		std::stringstream dimensionsStream;
 		dimensionsStream << width << "_x_" << height << "_" << mandelBox.GetParamDesc() << "_" << "z=" << currentDepth;
 		const std::string dimensions( dimensionsStream.str() );
@@ -133,7 +136,7 @@ void DrawBox(
 
 		// write to file
 		image.Save();
-
+		std::cout << currentDepth << " Done. (" << (std::clock() - start) / (double)CLOCKS_PER_SEC << " s)\n";
 		currentDepth += increment;
 	}
 }

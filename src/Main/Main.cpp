@@ -116,11 +116,6 @@ void DrawBox(
 	float currentDepth = minDepth;
 	while( currentDepth <= maxDepth )
 	{
-		MandelBox mandelBox( -1.5f, 300 );
-
-		const std::string filename( "mandelBox" );
-		const std::string extension( ".png" );
-
 		std::stringstream dimensionsStream;
 		dimensionsStream << width << "_x_" << height << "_" << mandelBox.GetParamDesc() << "_" << "z=" << currentDepth;
 		const std::string dimensions( dimensionsStream.str() );

@@ -77,5 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
+    <None Include="config.json" />
   </ItemGroup>
 </Project>

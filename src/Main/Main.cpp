@@ -16,7 +16,8 @@
 #include "Utility/PNG/png.h"
 #include "Utility/PNG/pngUtil.h"
 #include "Utility/Image/Image.h"
-#include "Utility/CLI/CommandLineParser.h"
+#include "Utility/IOManip/CommandLineParser.h"
+#include "Utility/IOManip/json.hpp"
 
 #include "Fractal/MandelBox/MandelBox.h"
 #include "Fractal/Colourizers/Colourizers.h"
@@ -54,6 +55,7 @@ std::string CurrentTimeAndDate()
 
 int main( int argc, char* argv[] )
 {
+	using json = nlohmann::json;
 	std::string directory = "D:\\Projects\\ContinuousFractals\\out";
 	CLI::Match( "-dir", argc, argv, [&directory]( char* param ) {directory = param; } );
 	directory += "\\" + CurrentTimeAndDate();
@@ -62,15 +64,6 @@ int main( int argc, char* argv[] )
 	CLI::Match( "-img", argc, argv, [&width, &height]( char* param ) {
 		sscanf_s( param, "%dx%d", &width, &height );
 	} );
-
-	MandelBox mandelBox( 2.f, 300 );
-	bool drawBox = CLI::Match( "-box", argc, argv, [&mandelBox]( char* param ) {
-		float formulaScale = 2.f;
-		int iterationCount = 300;
-		sscanf_s( param, "%f,%d", &formulaScale, &iterationCount );
-		mandelBox.ResetParams( formulaScale, iterationCount );
-	} );
-
 
 	if (!CreateDirectoryA( directory.c_str(), NULL ))
 	{
@@ -92,7 +85,25 @@ int main( int argc, char* argv[] )
 		colourizer = new SimpleColourScaledByFunctorOutputValue();
 	}
 
-	DrawBox( mandelBox, *colourizer, width, height, directory );
+	std::ifstream i( "config.json" );
+	json config;
+	i >> config;
+
+	auto fractals = config["fractals"];
+	for (auto& i : fractals)
+	{
+		if (i["name"] == "MandelBox")
+		{
+			std::cout << "================================" << std::endl;
+			std::cout << "DRAWING BOX: " << i["iterationCount"] << "," << i["formulaScale"] << std::endl;
+			MandelBox mandelBox( i["formulaScale"], i["iterationCount"] );
+			DrawBox( mandelBox, *colourizer, width, height, directory );
+			std::cout << "================================" << std::endl;
+		}
+	}
+
+	// SUCH MEMORY MANAGAMENT
+	// WOW
 	delete colourizer;
 	return 0;
 }
@@ -102,11 +113,15 @@ void DrawBox(
 	FractalColourizer& colourizer,
 	const uint32_t width, 
 	const uint32_t height, 
-	const std::string& dir )
+	const std::string& baseDir )
 {
-	const std::string filename( "mandelBox" );
 	const std::string extension( ".png" );
-
+	const std::string directory = baseDir + "\\MandelBox_" + mandelBox.GetParamDesc();
+	if (!CreateDirectoryA(directory.c_str(), NULL ))
+	{
+		std::cerr << "Error creating directory to save fractal output" << std::endl;
+	}
+	
 	// scale 2, max = 6
 	// scale 1.89: max = 6.49, width = 15
 	// scale -1.5: max = ? , width = 4, maxIt = 300
@@ -121,11 +136,11 @@ void DrawBox(
 		std::clock_t start = std::clock();
 
 		std::stringstream dimensionsStream;
-		dimensionsStream << width << "_x_" << height << "_" << mandelBox.GetParamDesc() << "_" << "z=" << currentDepth;
+		dimensionsStream << width << "_x_" << height << "_" << "_" << "z=" << currentDepth;
 		const std::string dimensions( dimensionsStream.str() );
 
 
-		const std::string fullpath = dir + "\\" + filename + dimensions + extension;
+		const std::string fullpath = directory + "\\" + dimensions + extension;
 		Image::Image image( width, height, fullpath );
 
 		FractalGenerator3D mandelBoxGenerator;

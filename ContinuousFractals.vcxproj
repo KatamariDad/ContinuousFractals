@@ -182,6 +182,7 @@
     <ClCompile Include="src\Utility\PNG\pngUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="config.json" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

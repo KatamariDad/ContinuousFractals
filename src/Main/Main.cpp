@@ -89,6 +89,7 @@ int main( int argc, char* argv[] )
 	json config;
 	i >> config;
 
+	// YOLO NO INPUT ERROR HANDLING
 	auto fractals = config["fractals"];
 	for (auto& i : fractals)
 	{

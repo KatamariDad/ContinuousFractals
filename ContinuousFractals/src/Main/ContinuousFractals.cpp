@@ -129,7 +129,7 @@ void DrawBox(
 
 	float currentDepth = minDepth;
 	const float totalDepthReciprocal = 100.f / ( ( maxDepth - minDepth != 0.f ? maxDepth - minDepth : 0.f ) );
-	std:clock_t totalTime = 0;
+	std::clock_t totalTime = 0;
 	while( currentDepth <= maxDepth )
 	{
 		const std::clock_t start = std::clock();
@@ -183,7 +183,7 @@ FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
 			return new BlackAndWhite();
 		}
 	}
-	catch (nlohmann::json::exception& e){} // Catch block executes twice even if we return? Thanks C++
+	catch (...){} // Catch block executes twice even if we return? Thanks C++
 
 	return new BlackAndWhite();
 }

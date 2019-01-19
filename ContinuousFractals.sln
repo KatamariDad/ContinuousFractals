@@ -4,10 +4,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ContinuousFractals", "ContinuousFractals\ContinuousFractals.vcxproj", "{2167B941-8A4D-4DBC-8FBA-A709FC1E4CC7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{18413180-2DC2-4A92-95BC-5A9C1275C046} = {18413180-2DC2-4A92-95BC-5A9C1275C046}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MeshGeneration", "MeshGeneration\MeshGeneration.vcxproj", "{1D749F4B-E4F5-4E1E-A230-25CE18D74CE4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{18413180-2DC2-4A92-95BC-5A9C1275C046} = {18413180-2DC2-4A92-95BC-5A9C1275C046}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TracingRays", "TracingRays\TracingRays.vcxproj", "{D01AFCE0-FC9F-4FDC-BE27-CE41EA1BB461}"
+	ProjectSection(ProjectDependencies) = postProject
+		{18413180-2DC2-4A92-95BC-5A9C1275C046} = {18413180-2DC2-4A92-95BC-5A9C1275C046}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{18413180-2DC2-4A92-95BC-5A9C1275C046}"
 EndProject

@@ -162,14 +162,6 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\PNG\png.h" />
     <ClInclude Include="src\PNG\pngUtil.h" />
-    <ClInclude Include="src\Utility\Image\Image.h" />
-    <ClInclude Include="src\Utility\Image\PixelColour.h" />
-    <ClInclude Include="src\Utility\IOManip\CommandLineParser.h" />
-    <ClInclude Include="src\Utility\IOManip\json.hpp" />
-    <ClInclude Include="src\Utility\Math\ComplexNumber.h" />
-    <ClInclude Include="src\Utility\Math\Vector3.h" />
-    <ClInclude Include="src\Utility\PNG\png.h" />
-    <ClInclude Include="src\Utility\PNG\pngUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core.cpp" />
@@ -182,9 +174,6 @@
     </ClCompile>
     <ClCompile Include="src\PNG\png.cpp" />
     <ClCompile Include="src\PNG\pngUtil.cpp" />
-    <ClCompile Include="src\Utility\Image\Image.cpp" />
-    <ClCompile Include="src\Utility\PNG\png.cpp" />
-    <ClCompile Include="src\Utility\PNG\pngUtil.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

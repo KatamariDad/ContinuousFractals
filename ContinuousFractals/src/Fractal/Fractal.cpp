@@ -26,7 +26,7 @@ void ComputeRow(
 			input, 
 			*colourizer,
 			p );
-		outImage->WritePixel( x, currentRow, r, g, b );
+		outImage->WritePixel( x, currentRow, p.r, p.g, p.b );
 		input.x += incrementX;
 	}
 }

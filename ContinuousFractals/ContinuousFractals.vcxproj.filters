@@ -24,12 +24,30 @@
     <ClInclude Include="src\Fractal\Colourizers\TimeRainbow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Fractal\Colourizers\Colourizers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fractal\MandelBox\MandelBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fractal\Fractal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Fractal\Colourizers\TimeRainbow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Fractal\MandelBox\MandelBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Fractal\Fractal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main\ContinuousFractals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

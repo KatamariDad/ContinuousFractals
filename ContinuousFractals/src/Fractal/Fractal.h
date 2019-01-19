@@ -4,6 +4,7 @@
 
 #include <Math/Vector3.h>
 
+struct PixelColour;
 class FractalColourizer;
 class FractalFunctor3D;
 class Vector3f;
@@ -53,9 +54,7 @@ public:
 		const Vector3f& functionOutput,
 		const bool isInSet,
 		const uint32_t divergenceIteration,
-		uint8_t& r,
-		uint8_t& g,
-		uint8_t& b ) const = 0;
+		PixelColour& outColour ) const = 0;
 };
 
 
@@ -69,9 +68,7 @@ public:
 	virtual void GenerateColourForInput(
 		const Vector3f& input,
 		const FractalColourizer& colourizer,
-		uint8_t& r,
-		uint8_t& g,
-		uint8_t& b ) const = 0;
+		PixelColour& outColour ) const = 0;
 
 	virtual std::string GetParamDesc() const = 0;
 };

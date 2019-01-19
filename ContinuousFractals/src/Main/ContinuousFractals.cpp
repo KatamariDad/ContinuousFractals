@@ -1,5 +1,3 @@
-// testApp.cpp : Defines the entry point for the console application.
-//
 #include "pch.h"
 #include <iostream>
 #include <sstream>
@@ -8,7 +6,6 @@
 #include <vector>
 #include <chrono>
 #include <ctime>
-#include <iomanip> // put_time
 #include <time.h>
 #include <cstdio>
 #include <Windows.h>

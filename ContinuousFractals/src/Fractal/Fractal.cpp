@@ -21,11 +21,11 @@ void ComputeRow(
 {
 	for( uint32_t x = 0; x < numColumns; ++x )
 	{
-		uint8_t r, g, b;
+		PixelColour p;
 		fractalFunctor->GenerateColourForInput( 
 			input, 
 			*colourizer,
-			r, g, b );
+			p );
 		outImage->WritePixel( x, currentRow, r, g, b );
 		input.x += incrementX;
 	}

@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <string>
 
+#include <Image/PixelColour.h>
+
 namespace Image
 {
 
@@ -34,6 +36,16 @@ namespace Image
 			m_pixels[y * m_width * 3 + x * 3 + 0] = R;
 			m_pixels[y * m_width * 3 + x * 3 + 1] = G;
 			m_pixels[y * m_width * 3 + x * 3 + 2] = B;
+		}
+
+		void WritePixel(
+			uint32_t x,
+			uint32_t y,
+			const PixelColour& colour)
+		{
+			m_pixels[y * m_width * 3 + x * 3 + 0] = colour.r;
+			m_pixels[y * m_width * 3 + x * 3 + 1] = colour.g;
+			m_pixels[y * m_width * 3 + x * 3 + 2] = colour.b;
 		}
 
 		void Save() const;

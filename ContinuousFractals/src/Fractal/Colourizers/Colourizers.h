@@ -10,13 +10,11 @@ public:
 		const Vector3f& functionOutput,
 		const bool isInSet,
 		const uint32_t divergenceIteration,
-		uint8_t& r,
-		uint8_t& g,
-		uint8_t& b ) const override
+		PixelColour& outColour) const override
 	{
-		r = isInSet ? 255 : 0;
-		g = isInSet ? 255 : 0;
-		b = isInSet ? 255 : 0;
+		outColour.r = isInSet ? 255 : 0;
+		outColour.g = isInSet ? 255 : 0;
+		outColour.b = isInSet ? 255 : 0;
 	}
 };
 
@@ -38,27 +36,25 @@ public:
 		const Vector3f& functionOutput,
 		const bool isInSet,
 		const uint32_t divergenceIteration,
-		uint8_t& r,
-		uint8_t& g,
-		uint8_t& b ) const override
+		PixelColour& outColour) const override
 	{
 		if( isInSet )
 		{
-			r = 255 - ( functionOutput.x > 1.0f
+			outColour.r = 255 - ( functionOutput.x > 1.0f
 				? static_cast<uint8_t>( 255.f / functionOutput.x )
 				: static_cast<uint8_t>( 255.f * functionOutput.x ) );
-			g = 255 - ( functionOutput.y > 1.0f
+			outColour.g = 255 - ( functionOutput.y > 1.0f
 				? static_cast<uint8_t>( 255.f / functionOutput.y )
 				: static_cast<uint8_t>( 255.f * functionOutput.y ) );
-			b = 255 - ( functionOutput.z > 1.0f
+			outColour.b = 255 - ( functionOutput.z > 1.0f
 				? static_cast<uint8_t>( 255.f / functionOutput.z )
 				: static_cast<uint8_t>( 255.f * functionOutput.z ) );
 		}
 		else
 		{
-			r = m_backgroundColour.r;
-			g = m_backgroundColour.g;
-			b = m_backgroundColour.b;
+			outColour.r = m_backgroundColour.r;
+			outColour.g = m_backgroundColour.g;
+			outColour.b = m_backgroundColour.b;
 		}
 	}
 
@@ -82,25 +78,23 @@ public:
 		const Vector3f& functionOutput,
 		const bool isInSet,
 		const uint32_t divergenceIteration,
-		uint8_t& r,
-		uint8_t& g,
-		uint8_t& b ) const override
+		PixelColour& outColour) const override
 	{
 		if (isInSet)
 		{
-			r = (uint8_t)((functionOutput.x > 1.0f
+			outColour.r = (uint8_t)((functionOutput.x > 1.0f
 				? static_cast<uint8_t>(255.f / functionOutput.x)
 				: static_cast<uint8_t>(255.f * functionOutput.x)) * functionOutput.z);
-			g = (uint8_t)((functionOutput.y > 1.0f
+			outColour.g = (uint8_t)((functionOutput.y > 1.0f
 				? static_cast<uint8_t>(255.f / functionOutput.y)
 				: static_cast<uint8_t>(255.f * functionOutput.y)) * functionOutput.z);
-			b = 255;
+			outColour.b = 255;
 		}
 		else
 		{
-			r = m_backgroundColour.r;
-			g = m_backgroundColour.g;
-			b = m_backgroundColour.b;
+			outColour.r = m_backgroundColour.r;
+			outColour.g = m_backgroundColour.g;
+			outColour.b = m_backgroundColour.b;
 		}
 	}
 

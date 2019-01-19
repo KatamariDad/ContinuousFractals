@@ -39,9 +39,7 @@ void MandelBox::BoxFold( float& input ) const
 void MandelBox::GenerateColourForInput(
 	const Vector3f& input,
 	const FractalColourizer& colourizer,
-	uint8_t& r,
-	uint8_t& g,
-	uint8_t& b ) const
+	PixelColour& outColour) const
 {
 	bool isInSet = true;
 	uint32_t divergenceIteration = 0;
@@ -62,12 +60,12 @@ void MandelBox::GenerateColourForInput(
 		}
 	}
 
-	colourizer.GenerateColour( 
-		input, 
-		localInput, 
-		isInSet, 
-		divergenceIteration, 
-		r, g, b );
+	colourizer.GenerateColour(
+		input,
+		localInput,
+		isInSet,
+		divergenceIteration,
+		outColour );
 }
 
 

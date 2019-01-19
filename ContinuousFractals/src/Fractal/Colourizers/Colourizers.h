@@ -1,6 +1,6 @@
 #pragma once
 #include <Fractal/Fractal.h>
-#include <Utility/Image/PixelColour.h>
+#include <Image/PixelColour.h>
 
 class BlackAndWhite final : public FractalColourizer
 {

@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <string>
 
-#include <Utility/Math/Vector3.h>
+#include <Math/Vector3.h>
 
 class FractalColourizer;
 class FractalFunctor3D;

@@ -13,11 +13,11 @@
 #include <cstdio>
 #include <Windows.h>
 
-#include <Utility/PNG/png.h>
-#include <Utility/PNG/pngUtil.h>
-#include <Utility/Image/Image.h>
-#include <Utility/IOManip/CommandLineParser.h>
-#include <Utility/IOManip/json.hpp>
+#include <PNG/png.h>
+#include <PNG/pngUtil.h>
+#include <Image/Image.h>
+#include <IOManip/CommandLineParser.h>
+#include <IOManip/json.hpp>
 
 #include "Fractal/MandelBox/MandelBox.h"
 #include "Fractal/Colourizers/Colourizers.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include <Fractal/Fractal.h>
-#include <Utility/Math/Vector3.h>
+#include <Math/Vector3.h>
 
 
 class MandelBox final : public FractalFunctor3D 

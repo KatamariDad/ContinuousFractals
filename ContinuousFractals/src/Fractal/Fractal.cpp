@@ -3,8 +3,8 @@
 #include <stdio.h>
 
 #include <Fractal/Colourizers/Colourizers.h>
-#include <Utility/Image/Image.h>
-#include <Utility/Math/Vector3.h>
+#include <Image/Image.h>
+#include <Math/Vector3.h>
 
 #include <thread>
 #include <vector>

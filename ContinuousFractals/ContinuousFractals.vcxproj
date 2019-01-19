@@ -107,7 +107,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>D:\Projects\ContinuousFractals\ContinuousFractals\ContinuousFractals\ContinuousFractals\src;$(SolutionDir)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\src;$(SolutionDir)\Core\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,14 +160,6 @@
     <ClInclude Include="src\Fractal\Fractal.h" />
     <ClInclude Include="src\Fractal\MandelBox\MandelBox.h" />
     <ClInclude Include="src\Utility\CLI\CommandLineParser.h" />
-    <ClInclude Include="src\Utility\Image\Image.h" />
-    <ClInclude Include="src\Utility\Image\PixelColour.h" />
-    <ClInclude Include="src\Utility\IOManip\CommandLineParser.h" />
-    <ClInclude Include="src\Utility\IOManip\json.hpp" />
-    <ClInclude Include="src\Utility\Math\ComplexNumber.h" />
-    <ClInclude Include="src\Utility\Math\Vector3.h" />
-    <ClInclude Include="src\Utility\PNG\png.h" />
-    <ClInclude Include="src\Utility\PNG\pngUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContinuousFractals.cpp" />
@@ -180,9 +172,6 @@
     <ClCompile Include="src\Fractal\Fractal.cpp" />
     <ClCompile Include="src\Fractal\MandelBox\MandelBox.cpp" />
     <ClCompile Include="src\Main\Main.cpp" />
-    <ClCompile Include="src\Utility\Image\Image.cpp" />
-    <ClCompile Include="src\Utility\PNG\png.cpp" />
-    <ClCompile Include="src\Utility\PNG\pngUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config.json" />

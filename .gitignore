@@ -333,5 +333,6 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-#output folder
+#output and library folders
 out/
+include/

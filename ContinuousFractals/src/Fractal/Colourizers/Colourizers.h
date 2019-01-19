@@ -16,6 +16,8 @@ public:
 		outColour.g = isInSet ? 255 : 0;
 		outColour.b = isInSet ? 255 : 0;
 	}
+
+	virtual const char* ToString() const { return "B&W"; }
 };
 
 
@@ -58,6 +60,8 @@ public:
 		}
 	}
 
+	virtual const char* ToString() const { return "OutputScaled"; }
+
 	PixelColour m_backgroundColour;
 };
 
@@ -99,5 +103,7 @@ public:
 	}
 
 	PixelColour m_backgroundColour;
+
+	virtual const char* ToString() const { return "BlueShades"; }
 };
 

@@ -18,6 +18,7 @@
 
 #include "Fractal/MandelBox/MandelBox.h"
 #include "Fractal/Colourizers/Colourizers.h"
+#include "Fractal/Colourizers/TimeRainbow.h"
 
 
 #define _IMAGE_SIZE_ 256 
@@ -28,6 +29,8 @@ void DrawBox(
 	const uint32_t width,
 	const uint32_t height,
 	const std::string& dir );
+
+FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json colourizerName );
 
 std::string CurrentTimeAndDate()
 {
@@ -68,41 +71,38 @@ int main( int argc, char* argv[] )
 		return 1;
 	}
 
-	FractalColourizer* colourizer;
-	if (CLI::Match( "blue", argc, argv, []( char* param ) {} ))
-	{
-		colourizer = new ShadesOfBlueColourizer();
-	}
-	else if(CLI::Match( "white", argc, argv, []( char* param ) {} ))
-	{
-		colourizer = new BlackAndWhite();
-	}
-	else
-	{
-		colourizer = new SimpleColourScaledByFunctorOutputValue();
-	}
+	
 
 	std::ifstream i( "config.json" );
 	json config;
 	i >> config;
 
+
 	// YOLO NO INPUT ERROR HANDLING
 	auto fractals = config["fractals"];
 	for (auto& i : fractals)
 	{
+		FractalColourizer* colourizer(GetColourizerFromFractalSettings(i));
+
 		if (i["name"] == "MandelBox")
 		{
 			std::cout << "================================" << std::endl;
 			std::cout << "DRAWING BOX: " << i["iterationCount"] << "," << i["formulaScale"] << std::endl;
 			MandelBox mandelBox( i["formulaScale"], i["iterationCount"] );
-			DrawBox( mandelBox, *colourizer, width, height, directory );
+			DrawBox( 
+				mandelBox, 
+				*colourizer, 
+				width, 
+				height, 
+				directory );
 			std::cout << "================================" << std::endl;
 		}
+
+		// SUCH MEMORY MANAGAMENT
+		// WOW
+		delete colourizer;
 	}
 
-	// SUCH MEMORY MANAGAMENT
-	// WOW
-	delete colourizer;
 	return 0;
 }
 
@@ -114,7 +114,7 @@ void DrawBox(
 	const std::string& baseDir )
 {
 	const std::string extension( ".png" );
-	const std::string directory = baseDir + "\\MandelBox_" + mandelBox.GetParamDesc();
+	const std::string directory = baseDir + "\\MandelBox_" + mandelBox.GetParamDesc() + "_" + colourizer.ToString();
 	if (!CreateDirectoryA(directory.c_str(), NULL ))
 	{
 		std::cerr << "Error creating directory to save fractal output" << std::endl;
@@ -159,5 +159,32 @@ void DrawBox(
 		
 		currentDepth += increment;
 	}
+}
+
+FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
+{
+	try
+	{
+		std::string colourizerName = fractal.at( "colourizer" );
+		if (colourizerName == "OutputScale")
+		{
+			return new SimpleColourScaledByFunctorOutputValue();
+		}
+		else if (colourizerName == "BlueShades")
+		{
+			return new ShadesOfBlueColourizer();
+		}
+		else if (colourizerName == "TimeRainbow")
+		{
+			return new TimeRainbow();
+		}
+		else
+		{
+			return new BlackAndWhite();
+		}
+	}
+	catch (nlohmann::json::exception& e){} // Catch block executes twice even if we return? Thanks C++
+
+	return new BlackAndWhite();
 }
 

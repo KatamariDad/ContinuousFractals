@@ -55,6 +55,8 @@ public:
 		const bool isInSet,
 		const uint32_t divergenceIteration,
 		PixelColour& outColour ) const = 0;
+
+	virtual const char* ToString() const = 0;
 };
 
 

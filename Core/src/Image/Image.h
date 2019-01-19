@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <string>
 
-#include <Image/PixelColour.h>
+#include "PixelColour.h"
 
 namespace Image
 {

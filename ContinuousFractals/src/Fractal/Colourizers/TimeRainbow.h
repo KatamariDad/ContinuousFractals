@@ -14,6 +14,8 @@ public:
 		const uint32_t divergenceIteration,
 		PixelColour& outColour ) const override;
 
+	virtual const char* ToString() const;
+
 private:
 	time_t now;
 };

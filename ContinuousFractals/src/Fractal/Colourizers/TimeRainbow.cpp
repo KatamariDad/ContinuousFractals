@@ -22,3 +22,5 @@ void TimeRainbow::GenerateColour(
 	int minutes = ltm.tm_min;
 
 }
+
+const char* TimeRainbow::ToString() const { return "TimeRainbow"; }

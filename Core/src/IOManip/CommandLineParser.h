@@ -16,6 +16,10 @@ namespace CLI
 				{
 					action( argv[i + 1] );
 				}
+				else
+				{
+					action( nullptr );
+				}
 				return true;
 			}
 		}

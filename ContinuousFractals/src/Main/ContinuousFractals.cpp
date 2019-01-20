@@ -72,8 +72,10 @@ int main( int argc, char* argv[] )
 		return 1;
 	}
 
-	Interpolation::InterpolationTestRunner test( directory.c_str() );
-	test.Run();
+	CLI::Match( "-interpTest", argc, argv, [&directory]( char* param ) {
+		Interpolation::InterpolationTestRunner test( directory.c_str() );
+		test.Run();
+	} );
 
 	std::ifstream i( "config.json" );
 	json config;

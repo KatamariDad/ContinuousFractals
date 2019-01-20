@@ -71,8 +71,6 @@ int main( int argc, char* argv[] )
 		return 1;
 	}
 
-	
-
 	std::ifstream i( "config.json" );
 	json config;
 	i >> config;

@@ -20,6 +20,30 @@ public:
 	virtual const char* ToString() const { return "B&W"; }
 };
 
+class SolidColour : FractalColourizer
+{
+public:
+	SolidColour( PixelColour colour ): m_colour(colour){}
+	SolidColour():m_colour( 0, 0, 0 ){}
+
+	virtual void GenerateColour(
+		const Vector3f& input,
+		const Vector3f& functionOutput,
+		const bool isInSet,
+		const uint32_t divergenceIteration,
+		PixelColour& outColour ) const override
+	{
+		outColour.r = isInSet ? m_colour.r : 255;
+		outColour.g = isInSet ? m_colour.g : 255;
+		outColour.b = isInSet ? m_colour.b : 255;
+	}
+
+
+private:
+	PixelColour m_colour;
+
+};
+
 
 class SimpleColourScaledByFunctorOutputValue final : public FractalColourizer
 {

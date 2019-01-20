@@ -185,6 +185,25 @@ FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
 	}
 	catch (...){} // Catch block executes twice even if we return? Thanks C++
 
+	try 
+	{
+		std::string colour = fractal.at( "colour" );
+		if (colour.at( 0 ) == '#')
+		{
+			PixelColour hexColour(
+				std::stoi( colour.substr( 1, 2 ), nullptr, 16 ),
+				std::stoi( colour.substr( 3, 2 ), nullptr, 16 ),
+				std::stoi( colour.substr( 5, 2 ), nullptr, 16 )
+			);
+
+			return new SolidColour( hexColour );
+		}
+		else 
+		{
+			return new SolidColour();
+		}
+	}catch(...){}
+
 	return new BlackAndWhite();
 }
 

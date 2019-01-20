@@ -4,6 +4,8 @@
 #include <iostream>
 #include <map>
 
+#include "Time/Stopwatch.h"
+
 #include "Interpolation.h"
 #include "Image/PixelColour.h"
 #include "Image/Image.h"
@@ -40,10 +42,13 @@ void InterpolationTestRunner::Run()
 		{"BellCurve6", BellCurve6}
 	};
 
+	Time::Stopwatch stopwatch;
 	for (auto function : testFunctions)
 	{
+		stopwatch.Start();
 		Image::Image image( width, height, baseFilename + function.first + ".png");
 		std::cout << "Drawing: " << function.first << std::endl;
+
 		for (int i = 0; i < width; ++i)
 		{
 			float t = function.second((float)i / width);
@@ -70,6 +75,8 @@ void InterpolationTestRunner::Run()
 		}
 
 		image.Save();
+
+		std::cout << "Done. Took " << stopwatch.Lap() << " seconds.\n\n";
 	}
 	
 }

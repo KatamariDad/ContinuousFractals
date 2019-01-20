@@ -36,7 +36,7 @@ namespace Time
 		}
 
 		// TODO: Allow to restart
-		float Stop() { m_started = false; m_laps.clear(); }
+		void Stop() { m_started = false; m_laps.clear(); }
 		
 		float GetLap( uint32_t i )
 		{

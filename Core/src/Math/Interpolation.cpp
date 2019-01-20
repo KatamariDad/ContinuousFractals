@@ -5,7 +5,6 @@
 #include "Interpolation.h"
 #include "Image/PixelColour.h"
 #include "Image/Image.h"
-#include "Math/Vector3.h"
 
 void Interpolation::InterpolationTestRunner::Run()
 {
@@ -13,10 +12,13 @@ void Interpolation::InterpolationTestRunner::Run()
 	baseFilename += "\\InterpTest_" ;
 
 	int width = 1024;
-	int height = 50;
+	int height = 250;
+	int gradientHeight = 50;
 	
-	Vector3f from( 255, 255, 255 ); // white
-	Vector3f to( 0, 0, 255 ); // blue
+	PixelColour from( 255, 255, 255 ); // white
+	PixelColour to( 0, 0, 255 ); // blue
+
+	PixelColour black( 0, 0, 0);
 
 	using namespace Interpolation;
 
@@ -43,12 +45,25 @@ void Interpolation::InterpolationTestRunner::Run()
 		for (int i = 0; i < width; ++i)
 		{
 			float t = function.second((float)i / width);
-			float r = (from.x * (1 - t)) + (to.x * t);
-			float g = (from.y * (1 - t)) + (to.y * t);
-			float  b = (from.z * (1 - t)) + (to.z * t);
-			for (int j = 0; j < height; ++j)
+			int j = 0;
+			PixelColour pixel;
+			Rainbow::Interpolate( from, to, t, pixel );
+			// need to flip t because 0,0 is top left but we want a graph from the bottom
+			int pixelHeight = (height - gradientHeight) * (1-t);
+			for ( ; j < gradientHeight; ++j)
 			{
-				image.WritePixel( i, j, (int)r, (int)g, (int)b);
+				image.WritePixel( i, j, pixel);
+			}
+			for (; j < height; ++j)
+			{
+				if ((j-gradientHeight) == pixelHeight)
+				{
+					image.WritePixel( i, j, black );
+				}
+				else
+				{
+					image.WritePixel( i, j, from );
+				}
 			}
 		}
 

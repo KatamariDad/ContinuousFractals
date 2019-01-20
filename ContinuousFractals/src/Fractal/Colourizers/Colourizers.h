@@ -29,7 +29,7 @@ public:
 	{ 
 		m_name = "rgb(" + std::to_string( colour.r )
 			+ "," + std::to_string( colour.g )
-			+ "," + std::to_string( colour.b );
+			+ "," + std::to_string( colour.b ) + ")";
 	}
 
 

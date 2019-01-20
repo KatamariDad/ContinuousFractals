@@ -14,7 +14,6 @@
       "name": "MandelBox",
       "formulaScale": 2,
       "iterationCount": 300,
-      "colourizer": "BlueShades",
       "colour": "#ff0000"
     }
   ]

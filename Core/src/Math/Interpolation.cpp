@@ -5,17 +5,18 @@
 #include "Interpolation.h"
 #include "Image/PixelColour.h"
 #include "Image/Image.h"
+#include "Math/Vector3.h"
 
 void Interpolation::InterpolationTestRunner::Run()
 {
 	std::string baseFilename( m_directory );
 	baseFilename += "\\InterpTest_" ;
 
-	int width = 256;
+	int width = 1024;
 	int height = 50;
 	
-	PixelColour from( 0, 0, 0 ); // black
-	PixelColour to( 0, 0, 255 ); // blue
+	Vector3f from( 255, 255, 255 ); // white
+	Vector3f to( 0, 0, 255 ); // blue
 
 	using namespace Interpolation;
 
@@ -37,14 +38,14 @@ void Interpolation::InterpolationTestRunner::Run()
 
 	for (auto function : testFunctions)
 	{
-		Image::Image image( width, height, baseFilename + function.first);
+		Image::Image image( width, height, baseFilename + function.first + ".png");
 		std::cout << "Drawing: " << function.first << std::endl;
 		for (int i = 0; i < width; ++i)
 		{
-			float t = function.second(i / width);
-			float r = (from.r * (1 - t)) + (to.r * t);
-			float g = (from.g * (1 - t)) + (to.g * t);
-			float  b = (from.b * (1 - t)) + (to.b * t);
+			float t = function.second((float)i / width);
+			float r = (from.x * (1 - t)) + (to.x * t);
+			float g = (from.y * (1 - t)) + (to.y * t);
+			float  b = (from.z * (1 - t)) + (to.z * t);
 			for (int j = 0; j < height; ++j)
 			{
 				image.WritePixel( i, j, (int)r, (int)g, (int)b);

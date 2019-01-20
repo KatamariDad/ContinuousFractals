@@ -17,6 +17,8 @@ public:
 	virtual const char* ToString() const;
 
 private:
-	time_t now;
+	tm m_now;
+	int32_t m_currentHour;
+	int32_t m_currentMinute;
 };
 

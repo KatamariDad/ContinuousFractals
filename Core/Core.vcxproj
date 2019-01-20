@@ -95,7 +95,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>D:\Projects\ContinuousFractals\ContinuousFractals\ContinuousFractals\Core\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +128,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,6 +160,7 @@
     <ClInclude Include="src\IOManip\CommandLineParser.h" />
     <ClInclude Include="src\IOManip\json.hpp" />
     <ClInclude Include="src\Math\ComplexNumber.h" />
+    <ClInclude Include="src\Math\Interpolation.h" />
     <ClInclude Include="src\Math\Vector3.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\PNG\png.h" />
@@ -168,6 +169,7 @@
   <ItemGroup>
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\Image\Image.cpp" />
+    <ClCompile Include="src\Math\Interpolation.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

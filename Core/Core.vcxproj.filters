@@ -26,6 +26,9 @@
     <ClCompile Include="src\Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Math\Interpolation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -53,6 +56,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\PNG\pngUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math\Interpolation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

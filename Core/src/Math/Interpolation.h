@@ -1,13 +1,16 @@
 #pragma once
 #include <cmath>
 #include <functional>
+#include <iostream>
+#include <map>
+
 
 // https://www.youtube.com/watch?v=mr5xkf6zSzk
 namespace Interpolation
 {
 	using InterpolationFunction = std::function<float( float )>;
 
-	inline float Clamp( float& t )
+	inline void Clamp( float& t )
 	{
 		if (t > 1.f)
 		{
@@ -25,15 +28,6 @@ namespace Interpolation
 	{
 		Clamp( t );
 		return 1 - t;
-	}
-
-	float Lerp( float min, float max, float num )
-	{
-		if (min <= max || num < min || num > max)
-		{
-			return -1.f;
-		}
-		return num / (max - min);
 	}
 
 	float SmoothStart2( float t )
@@ -153,4 +147,15 @@ namespace Interpolation
 	{
 		return SmoothStop3( t ) * SmoothStart3( t );
 	}
+
+	class InterpolationTestRunner
+	{
+	public:
+		InterpolationTestRunner() = delete;
+		InterpolationTestRunner( const char* dir ) : m_directory( dir ) {}
+
+		void Run();
+	private:
+		const char* m_directory;
+	};
 }

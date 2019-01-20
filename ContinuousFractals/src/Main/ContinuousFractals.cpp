@@ -15,6 +15,7 @@
 #include <Image/Image.h>
 #include <IOManip/CommandLineParser.h>
 #include <IOManip/json.hpp>
+#include <Math/Interpolation.h>
 
 #include "Fractal/MandelBox/MandelBox.h"
 #include "Fractal/Colourizers/Colourizers.h"
@@ -70,6 +71,9 @@ int main( int argc, char* argv[] )
 		std::cerr << "Error creating directory to save fractal output" << std::endl;
 		return 1;
 	}
+
+	Interpolation::InterpolationTestRunner test( directory.c_str() );
+	test.Run();
 
 	std::ifstream i( "config.json" );
 	json config;

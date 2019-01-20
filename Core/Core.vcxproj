@@ -165,6 +165,7 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\PNG\png.h" />
     <ClInclude Include="src\PNG\pngUtil.h" />
+    <ClInclude Include="src\Time\Stopwatch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core.cpp" />

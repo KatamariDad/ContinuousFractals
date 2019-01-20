@@ -8,21 +8,21 @@
 #include "Image/PixelColour.h"
 #include "Image/Image.h"
 
-void Interpolation::InterpolationTestRunner::Run()
+using namespace Interpolation;
+
+void InterpolationTestRunner::Run()
 {
 	std::string baseFilename( m_directory );
 	baseFilename += "\\InterpTest_" ;
 
-	int width = 1024;
-	int height = 250;
-	int gradientHeight = 50;
+	const int width = 1024;
+	const int height = 250;
+	const int gradientHeight = 50;
 	
 	PixelColour from( 255, 255, 255 ); // white
 	PixelColour to( 0, 0, 255 ); // blue
 
 	PixelColour black( 0, 0, 0);
-
-	using namespace Interpolation;
 
 	std::map<const char*, InterpolationFunction> testFunctions =
 	{
@@ -51,14 +51,14 @@ void Interpolation::InterpolationTestRunner::Run()
 			PixelColour pixel;
 			Rainbow::Interpolate( from, to, t, pixel );
 			// need to flip t because 0,0 is top left but we want a graph from the bottom
-			int pixelHeight = (height - gradientHeight) * (1-t);
+			float pixelHeight = (height - gradientHeight) * Flip(t);
 			for ( ; j < gradientHeight; ++j)
 			{
 				image.WritePixel( i, j, pixel);
 			}
 			for (; j < height; ++j)
 			{
-				if ((j-gradientHeight) == pixelHeight)
+				if ((j-gradientHeight) == (int)pixelHeight)
 				{
 					image.WritePixel( i, j, black );
 				}

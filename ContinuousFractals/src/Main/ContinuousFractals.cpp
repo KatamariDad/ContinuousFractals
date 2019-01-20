@@ -16,6 +16,7 @@
 #include <IOManip/CommandLineParser.h>
 #include <IOManip/json.hpp>
 #include <Math/Interpolation.h>
+#include <Time/Stopwatch.h>
 
 #include "Fractal/MandelBox/MandelBox.h"
 #include "Fractal/Colourizers/Colourizers.h"
@@ -133,10 +134,10 @@ void DrawBox(
 
 	float currentDepth = minDepth;
 	const float totalDepthReciprocal = 100.f / ( ( maxDepth - minDepth != 0.f ? maxDepth - minDepth : 0.f ) );
-	std::clock_t totalTime = 0;
+	Time::Stopwatch stopwatch;
 	while( currentDepth <= maxDepth )
 	{
-		const std::clock_t start = std::clock();
+		stopwatch.Start();
 
 		std::stringstream dimensionsStream;
 		dimensionsStream << width << "_x_" << height << "_" << "_" << "z=" << currentDepth;
@@ -155,14 +156,15 @@ void DrawBox(
 
 		// write to file
 		image.Save();
-		
-		const std::clock_t timeElapsed = std::clock() - start;
-		totalTime += timeElapsed;
+
+		const float timeElapsed = stopwatch.Lap();
 		std::cout << "z = " << currentDepth << " (" << (currentDepth - minDepth) * totalDepthReciprocal << "%) Done. ";
-		std::cout << " - " << (std::clock() - start) / (double)CLOCKS_PER_SEC << " s / " << totalTime / (double)CLOCKS_PER_SEC << " s\n";
+		std::cout << " - " << timeElapsed << " s / " << stopwatch.TotalTime() << " s\n";
 		
 		currentDepth += increment;
 	}
+
+	stopwatch.Stop();
 }
 
 FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )

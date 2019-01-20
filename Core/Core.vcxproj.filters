@@ -61,5 +61,8 @@
     <ClInclude Include="src\Math\Interpolation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Time\Stopwatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

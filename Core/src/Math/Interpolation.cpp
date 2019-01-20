@@ -1,7 +1,9 @@
+#include "pch.h"
 #include <cstdio>
 #include <sstream>
+#include <iostream>
+#include <map>
 
-#include "pch.h"
 #include "Interpolation.h"
 #include "Image/PixelColour.h"
 #include "Image/Image.h"

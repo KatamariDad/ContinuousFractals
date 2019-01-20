@@ -1,8 +1,6 @@
 #pragma once
 #include <cmath>
 #include <functional>
-#include <iostream>
-#include <map>
 
 
 // https://www.youtube.com/watch?v=mr5xkf6zSzk

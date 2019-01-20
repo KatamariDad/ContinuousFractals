@@ -6,18 +6,19 @@
 // https://www.youtube.com/watch?v=mr5xkf6zSzk
 namespace Interpolation
 {
-	using InterpolationFunction = std::function<float( float )>;
+	using TransformFunc1D = std::function<float( float )>;
 
 	inline void Clamp( float& t )
 	{
-		if (t > 1.f)
+		if (t > 1.f || t < -1.f)
 		{
 			float intPart;
 			t = std::modf( t, &intPart );
 		}
 	}
 
-	inline float BounceClamp( float& t )
+	// TODO
+	inline void BounceClamp( float& t )
 	{
 		t = fabs( t );
 	}
@@ -94,24 +95,32 @@ namespace Interpolation
 		return (pow * xMax) + (1 - pow * xMin);
 	}
 
-	inline float Mix( InterpolationFunction fn1, InterpolationFunction fn2, float blend, float t )
+	template<typename T>
+	inline T Mix( T a, T b, float blend )
+	{
+		Clamp( blend );
+		return ((1 - blend) * a) + (blend * b);
+	}
+
+
+	inline float Mix( TransformFunc1D fn1, TransformFunc1D fn2, float blend, float t )
 	{
 		Clamp( blend );
 		return ((1 - blend) * fn1( t )) + (blend * fn2( t ));
 	}
 
-	inline float Crossfade( InterpolationFunction fn1, InterpolationFunction fn2, float t )
+	inline float Crossfade( TransformFunc1D fn1, TransformFunc1D fn2, float t )
 	{
 		return Mix( fn1, fn2, t, t );
 	}
 
-	inline float Scale( InterpolationFunction fn, float t )
+	inline float Scale( TransformFunc1D fn, float t )
 	{
 		Clamp( t );
 		return t * fn(t);
 	}
 
-	inline float ReverseScale( InterpolationFunction fn, float t )
+	inline float ReverseScale( TransformFunc1D fn, float t )
 	{
 		Clamp( t );
 		return (1 - t) * fn( t );
@@ -134,7 +143,7 @@ namespace Interpolation
 
 	inline float SmoothStepArch4( float t )
 	{
-		InterpolationFunction arch2Scaled = []( float t ) 
+		TransformFunc1D arch2Scaled = []( float t ) 
 		{
 			return Scale( Arch2, t );
 		};

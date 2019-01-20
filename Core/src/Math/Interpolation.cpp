@@ -26,7 +26,7 @@ void InterpolationTestRunner::Run()
 
 	PixelColour black( 0, 0, 0);
 
-	std::map<const char*, InterpolationFunction> testFunctions =
+	std::map<const char*, TransformFunc1D> testFunctions =
 	{
 		{"SmoothStart2", SmoothStart2},
 		{"SmoothStart3", SmoothStart3},

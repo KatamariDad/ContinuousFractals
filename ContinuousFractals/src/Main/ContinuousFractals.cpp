@@ -135,10 +135,9 @@ void DrawBox(
 	float currentDepth = minDepth;
 	const float totalDepthReciprocal = 100.f / ( ( maxDepth - minDepth != 0.f ? maxDepth - minDepth : 0.f ) );
 	Time::Stopwatch stopwatch;
+	stopwatch.Start();
 	while( currentDepth <= maxDepth )
 	{
-		stopwatch.Start();
-
 		std::stringstream dimensionsStream;
 		dimensionsStream << width << "_x_" << height << "_" << "_" << "z=" << currentDepth;
 		const std::string dimensions( dimensionsStream.str() );

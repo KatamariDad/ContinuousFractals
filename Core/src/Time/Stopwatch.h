@@ -14,11 +14,13 @@ namespace Time
 		
 		void Start()
 		{
-			if (!m_started)
+			if (m_started)
 			{
-				m_laps.push_back( std::clock() );
-				m_started = true;
+				return;
 			}
+
+			m_laps.push_back( std::clock() );
+			m_started = true;
 		}
 
 		float Lap()

@@ -18,6 +18,23 @@ const ColourScheme<5> k_colourSchemeSlot1(
 	, PixelColour( 230, 95, 122 ) } 
 ); 
 
+// all cool colours, white: 
+const ColourScheme<5> k_colourSchemeSlot2( 
+	{ PixelColour( 232, 232, 232 )
+	, PixelColour( 191, 191, 191)
+	, PixelColour( 150, 147, 155 )
+	, PixelColour( 61, 47, 58 )
+	, PixelColour( 54, 175, 111 ) } 
+); 
+
+// bright blue and red and cream
+const ColourScheme<5> k_colourSchemeSlot3( 
+	{ PixelColour( 191, 44, 0)
+	, PixelColour( 41, 151, 155) 
+	, PixelColour( 61, 47, 58 )
+	, PixelColour( 54, 175, 111 ) 
+	, PixelColour( 242, 214, 101 ) } 
+); 
 
 ColourSchemeTime::ColourSchemeTime()
 {
@@ -47,31 +64,32 @@ void ColourSchemeTime::GenerateColour(
 		const float norm = functionOutput.SquaredLength();
 		if( norm < 5 )
 		{
-			outColour = k_colourSchemeSlot1.At( 0 );
+			outColour = k_colourSchemeSlot3.At( 0 );
 		}
 		else if( norm < 10 )
 		{
-			outColour = k_colourSchemeSlot1.At( 1 );
+			outColour = k_colourSchemeSlot3.At( 1 );
 		}
 		else if( norm < 20 )
 		{
-			outColour = k_colourSchemeSlot1.At( 2 );
+			outColour = k_colourSchemeSlot3.At( 2 );
 		}
 		else if( norm < 40 )
 		{
-			outColour = k_colourSchemeSlot1.At( 3 );
+			outColour = k_colourSchemeSlot3.At( 3 );
 		}
 		else
 		{
-			outColour = k_colourSchemeSlot1.At( 4 );
+			outColour = k_colourSchemeSlot3.At( 4 );
 		}
 	}
 	else
 	{
-		const float norm = input.SquaredLength() / 100.f;
-		const PixelColour p1( 45, 25, 41 );
-		const PixelColour p2( 15, 5, 11 );
-		Rainbow::Interpolate(p2, p1, norm < 1.0f ? norm : 1.0f / norm, outColour);
+		outColour = PixelColour( 232 );
+		//const float norm = input.SquaredLength() / 100.f;
+		//const PixelColour p1( 45, 25, 41 );
+		//const PixelColour p2( 15, 5, 11 );
+		//Rainbow::Interpolate(p2, p1, norm < 1.0f ? norm : 1.0f / norm, outColour);
 	}
 }
 

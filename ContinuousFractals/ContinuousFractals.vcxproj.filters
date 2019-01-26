@@ -33,6 +33,9 @@
     <ClInclude Include="src\Fractal\Fractal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Fractal\Colourizers\ColourSchemeTime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Main\ContinuousFractals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Fractal\Colourizers\ColourSchemeTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

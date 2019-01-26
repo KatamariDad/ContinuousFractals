@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Image\ColourScheme.h" />
     <ClInclude Include="src\Image\Image.h" />
     <ClInclude Include="src\Image\PixelColour.h" />
     <ClInclude Include="src\IOManip\CommandLineParser.h" />

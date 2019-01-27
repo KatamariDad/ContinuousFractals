@@ -18,6 +18,7 @@
 #include <Math/Interpolation.h>
 #include <Time/Stopwatch.h>
 
+#include <Fractal/JuliaSet/JuliaSet.h>
 #include <Fractal/MandelBulb/MandelBulb.h>
 #include <Fractal/MandelBox/MandelBox.h>
 #include <Fractal/Colourizers/Colourizers.h>
@@ -99,6 +100,7 @@ int main( int argc, char* argv[] )
 			DrawBox( 
 				mandelBox, 
 				*colourizer, 
+				//1024, 1024,
 				width, 
 				height, 
 				directory );
@@ -121,6 +123,7 @@ void DrawBox(
 	const std::string& baseDir )
 {
 	MandelBulb mandelBox(4, 500);
+	//JuliaSet mandelBox( 2, ComplexNumber( 0.4, 0.6 ), 500, false );
 
 	const std::string extension( ".png" );
 	const std::string directory = baseDir + "\\MandelBox_" + mandelBox.GetParamDesc() + "_" + colourizer.ToString();
@@ -151,10 +154,10 @@ void DrawBox(
 		const std::string fullpath = directory + "\\" + dimensions + extension;
 		Image::Image image( width, height, fullpath );
 
-		FractalGenerator3D mandelBoxGenerator;
-		FractalGenerator3D::GenerateParams params(colourizer);
+		FractalGenerator mandelBoxGenerator;
+		FractalGenerator::GenerateParams params(colourizer);
 		params.origin = Vector3f( 0.f, 0.f, currentDepth );
-		params.scale = Vector3f( 2.0f );
+		params.scale = Vector3f( 4.0f );
 		params.multithreadEnabled = true;
 		mandelBoxGenerator.Generate( image, params, mandelBox );
 

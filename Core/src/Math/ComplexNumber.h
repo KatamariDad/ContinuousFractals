@@ -30,6 +30,16 @@ public:
 			|| i == -inf || i == -inf;
 	}
 
+	float SquaredLength() const
+	{
+		return ( r * r + i * i );
+	}
+
+	float Length() const
+	{
+		return sqrtf( r * r + i * i );
+	}
+
 	ComplexNumber operator+( const ComplexNumber& other ) const
 	{
 		return ComplexNumber(

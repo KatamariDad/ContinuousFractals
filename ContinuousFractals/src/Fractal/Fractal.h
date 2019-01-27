@@ -3,10 +3,12 @@
 #include <string>
 
 #include <Math/Vector3.h>
+#include <Math/ComplexNumber.h>
 
 struct PixelColour;
 class FractalColourizer;
 class FractalFunctor3D;
+class FractalFunctor2DComplex;
 class Vector3f;
 
 namespace Image
@@ -14,7 +16,7 @@ namespace Image
 	class Image;
 }
 
-class FractalGenerator3D
+class FractalGenerator
 {
 public:
 
@@ -30,11 +32,15 @@ public:
 		bool multithreadEnabled;
 	};
 
-    void Generate(
+	void Generate(
 		Image::Image& outImage,
 		const GenerateParams& params,
-        const FractalFunctor3D& fractalFunctor
-    );
+		const FractalFunctor3D& fractalFunctor );
+
+	void Generate(
+		Image::Image& outImage,
+		const GenerateParams& params,
+		const FractalFunctor2DComplex& fractalFunctor );
 
     void AddXRotation(const float theta);
     void AddYRotation(const float theta);
@@ -65,10 +71,22 @@ class FractalFunctor3D
 public:
 	FractalFunctor3D() = default;
 
-    // given a complex number,
-    // generate a colour.
 	virtual void GenerateColourForInput(
 		const Vector3f& input,
+		const FractalColourizer& colourizer,
+		PixelColour& outColour ) const = 0;
+
+	virtual std::string GetParamDesc() const = 0;
+};
+
+
+class FractalFunctor2DComplex
+{
+public:
+	FractalFunctor2DComplex() = default;
+
+	virtual void GenerateColourForInput(
+		const ComplexNumber& input,
 		const FractalColourizer& colourizer,
 		PixelColour& outColour ) const = 0;
 

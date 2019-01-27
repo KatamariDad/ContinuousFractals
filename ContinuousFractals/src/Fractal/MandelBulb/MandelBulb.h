@@ -1,8 +1,5 @@
 #pragma once
-
-#pragma once
 #include <Fractal/Fractal.h>
-#include <Math/Vector3.h>
 
 
 class MandelBulb final : public FractalFunctor3D 

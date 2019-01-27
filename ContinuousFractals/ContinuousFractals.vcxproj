@@ -162,6 +162,7 @@
     <ClInclude Include="src\Fractal\Colourizers\ColourSchemeTime.h" />
     <ClInclude Include="src\Fractal\Colourizers\TimeRainbow.h" />
     <ClInclude Include="src\Fractal\Fractal.h" />
+    <ClInclude Include="src\Fractal\JuliaSet\JuliaSet.h" />
     <ClInclude Include="src\Fractal\MandelBox\MandelBox.h" />
     <ClInclude Include="src\Fractal\MandelBulb\MandelBulb.h" />
     <ClInclude Include="src\Utility\CLI\CommandLineParser.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="src\Fractal\Colourizers\ColourSchemeTime.cpp" />
     <ClCompile Include="src\Fractal\Colourizers\TimeRainbow.cpp" />
     <ClCompile Include="src\Fractal\Fractal.cpp" />
+    <ClCompile Include="src\Fractal\JuliaSet\JuliaSet.cpp" />
     <ClCompile Include="src\Fractal\MandelBox\MandelBox.cpp" />
     <ClCompile Include="src\Fractal\MandelBulb\MandelBulb.cpp" />
     <ClCompile Include="src\Main\ContinuousFractals.cpp" />

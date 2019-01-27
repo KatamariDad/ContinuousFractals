@@ -26,8 +26,8 @@ public:
 	bool IsInfinity() const
 	{
 		const float inf = std::numeric_limits<float>::infinity();
-		return r == inf || r == inf 
-			|| i == -inf || i == -inf;
+		return r == inf || r == -inf 
+			|| i == inf || i == -inf;
 	}
 
 	float SquaredLength() const

@@ -18,9 +18,11 @@
 #include <Math/Interpolation.h>
 #include <Time/Stopwatch.h>
 
-#include "Fractal/MandelBox/MandelBox.h"
-#include "Fractal/Colourizers/Colourizers.h"
-#include "Fractal/Colourizers/TimeRainbow.h"
+#include <Fractal/MandelBulb/MandelBulb.h>
+#include <Fractal/MandelBox/MandelBox.h>
+#include <Fractal/Colourizers/Colourizers.h>
+#include <Fractal/Colourizers/ColourSchemeTime.h>
+#include <Fractal/Colourizers/TimeRainbow.h>
 
 
 #define _IMAGE_SIZE_ 256 
@@ -112,12 +114,14 @@ int main( int argc, char* argv[] )
 }
 
 void DrawBox( 
-	const MandelBox& mandelBox,
+	const MandelBox& mandel,
 	FractalColourizer& colourizer,
 	const uint32_t width, 
 	const uint32_t height, 
 	const std::string& baseDir )
 {
+	MandelBulb mandelBox(4, 500);
+
 	const std::string extension( ".png" );
 	const std::string directory = baseDir + "\\MandelBox_" + mandelBox.GetParamDesc() + "_" + colourizer.ToString();
 	if (!CreateDirectoryA(directory.c_str(), NULL ))
@@ -128,9 +132,10 @@ void DrawBox(
 	// scale 2, max = 6
 	// scale 1.89: max = 6.49, width = 15
 	// scale -1.5: max = ? , width = 4, maxIt = 300
-	const float minDepth = 0.000f;//6.489f;
-	const float maxDepth = 2.f;
-	const float increment = 0.05f;
+	const float minDepth = -1.f;
+	const float maxDepth = 1.f;
+	const float increment = 0.01f;
+	uint32_t imageIdx = 0;
 
 	float currentDepth = minDepth;
 	const float totalDepthReciprocal = 100.f / ( ( maxDepth - minDepth != 0.f ? maxDepth - minDepth : 0.f ) );
@@ -139,7 +144,7 @@ void DrawBox(
 	while( currentDepth <= maxDepth )
 	{
 		std::stringstream dimensionsStream;
-		dimensionsStream << width << "_x_" << height << "_" << "_" << "z=" << currentDepth;
+		dimensionsStream << width << "_x_" << height << "_" << imageIdx << "_" << "z=" << currentDepth;
 		const std::string dimensions( dimensionsStream.str() );
 
 
@@ -149,7 +154,7 @@ void DrawBox(
 		FractalGenerator3D mandelBoxGenerator;
 		FractalGenerator3D::GenerateParams params(colourizer);
 		params.origin = Vector3f( 0.f, 0.f, currentDepth );
-		params.scale = Vector3f( 15.0f );
+		params.scale = Vector3f( 2.0f );
 		params.multithreadEnabled = true;
 		mandelBoxGenerator.Generate( image, params, mandelBox );
 
@@ -161,6 +166,7 @@ void DrawBox(
 		std::cout << " - " << timeElapsed << " s / " << stopwatch.TotalTime() << " s\n";
 		
 		currentDepth += increment;
+		++imageIdx;
 	}
 
 	stopwatch.Stop();
@@ -177,6 +183,7 @@ FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
 		}
 		else if (colourizerName == "BlueShades")
 		{
+			return new ColourSchemeTime();
 			return new ShadesOfBlueColourizer();
 		}
 		else if (colourizerName == "TimeRainbow")

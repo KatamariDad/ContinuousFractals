@@ -62,19 +62,19 @@ void ColourSchemeTime::GenerateColour(
 	if( isInSet )
 	{
 		const float norm = functionOutput.SquaredLength();
-		if( norm < 5 )
+		if( norm < 0.15 )
 		{
 			outColour = k_colourSchemeSlot3.At( 0 );
 		}
-		else if( norm < 10 )
+		else if( norm < 0.35 )
 		{
 			outColour = k_colourSchemeSlot3.At( 1 );
 		}
-		else if( norm < 20 )
+		else if( norm < 0.55 )
 		{
 			outColour = k_colourSchemeSlot3.At( 2 );
 		}
-		else if( norm < 40 )
+		else if( norm < 1 )
 		{
 			outColour = k_colourSchemeSlot3.At( 3 );
 		}

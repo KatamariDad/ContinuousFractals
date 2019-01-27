@@ -166,6 +166,10 @@
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\PNG\png.h" />
     <ClInclude Include="src\PNG\pngUtil.h" />
+    <ClInclude Include="src\Scene\Geometry\Geometry.h" />
+    <ClInclude Include="src\Scene\Geometry\Sphere\Sphere.h" />
+    <ClInclude Include="src\Scene\Light\Light.h" />
+    <ClInclude Include="src\Scene\SceneNode.h" />
     <ClInclude Include="src\Time\Stopwatch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +184,10 @@
     </ClCompile>
     <ClCompile Include="src\PNG\png.cpp" />
     <ClCompile Include="src\PNG\pngUtil.cpp" />
+    <ClCompile Include="src\Scene\Geometry\Geometry.cpp" />
+    <ClCompile Include="src\Scene\Geometry\Sphere\Sphere.cpp" />
+    <ClCompile Include="src\Scene\Light\Light.cpp" />
+    <ClCompile Include="src\Scene\SceneNode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

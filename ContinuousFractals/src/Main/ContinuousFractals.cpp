@@ -116,17 +116,17 @@ int main( int argc, char* argv[] )
 }
 
 void DrawBox( 
-	const MandelBox& mandel,
+	const MandelBox& mandelBox,
 	FractalColourizer& colourizer,
 	const uint32_t width, 
 	const uint32_t height, 
 	const std::string& baseDir )
 {
-	MandelBulb mandelBox(4, 500);
+	//MandelBulb mandelBox(4, 500);
 	//JuliaSet mandelBox( 2, ComplexNumber( 0.4, 0.6 ), 500, false );
 
 	const std::string extension( ".png" );
-	const std::string directory = baseDir + "\\MandelBox_" + mandelBox.GetParamDesc() + "_" + colourizer.ToString();
+	const std::string directory = baseDir + "\\" + mandelBox.GetFractalDesc() + "_" + colourizer.ToString();
 	if (!CreateDirectoryA(directory.c_str(), NULL ))
 	{
 		std::cerr << "Error creating directory to save fractal output" << std::endl;

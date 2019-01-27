@@ -76,7 +76,7 @@ public:
 		const FractalColourizer& colourizer,
 		PixelColour& outColour ) const = 0;
 
-	virtual std::string GetParamDesc() const = 0;
+	virtual std::string GetFractalDesc() const = 0;
 };
 
 
@@ -90,5 +90,5 @@ public:
 		const FractalColourizer& colourizer,
 		PixelColour& outColour ) const = 0;
 
-	virtual std::string GetParamDesc() const = 0;
+	virtual std::string GetFractalDesc() const = 0;
 };

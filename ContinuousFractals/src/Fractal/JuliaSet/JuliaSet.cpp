@@ -38,9 +38,10 @@ void JuliaSet::GenerateColourForInput(
 		outColour );
 }
 
-std::string JuliaSet::GetParamDesc() const
+std::string JuliaSet::GetFractalDesc() const
 {
+	std::string fractalName = m_useInputForIterationOffset ? "mandelbrotSet_" : "juliaSet_";
 	std::stringstream dimensionsStream;
-	dimensionsStream << "n=" << m_order << "_it=" << m_maxIterations << "c = "<< m_iterationOffset.r << "+" << m_iterationOffset.i << "i";
+	dimensionsStream << fractalName << "n=" << m_order << "_it=" << m_maxIterations << "c = "<< m_iterationOffset.r << "+" << m_iterationOffset.i << "i";
 	return dimensionsStream.str();
 }

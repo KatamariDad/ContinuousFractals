@@ -26,7 +26,7 @@ public:
 		const FractalColourizer& colourizer,
 		PixelColour& outColour ) const override;
 
-	virtual std::string GetParamDesc() const override;
+	virtual std::string GetFractalDesc() const override;
 
 private:
 

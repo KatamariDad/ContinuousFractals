@@ -6,7 +6,7 @@ class JuliaSet final : public FractalFunctor2DComplex
 {
 public:
 	JuliaSet(
-		uint32_t exponent
+		uint32_t exponent // glynn sets use fractional exponents
 		, const ComplexNumber& iterationOffset
 		, uint32_t maxIterations
 		, bool useInputForIterationOffset ) // true renders the mandelbrot set.
@@ -17,10 +17,10 @@ public:
 	{}
 
 	void ResetParams(
-		float formulaScale,
+		uint32_t exponent,
 		uint32_t maxIterations )
 	{
-		m_order = formulaScale;
+		m_order = exponent;
 		m_maxIterations = maxIterations;
 	}
 
@@ -29,7 +29,7 @@ public:
 		const FractalColourizer& colourizer,
 		PixelColour& outColour ) const override;
 
-	virtual std::string GetParamDesc() const override;
+	virtual std::string GetFractalDesc() const override;
 
 private:
 

@@ -4,10 +4,10 @@
 #include <sstream>
 
 
-std::string MandelBox::GetParamDesc() const
+std::string MandelBox::GetFractalDesc() const
 {
 	std::stringstream dimensionsStream;
-	dimensionsStream << "s=" << m_formulaScale << "_it=" << m_maxIterations;
+	dimensionsStream << "Mandelbox_s=" << m_formulaScale << "_it=" << m_maxIterations;
 	return dimensionsStream.str();
 }
 

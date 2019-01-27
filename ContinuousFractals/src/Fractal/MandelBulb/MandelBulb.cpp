@@ -45,9 +45,9 @@ void MandelBulb::GenerateColourForInput(
 		outColour );
 }
 
-std::string MandelBulb::GetParamDesc() const
+std::string MandelBulb::GetFractalDesc() const
 {
 	std::stringstream dimensionsStream;
-	dimensionsStream << "n=" << m_order << "_it=" << m_maxIterations;
+	dimensionsStream << "mandelblub_n=" << m_order << "_it=" << m_maxIterations;
 	return dimensionsStream.str();
 }

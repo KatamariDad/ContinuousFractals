@@ -1,6 +1,7 @@
 #pragma once
 #include <math.h>
 #include <limits>
+#include <ostream>
 
 
 class Vector3f
@@ -76,6 +77,12 @@ public:
 	float Length() const
 	{
 		return sqrtf( x * x + y * y + z * z );
+	}
+
+	std::ostream& operator<<(std::ostream& out)
+	{
+		out << "(" << x << "," << y << "," << z << ")";
+		return out;
 	}
 
 	float x;

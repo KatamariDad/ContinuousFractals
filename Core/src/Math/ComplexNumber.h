@@ -1,6 +1,7 @@
 #pragma once
 #include <math.h>
 #include <limits>
+#include <ostream>
 
 
 class ComplexNumber
@@ -69,6 +70,12 @@ public:
 	bool operator!=( const ComplexNumber& other ) const
 	{
 		return r != other.r || i != other.i;
+	}
+
+	std::ostream& operator<<(std::ostream& out)
+	{
+		out << "(" << r << "+" << i << "i" << ")";
+		return out;
 	}
 
 	float r;

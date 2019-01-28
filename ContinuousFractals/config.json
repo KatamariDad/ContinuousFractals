@@ -1,6 +1,12 @@
 {
   "fractals": [
     {
+      "name": "JuliaSet",
+      "iterationCount": 300,
+      "colourizer": "BlackAndWhite",
+	  "functionName" : "circleThing"
+    },
+    {
       "name": "MandelBox",
       "formulaScale": 2,
       "iterationCount": 300,

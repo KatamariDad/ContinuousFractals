@@ -66,7 +66,10 @@ void DrawBox(
 {
 	//MandelBulb mandelBox(4, 500);
 	ComplexNumber juliaIterationOffset( 0.379998f, 0.2f );
-	JuliaSet::JuliaFunctor f = [&juliaIterationOffset]( const ComplexNumber& i, const ComplexNumber& z ) { return ComplexNumber::WholePower( z, 2 ) + juliaIterationOffset; };
+	JuliaSet::JuliaFunctor f = 
+		[&juliaIterationOffset]
+		( const ComplexNumber& i, const ComplexNumber& z ) 
+		{ return ComplexNumber::WholePower( z, 2 ) + juliaIterationOffset; };
 	JuliaSet mandelBox( f, 500 );
 
 	const std::string extension( ".png" );
@@ -131,6 +134,51 @@ void DrawBox(
 	stopwatch.Stop();
 }
 
+void DrawJulia(
+	const JuliaSet& juliaSet,
+	FractalColourizer& colourizer,
+	const uint32_t width,
+	const uint32_t height,
+	const std::string& baseDir )
+{
+	ComplexNumber juliaIterationOffset( 0.379998f, 0.2f );
+	JuliaSet::JuliaFunctor f =
+		[&juliaIterationOffset]
+	( const ComplexNumber& i, const ComplexNumber& z )
+	{ return ComplexNumber::WholePower( z, 2 ) + juliaIterationOffset; };
+
+	const std::string extension( ".png" );
+	const std::string directory = baseDir + "\\" + juliaSet.GetFractalDesc() + "_" + colourizer.ToString();
+	if( !CreateDirectoryA( directory.c_str(), NULL ) )
+	{
+		std::cerr << "Error creating directory to save fractal output" << std::endl;
+	}
+
+	size_t size = width * height * 4;
+	std::vector<uint8_t> frame( size );
+	const Vector3f center( 0.f, 0.0f, 0.f );
+	const Vector3f scale( 2.5f );
+
+	std::stringstream dimensionsStream;
+	dimensionsStream << width << "_x_" << height << "_" << 0 << "_" << "c=(" << center.x << "," << center.y << "," << center.z << ")" << "imgS=" << scale.x;
+	const std::string dimensions( dimensionsStream.str() );
+
+	const std::string fullpath = directory + "\\" + dimensions + extension;
+	Image::Image image( width, height, fullpath );
+
+	FractalGenerator mandelBoxGenerator;
+	FractalGenerator::GenerateParams params( colourizer );
+	params.origin = center;
+	params.scale = scale;
+	params.multithreadEnabled = true;
+	mandelBoxGenerator.Generate( image, params, juliaSet );
+
+	// write to file
+	image.Save();
+
+}
+
+
 FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
 {
 	try
@@ -177,6 +225,25 @@ FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
 	return new BlackAndWhite();
 }
 
+JuliaSet::JuliaFunctor SelectFunctor( const std::string& name )
+{
+	// Try out different formulas!!!
+	if( name == "mandelbrot" )
+	{
+		return JuliaSet::Mandelbrot;
+	}
+	else if( name == "circleThing" )
+	{
+		return []
+		( const ComplexNumber& input, const ComplexNumber& iteration )
+		{
+			const ComplexNumber z_3 = ComplexNumber::WholePower( iteration, 3 );
+			return ( z_3 - 0.18f ) / iteration;
+		};
+	}
+
+	return JuliaSet::Mandelbrot;
+}
 
 
 
@@ -232,6 +299,19 @@ int main( int argc, char* argv[] )
 				minDepth,
 				maxDepth,
 				increment,
+				directory );
+			std::cout << "================================" << std::endl;
+		}
+		else if (i["name"] == "JuliaSet")
+		{
+			std::cout << "================================" << std::endl;
+			std::cout << "DRAWING BOX: " << i["iterationCount"] << "," << i["formulaScale"] << std::endl;
+			JuliaSet julia( SelectFunctor( i["functionName"] ), i["iterationCount"] );
+			DrawJulia( 
+				julia, 
+				*colourizer, 
+				width, 
+				height, 
 				directory );
 			std::cout << "================================" << std::endl;
 		}

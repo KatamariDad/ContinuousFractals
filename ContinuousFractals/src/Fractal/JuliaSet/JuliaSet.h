@@ -7,6 +7,7 @@ class JuliaSet final : public FractalFunctor2DComplex
 {
 public:
 
+	// try different formulae! http://www.ijon.de/mathe/julia/some_julia_sets_1_en.html
 	// args: PixelInput, IterationValue
 	typedef std::function<ComplexNumber( const ComplexNumber&, const ComplexNumber& )> JuliaFunctor;
 

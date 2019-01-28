@@ -63,6 +63,18 @@ public:
 			r * other.i + other.r * i );
 	}
 
+	// http://mathworld.wolfram.com/ComplexDivision.html
+	// The division of two complex numbers can be accomplished 
+	// by multiplying the numerator and denominator by the complex 
+	// conjugate of the denominator.
+	ComplexNumber operator/( const ComplexNumber& other ) const
+	{
+		const float denominator = other.r * other.r + other.i * other.i;
+		return ComplexNumber(
+			( r * other.r + i * other.i ) / denominator,
+			( i * other.r - r * other.i ) / denominator );
+	}
+
 	bool operator==( const ComplexNumber& other ) const
 	{
 		return r == other.r && i == other.i;

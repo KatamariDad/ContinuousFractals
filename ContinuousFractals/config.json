@@ -5,18 +5,6 @@
       "formulaScale": 2,
       "iterationCount": 300,
       "colourizer": "BlueShades"
-    },
-    {
-      "name": "MandelBox",
-      "formulaScale": 2,
-      "iterationCount": 300,
-      "colourizer": "TimeRainbow"
-    },
-    {
-      "name": "MandelBox",
-      "formulaScale": 2,
-      "iterationCount": 300,
-      "colour": "#ff0000"
     }
   ]
 }

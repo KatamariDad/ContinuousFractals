@@ -10,9 +10,10 @@
 #include <cstdio>
 #include <Windows.h>
 
-#include <PNG/png.h>
-#include <PNG/pngUtil.h>
+#include <Image/PNG/png.h>
+#include <Image/PNG/pngUtil.h>
 #include <Image/Image.h>
+#include <Image/GIF/GifUtil.h>
 #include <IOManip/CommandLineParser.h>
 #include <IOManip/json.hpp>
 #include <Math/Interpolation.h>
@@ -138,15 +139,19 @@ void DrawBox(
 	// scale -1.5: max = ? , width = 4, maxIt = 300
 	const float minDepth = -1;// 0.379998;// -2.0;
 	const float maxDepth = 1; // 0.41;
-	const float increment = 0.01f;
+	const float increment = 0.1f;
 	uint32_t imageIdx = 0;
 
 	float currentDepth = minDepth;
 	const float totalDepthReciprocal = 100.f / ( ( maxDepth - minDepth != 0.f ? maxDepth - minDepth : 0.f ) );
 	Time::Stopwatch stopwatch;
 	stopwatch.Start();
+	const std::string gifName = directory + "\\fractal.gif";
+	Image::Gif giraffe( gifName.c_str(), width, height );
 	while( currentDepth <= maxDepth )
 	{
+		size_t size = width * height * 4;
+		std::vector<uint8_t> frame(size);
 		//mandelBox.ResetParams( 2, ComplexNumber( currentDepth, 0.2f ), 100 );
 		const Vector3f center( 0.f, 0.5f, currentDepth );
 		const Vector3f scale( 2.5f );
@@ -166,6 +171,8 @@ void DrawBox(
 		params.multithreadEnabled = true;
 		mandelBoxGenerator.Generate( image, params, mandelBox );
 
+		giraffe.AddFrame( image );
+
 		// write to file
 		image.Save();
 
@@ -176,7 +183,7 @@ void DrawBox(
 		currentDepth += increment;
 		++imageIdx;
 	}
-
+	giraffe.Save();
 	stopwatch.Stop();
 }
 
@@ -191,7 +198,7 @@ FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
 		}
 		else if (colourizerName == "BlueShades")
 		{
-			return new ColourSchemeTime();
+			// return new ColourSchemeTime();
 			return new ShadesOfBlueColourizer();
 		}
 		else if (colourizerName == "TimeRainbow")

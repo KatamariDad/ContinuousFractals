@@ -2,7 +2,7 @@
 #include "Image.h"
 
 #include <fstream>
-#include "../PNG/png.h"
+#include "PNG/png.h"
 
 
 namespace Image

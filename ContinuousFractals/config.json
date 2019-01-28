@@ -4,7 +4,10 @@
       "name": "MandelBox",
       "formulaScale": 2,
       "iterationCount": 300,
-      "colourizer": "BlueShades"
+      "colourizer": "BlueShades",
+	  "minDepth": -1,
+	  "maxDepth": 1,
+	  "increment": 0.1
     }
   ]
 }

@@ -29,13 +29,6 @@
 
 #define _IMAGE_SIZE_ 256 
 
-void DrawBox(
-	const MandelBox& mandelBox,
-	FractalColourizer& colourizer,
-	const uint32_t width,
-	const uint32_t height,
-	const std::string& dir );
-
 FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json colourizerName );
 
 std::string CurrentTimeAndDate()
@@ -59,69 +52,16 @@ std::string CurrentTimeAndDate()
 	return ret.substr( 0, ret.size() - 1 );
 }
 
-int main( int argc, char* argv[] )
-{
-	using json = nlohmann::json;
-	std::string directory = "D:\\Projects\\ContinuousFractals\\out";
-	CLI::Match( "-dir", argc, argv, [&directory]( char* param ) {directory = param; } );
-	directory += "\\" + CurrentTimeAndDate();
 
-	uint32_t width = _IMAGE_SIZE_, height = _IMAGE_SIZE_;
-	CLI::Match( "-img", argc, argv, [&width, &height]( char* param ) {
-		sscanf_s( param, "%dx%d", &width, &height );
-	} );
-
-	if (!CreateDirectoryA( directory.c_str(), NULL ))
-	{
-		std::cerr << "Error creating directory to save fractal output" << std::endl;
-		return 1;
-	}
-
-	CLI::Match( "-interpTest", argc, argv, [&directory]( char* param ) {
-		Interpolation::InterpolationTestRunner test( directory.c_str() );
-		test.Run();
-	} );
-
-	std::ifstream i( "config.json" );
-	json config;
-	i >> config;
-
-
-	// YOLO NO INPUT ERROR HANDLING
-	auto fractals = config["fractals"];
-	for (auto& i : fractals)
-	{
-		FractalColourizer* colourizer(GetColourizerFromFractalSettings(i));
-
-		if (i["name"] == "MandelBox")
-		{
-			std::cout << "================================" << std::endl;
-			std::cout << "DRAWING BOX: " << i["iterationCount"] << "," << i["formulaScale"] << std::endl;
-			MandelBox mandelBox( i["formulaScale"], i["iterationCount"] );
-			DrawBox( 
-				mandelBox, 
-				*colourizer, 
-				//1024, 1024,
-				//2048, 2048,
-				width, 
-				height, 
-				directory );
-			std::cout << "================================" << std::endl;
-		}
-
-		// SUCH MEMORY MANAGAMENT
-		// WOW
-		delete colourizer;
-	}
-
-	return 0;
-}
 
 void DrawBox( 
 	const MandelBox& mandel,
 	FractalColourizer& colourizer,
 	const uint32_t width, 
 	const uint32_t height, 
+	const float minDepth,
+	const float maxDepth,
+	const float increment,
 	const std::string& baseDir )
 {
 	//MandelBulb mandelBox(4, 500);
@@ -139,9 +79,9 @@ void DrawBox(
 	// scale 2, max = 6
 	// scale 1.89: max = 6.49, width = 15
 	// scale -1.5: max = ? , width = 4, maxIt = 300
-	const float minDepth = 0.0;// -2.0;
-	const float maxDepth = 0.41;
-	const float increment = 0.01f;
+	//const float minDepth = 0.0;// -2.0;
+	//const float maxDepth = 0.41;
+	//const float increment = 0.01f;
 
 	uint32_t imageIdx = 0;
 
@@ -238,3 +178,69 @@ FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
 	return new BlackAndWhite();
 }
 
+
+
+
+int main( int argc, char* argv[] )
+{
+	using json = nlohmann::json;
+	std::string directory = "D:\\Projects\\ContinuousFractals\\out";
+	CLI::Match( "-dir", argc, argv, [&directory]( char* param ) {directory = param; } );
+	directory += "\\" + CurrentTimeAndDate();
+
+	uint32_t width = _IMAGE_SIZE_, height = _IMAGE_SIZE_;
+	CLI::Match( "-img", argc, argv, [&width, &height]( char* param ) {
+		sscanf_s( param, "%dx%d", &width, &height );
+	} );
+
+	if (!CreateDirectoryA( directory.c_str(), NULL ))
+	{
+		std::cerr << "Error creating directory to save fractal output" << std::endl;
+		return 1;
+	}
+
+	CLI::Match( "-interpTest", argc, argv, [&directory]( char* param ) {
+		Interpolation::InterpolationTestRunner test( directory.c_str() );
+		test.Run();
+	} );
+
+	std::ifstream i( "config.json" );
+	json config;
+	i >> config;
+
+
+	// YOLO NO INPUT ERROR HANDLING
+	auto fractals = config["fractals"];
+	for (auto& i : fractals)
+	{
+		FractalColourizer* colourizer(GetColourizerFromFractalSettings(i));
+
+		if (i["name"] == "MandelBox")
+		{
+			std::cout << "================================" << std::endl;
+			std::cout << "DRAWING BOX: " << i["iterationCount"] << "," << i["formulaScale"] << std::endl;
+			MandelBox mandelBox( i["formulaScale"], i["iterationCount"] );
+			const float minDepth = i["minDepth"];
+			const float maxDepth = i["maxDepth"];
+			const float increment = i["increment"];
+			DrawBox( 
+				mandelBox, 
+				*colourizer, 
+				//1024, 1024,
+				//2048, 2048,
+				width, 
+				height, 
+				minDepth,
+				maxDepth,
+				increment,
+				directory );
+			std::cout << "================================" << std::endl;
+		}
+
+		// SUCH MEMORY MANAGAMENT
+		// WOW
+		delete colourizer;
+	}
+
+	return 0;
+}

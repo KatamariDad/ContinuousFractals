@@ -34,7 +34,7 @@ namespace Image
 
 		void Save()
 		{
-			GifWriter* writer;
+			GifWriter* writer = nullptr; 
 			GifBegin( writer, m_filename, m_width, m_height, m_delay);
 			for (auto frame : m_frames)
 			{

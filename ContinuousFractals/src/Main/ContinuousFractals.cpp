@@ -203,7 +203,6 @@ FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
 		}
 		else if (colourizerName == "BlueShades")
 		{
-			return new ColourSchemeTime();
 			return new ShadesOfBlueColourizer();
 		}
 		else if (colourizerName == "TimeRainbow")

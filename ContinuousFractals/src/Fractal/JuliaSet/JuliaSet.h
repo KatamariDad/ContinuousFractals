@@ -18,10 +18,12 @@ public:
 
 	void ResetParams(
 		uint32_t exponent,
+		const ComplexNumber& iterationOffset,
 		uint32_t maxIterations )
 	{
 		m_order = exponent;
 		m_maxIterations = maxIterations;
+		m_iterationOffset = iterationOffset;
 	}
 
 	virtual void GenerateColourForInput(

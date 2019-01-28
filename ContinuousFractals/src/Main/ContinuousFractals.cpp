@@ -101,6 +101,7 @@ int main( int argc, char* argv[] )
 				mandelBox, 
 				*colourizer, 
 				//1024, 1024,
+				//2048, 2048,
 				width, 
 				height, 
 				directory );
@@ -123,7 +124,7 @@ void DrawBox(
 	const std::string& baseDir )
 {
 	//MandelBulb mandelBox(4, 500);
-	//JuliaSet mandelBox( 2, ComplexNumber( 0.4, 0.6 ), 500, false );
+	//JuliaSet mandelBox( 2, ComplexNumber( -0.5f, 0.2f ), 500, false );
 
 	const std::string extension( ".png" );
 	const std::string directory = baseDir + "\\" + mandelBox.GetFractalDesc() + "_" + colourizer.ToString();
@@ -135,8 +136,8 @@ void DrawBox(
 	// scale 2, max = 6
 	// scale 1.89: max = 6.49, width = 15
 	// scale -1.5: max = ? , width = 4, maxIt = 300
-	const float minDepth = -1.f;
-	const float maxDepth = 1.f;
+	const float minDepth = -1;// 0.379998;// -2.0;
+	const float maxDepth = 1; // 0.41;
 	const float increment = 0.01f;
 	uint32_t imageIdx = 0;
 
@@ -146,8 +147,12 @@ void DrawBox(
 	stopwatch.Start();
 	while( currentDepth <= maxDepth )
 	{
+		//mandelBox.ResetParams( 2, ComplexNumber( currentDepth, 0.2f ), 100 );
+		const Vector3f center( 0.f, 0.5f, currentDepth );
+		const Vector3f scale( 2.5f );
+
 		std::stringstream dimensionsStream;
-		dimensionsStream << width << "_x_" << height << "_" << imageIdx << "_" << "z=" << currentDepth;
+		dimensionsStream << width << "_x_" << height << "_" << imageIdx << "_" << "c=(" << center.x << "," << center.y << "," << center.z << ")" << "imgS="<< scale.x;
 		const std::string dimensions( dimensionsStream.str() );
 
 
@@ -156,8 +161,8 @@ void DrawBox(
 
 		FractalGenerator mandelBoxGenerator;
 		FractalGenerator::GenerateParams params(colourizer);
-		params.origin = Vector3f( 0.f, 0.f, currentDepth );
-		params.scale = Vector3f( 4.0f );
+		params.origin = center;
+		params.scale = scale;
 		params.multithreadEnabled = true;
 		mandelBoxGenerator.Generate( image, params, mandelBox );
 

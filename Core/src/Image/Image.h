@@ -59,6 +59,8 @@ namespace Image
 		uint32_t m_height;
 		uint8_t* m_pixels;
 		std::string m_filename;
+
+		friend class Gif;
 	};
 
 }

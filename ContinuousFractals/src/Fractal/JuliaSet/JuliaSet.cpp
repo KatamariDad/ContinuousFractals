@@ -21,7 +21,7 @@ void JuliaSet::GenerateColourForInput(
 	ComplexNumber z( input );
 	for( uint32_t i = 0; i < m_maxIterations; ++i )
 	{
-		z = ( z * z ) + iterationOffset;
+		z = ComplexNumber::WholePower(z, m_order) + iterationOffset;
 
 		if( z.SquaredLength() > 4.f )
 		{

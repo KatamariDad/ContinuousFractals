@@ -2,6 +2,7 @@
 #include <math.h>
 #include <limits>
 #include <ostream>
+#include <cassert>
 
 
 class ComplexNumber
@@ -76,6 +77,17 @@ public:
 	{
 		out << "(" << r << "+" << i << "i" << ")";
 		return out;
+	}
+
+	static ComplexNumber WholePower( const ComplexNumber& c, uint32_t n )
+	{
+		assert( n > 0 );
+		ComplexNumber result = c;
+		for( uint32_t i = 1; i < n; ++i )
+		{
+			result = result * result;
+		}
+		return result;
 	}
 
 	float r;

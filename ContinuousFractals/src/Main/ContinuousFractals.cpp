@@ -95,8 +95,7 @@ void DrawBox(
 	{
 		size_t size = width * height * 4;
 		std::vector<uint8_t> frame(size);
-		//mandelBox.ResetParams( 2, ComplexNumber( currentDepth, 0.2f ), 100 );
-		const Vector3f center( 0.f, 0.5f, currentDepth );
+		const Vector3f center( 0.f, 0.0f, currentDepth );
 		const Vector3f scale( 2.5f );
 		// LOL so we captured this var by ref above so it totes safely modifies our function hahaha
 		juliaIterationOffset = ComplexNumber( currentDepth, 0.2f );

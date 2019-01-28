@@ -26,7 +26,7 @@ void ComputeRowFractalFunctor3D(
 			input, 
 			*colourizer,
 			p );
-		outImage->WritePixel( x, currentRow, p.r, p.g, p.b );
+		outImage->WritePixel( x, currentRow, p );
 		input.x += incrementX;
 	}
 }
@@ -47,7 +47,7 @@ void ComputeRowFractalFunctor2DComplex(
 			input, 
 			*colourizer,
 			p );
-		outImage->WritePixel( x, currentRow, p.r, p.g, p.b );
+		outImage->WritePixel( x, currentRow, p );
 		input.r += incrementX;
 	}
 }
@@ -62,10 +62,10 @@ void FractalGenerator::Generate(
 	const uint32_t w = outImage.GetWidth();
 	const uint32_t h = outImage.GetHeight();
 
-	const Vector3f bottomLeft( origin.x - ( 0.5f * scale.x ), origin.y - ( 0.5f * scale.y ), origin.z );
-	const Vector3f topRight( origin.x + ( 0.5f * scale.x ), origin.y + 0.5f * scale.y, origin.z );
-	const float incrementX = ( topRight.x - bottomLeft.x ) / static_cast<float>( w );
-	const float incrementY = ( topRight.y - bottomLeft.y ) / static_cast<float>( h );
+	const Vector3f topLeft( origin.x - ( 0.5f * scale.x ), origin.y + ( 0.5f * scale.y ), origin.z );
+	const Vector3f bottomRight( origin.x + ( 0.5f * scale.x ), origin.y - 0.5f * scale.y, origin.z );
+	const float incrementX = ( bottomRight.x - topLeft.x ) / static_cast<float>( w );
+	const float incrementY = ( topLeft.y - bottomRight.y ) / static_cast<float>( h );
 
 	if( params.multithreadEnabled )
 	{
@@ -75,10 +75,10 @@ void FractalGenerator::Generate(
 			threads.push_back( std::thread() );
 		
 		}
-		Vector3f input( bottomLeft );
+		Vector3f input( topLeft );
 		for( uint32_t y = 0; y < h; ++y )
 		{
-			input.x = bottomLeft.x;
+			input.x = topLeft.x;
 			threads[y] = std::thread( 
 				ComputeRowFractalFunctor3D, 
 				&outImage, 
@@ -87,7 +87,7 @@ void FractalGenerator::Generate(
 				w, y, 
 				&params.colourizer,
 				&fractalFunctor );
-			input.y += incrementY;
+			input.y -= incrementY;
 		}
 
 		for (auto& thread : threads)
@@ -97,10 +97,10 @@ void FractalGenerator::Generate(
 	}
 	else
 	{
-		Vector3f input( bottomLeft );
+		Vector3f input( topLeft );
 		for( uint32_t y = 0; y < h; ++y )
 		{
-			input.x = bottomLeft.x;
+			input.x = topLeft.x;
 			ComputeRowFractalFunctor3D( 
 				&outImage, 
 				input, 
@@ -108,7 +108,7 @@ void FractalGenerator::Generate(
 				w, y, 
 				&params.colourizer, 
 				&fractalFunctor );
-			input.y += incrementY;
+			input.y -= incrementY;
 		}
 	}
 }
@@ -124,10 +124,10 @@ void FractalGenerator::Generate(
 	const uint32_t w = outImage.GetWidth();
 	const uint32_t h = outImage.GetHeight();
 
-	const ComplexNumber bottomLeft( origin.x - ( 0.5f * scale.x ), origin.y - ( 0.5f * scale.y ) );
-	const ComplexNumber topRight( origin.x + ( 0.5f * scale.x ), origin.y + 0.5f * scale.y );
-	const float incrementX = ( topRight.r - bottomLeft.r ) / static_cast<float>( w );
-	const float incrementY = ( topRight.i - bottomLeft.i ) / static_cast<float>( h );
+	const ComplexNumber topLeft( origin.x - ( 0.5f * scale.x ), origin.y + ( 0.5f * scale.y ) );
+	const ComplexNumber bottomRight( origin.x + ( 0.5f * scale.x ), origin.y - 0.5f * scale.y );
+	const float incrementX = ( bottomRight.r - topLeft.r ) / static_cast<float>( w );
+	const float incrementY = ( topLeft.i - bottomRight.i ) / static_cast<float>( h );;
 
 	if( params.multithreadEnabled )
 	{
@@ -137,10 +137,10 @@ void FractalGenerator::Generate(
 			threads.push_back( std::thread() );
 		
 		}
-		ComplexNumber input( bottomLeft );
+		ComplexNumber input( topLeft );
 		for( uint32_t y = 0; y < h; ++y )
 		{
-			input.r = bottomLeft.r;
+			input.r = topLeft.r;
 			threads[y] = std::thread( 
 				ComputeRowFractalFunctor2DComplex, 
 				&outImage, 
@@ -149,7 +149,7 @@ void FractalGenerator::Generate(
 				w, y, 
 				&params.colourizer,
 				&fractalFunctor );
-			input.i += incrementY;
+			input.i -= incrementY;
 		}
 
 		for (auto& thread : threads)
@@ -159,10 +159,10 @@ void FractalGenerator::Generate(
 	}
 	else
 	{
-		ComplexNumber input( bottomLeft );
+		ComplexNumber input( topLeft );
 		for( uint32_t y = 0; y < h; ++y )
 		{
-			input.r = bottomLeft.r;
+			input.r = topLeft.r;
 			ComputeRowFractalFunctor2DComplex( 
 				&outImage, 
 				input, 
@@ -170,7 +170,7 @@ void FractalGenerator::Generate(
 				w, y, 
 				&params.colourizer, 
 				&fractalFunctor );
-			input.i += incrementY;
+			input.i -= incrementY;
 		}
 	}
 }

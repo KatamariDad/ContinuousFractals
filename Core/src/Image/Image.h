@@ -33,9 +33,10 @@ namespace Image
 			uint8_t G,
 			uint8_t B )
 		{
-			m_pixels[y * m_width * 3 + x * 3 + 0] = R;
-			m_pixels[y * m_width * 3 + x * 3 + 1] = G;
-			m_pixels[y * m_width * 3 + x * 3 + 2] = B;
+			const uint32_t i = y * m_width * 3 + x * 3;
+			m_pixels[i + 0] = R;
+			m_pixels[i + 1] = G;
+			m_pixels[i + 2] = B;
 		}
 
 		void WritePixel(
@@ -43,9 +44,10 @@ namespace Image
 			uint32_t y,
 			const PixelColour& colour)
 		{
-			m_pixels[y * m_width * 3 + x * 3 + 0] = colour.r;
-			m_pixels[y * m_width * 3 + x * 3 + 1] = colour.g;
-			m_pixels[y * m_width * 3 + x * 3 + 2] = colour.b;
+			const uint32_t i = y * m_width * 3 + x * 3;
+			m_pixels[i + 0] = colour.r;
+			m_pixels[i + 1] = colour.g;
+			m_pixels[i + 2] = colour.b;
 		}
 
 		void Save() const;

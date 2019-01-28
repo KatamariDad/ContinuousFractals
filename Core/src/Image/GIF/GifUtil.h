@@ -16,6 +16,7 @@ namespace Image
 			m_delay = 100.f / fps;
 		};
 
+		// Don't add an image with a size less than the gif's!
 		void AddFrame( const Image& image )
 		{
 			int size = m_width * m_height * 4;
@@ -33,7 +34,7 @@ namespace Image
 
 		void Save()
 		{
-			GifWriter* writer = new GifWriter();
+			GifWriter* writer;
 			GifBegin( writer, m_filename, m_width, m_height, m_delay);
 			for (auto frame : m_frames)
 			{

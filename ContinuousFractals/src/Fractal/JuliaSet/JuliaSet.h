@@ -1,29 +1,32 @@
 #pragma once
 #include <Fractal/Fractal.h>
+#include <functional>
 
 
 class JuliaSet final : public FractalFunctor2DComplex
 {
 public:
+
+	// args: PixelInput, IterationValue
+	typedef std::function<ComplexNumber( const ComplexNumber&, const ComplexNumber& )> JuliaFunctor;
+
+	static JuliaFunctor Mandelbrot;
+
 	JuliaSet(
-		uint32_t exponent // glynn sets use fractional exponents
-		, const ComplexNumber& iterationOffset
+		const JuliaFunctor& iterationFunctor
 		, uint32_t maxIterations
-		, bool useInputForIterationOffset ) // true renders the mandelbrot set.
-		: m_iterationOffset( iterationOffset )
+		, const char* functorDesc = "JuliaSet" )
+		: m_iterationFunctor( iterationFunctor )
 		, m_maxIterations( maxIterations )
-		, m_order( exponent )
-		, m_useInputForIterationOffset( useInputForIterationOffset )
+		, m_functorDesc( functorDesc )
 	{}
 
 	void ResetParams(
-		uint32_t exponent,
-		const ComplexNumber& iterationOffset,
+		const JuliaFunctor& iterationFunctor,
 		uint32_t maxIterations )
 	{
-		m_order = exponent;
+		m_iterationFunctor = iterationFunctor;
 		m_maxIterations = maxIterations;
-		m_iterationOffset = iterationOffset;
 	}
 
 	virtual void GenerateColourForInput(
@@ -35,10 +38,9 @@ public:
 
 private:
 
-	ComplexNumber m_iterationOffset;
+	JuliaFunctor m_iterationFunctor;
 	uint32_t m_maxIterations;
-	uint32_t m_order;
-	bool m_useInputForIterationOffset;
+	std::string m_functorDesc;
 };
 
 

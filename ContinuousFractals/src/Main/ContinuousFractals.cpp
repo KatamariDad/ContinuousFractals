@@ -117,14 +117,16 @@ int main( int argc, char* argv[] )
 }
 
 void DrawBox( 
-	const MandelBox& mandelBox,
+	const MandelBox& mandel,
 	FractalColourizer& colourizer,
 	const uint32_t width, 
 	const uint32_t height, 
 	const std::string& baseDir )
 {
 	//MandelBulb mandelBox(4, 500);
-	//JuliaSet mandelBox( 2, ComplexNumber( -0.5f, 0.2f ), 500, false );
+	ComplexNumber juliaIterationOffset( 0.379998f, 0.2f );
+	JuliaSet::JuliaFunctor f = [&juliaIterationOffset]( const ComplexNumber& i, const ComplexNumber& z ) { return ComplexNumber::WholePower( z, 2 ) + juliaIterationOffset; };
+	JuliaSet mandelBox( f, 500 );
 
 	const std::string extension( ".png" );
 	const std::string directory = baseDir + "\\" + mandelBox.GetFractalDesc() + "_" + colourizer.ToString();
@@ -136,8 +138,8 @@ void DrawBox(
 	// scale 2, max = 6
 	// scale 1.89: max = 6.49, width = 15
 	// scale -1.5: max = ? , width = 4, maxIt = 300
-	const float minDepth = -1;// 0.379998;// -2.0;
-	const float maxDepth = 1; // 0.41;
+	const float minDepth = 0.0;// -2.0;
+	const float maxDepth = 0.41;
 	const float increment = 0.01f;
 	uint32_t imageIdx = 0;
 
@@ -147,9 +149,10 @@ void DrawBox(
 	stopwatch.Start();
 	while( currentDepth <= maxDepth )
 	{
-		//mandelBox.ResetParams( 2, ComplexNumber( currentDepth, 0.2f ), 100 );
 		const Vector3f center( 0.f, 0.5f, currentDepth );
 		const Vector3f scale( 2.5f );
+		// LOL so we captured this var by ref above so it totes safely modifies our function hahaha
+		juliaIterationOffset = ComplexNumber( currentDepth, 0.2f );
 
 		std::stringstream dimensionsStream;
 		dimensionsStream << width << "_x_" << height << "_" << imageIdx << "_" << "c=(" << center.x << "," << center.y << "," << center.z << ")" << "imgS="<< scale.x;

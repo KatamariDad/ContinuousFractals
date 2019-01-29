@@ -271,12 +271,13 @@ int main( int argc, char* argv[] )
 
 		if (i["name"] == "MandelBox")
 		{
-			std::cout << "================================" << std::endl;
-			std::cout << "DRAWING BOX: " << i["iterationCount"] << "," << i["formulaScale"] << std::endl;
 			MandelBox mandelBox( i["formulaScale"], i["iterationCount"] );
 			const float minDepth = i["minDepth"];
 			const float maxDepth = i["maxDepth"];
 			const float increment = i["increment"];
+			std::cout << "================================" << std::endl;
+			std::cout << "\tMin " << minDepth << "\n\tMax:" << maxDepth << "\n\tIncrement: " << increment;
+			std::cout << mandelBox.GetFractalDesc() << std::endl;
 			DrawBox( 
 				mandelBox, 
 				*colourizer, 
@@ -292,9 +293,9 @@ int main( int argc, char* argv[] )
 		}
 		else if (i["name"] == "JuliaSet")
 		{
-			std::cout << "================================" << std::endl;
-			std::cout << "DRAWING BOX: " << i["iterationCount"] << "," << i["formulaScale"] << std::endl;
 			JuliaSet julia( SelectFunctor( i["functionName"] ), i["iterationCount"] );
+			std::cout << "================================" << std::endl;
+			std::cout << julia.GetFractalDesc() << std::endl;
 			DrawJulia( 
 				julia, 
 				*colourizer, 

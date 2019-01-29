@@ -206,21 +206,9 @@ FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
 	try 
 	{
 		std::string colour = fractal.at( "colour" );
-		if (colour.at( 0 ) == '#')
-		{
-			PixelColour hexColour(
-				std::stoi( colour.substr( 1, 2 ), nullptr, 16 ),
-				std::stoi( colour.substr( 3, 2 ), nullptr, 16 ),
-				std::stoi( colour.substr( 5, 2 ), nullptr, 16 )
-			);
-
-			return new SolidColour( hexColour );
-		}
-		else 
-		{
-			return new SolidColour();
-		}
-	}catch(...){}
+		return new SolidColour( PixelColour( colour ) );
+	}
+	catch(...){}
 
 	return new BlackAndWhite();
 }

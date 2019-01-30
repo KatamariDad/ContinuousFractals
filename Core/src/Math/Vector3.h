@@ -79,9 +79,9 @@ public:
 		return sqrtf( x * x + y * y + z * z );
 	}
 
-	std::ostream& operator<<(std::ostream& out)
+	friend std::ostream& operator<<(std::ostream& out, const Vector3f& v)
 	{
-		out << "(" << x << "," << y << "," << z << ")";
+		out << "(" << v.x << "," << v.y << "," << v.z << ")";
 		return out;
 	}
 

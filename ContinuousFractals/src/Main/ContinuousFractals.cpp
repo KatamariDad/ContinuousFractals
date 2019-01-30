@@ -96,8 +96,6 @@ void DrawBox(
 	Image::Gif giraffe( gifName.c_str(), width, height );
 	while( currentDepth <= maxDepth )
 	{
-		size_t size = width * height * 4;
-		std::vector<uint8_t> frame(size);
 		const Vector3f center( 0.f, 0.0f, currentDepth );
 		const Vector3f scale( 2.5f );
 		// LOL so we captured this var by ref above so it totes safely modifies our function hahaha
@@ -159,8 +157,6 @@ void DrawJulia(
 	{
 		juliaSet.ResetFunctorScalar( currentScalar );
 
-		size_t size = width * height * 4;
-		std::vector<uint8_t> frame( size );
 		const Vector3f center( 0.f, 0.0f, 0.f );
 		const Vector3f scale( 2.5f );
 

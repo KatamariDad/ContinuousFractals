@@ -144,18 +144,20 @@ void DrawJulia(
 	const uint32_t height,
 	const std::string& baseDir )
 {
+	const std::string extension( ".png" );
+	const std::string directory = baseDir + "\\" + juliaSet.GetFractalDesc() + "_" + colourizer.ToString();
+	if( !CreateDirectoryA( directory.c_str(), NULL ) )
+	{
+		std::cerr << "Error creating directory to save fractal output" << std::endl;
+	}
+	const std::string gifName = directory + "\\julia.gif";
+
+	Image::Gif giraffe( gifName.c_str(), width, height );
 	uint32_t imageIdx = 0;
 	ComplexNumber currentScalar = scalarMin;
 	while( currentScalar < scalarMax )
 	{
 		juliaSet.ResetFunctorScalar( currentScalar );
-
-		const std::string extension( ".png" );
-		const std::string directory = baseDir + "\\" + juliaSet.GetFractalDesc() + "_" + colourizer.ToString();
-		if( !CreateDirectoryA( directory.c_str(), NULL ) )
-		{
-			std::cerr << "Error creating directory to save fractal output" << std::endl;
-		}
 
 		size_t size = width * height * 4;
 		std::vector<uint8_t> frame( size );
@@ -178,10 +180,13 @@ void DrawJulia(
 
 		// write to file
 		image.Save();
+		giraffe.AddFrame( image );
 
 		++imageIdx;
 		currentScalar = currentScalar + scalarIncrement;
 	}
+
+	giraffe.Save();
 
 }
 

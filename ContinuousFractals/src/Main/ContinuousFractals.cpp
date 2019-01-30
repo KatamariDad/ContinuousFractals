@@ -210,21 +210,9 @@ FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
 	try 
 	{
 		std::string colour = fractal.at( "colour" );
-		if (colour.at( 0 ) == '#')
-		{
-			PixelColour hexColour(
-				std::stoi( colour.substr( 1, 2 ), nullptr, 16 ),
-				std::stoi( colour.substr( 3, 2 ), nullptr, 16 ),
-				std::stoi( colour.substr( 5, 2 ), nullptr, 16 )
-			);
-
-			return new SolidColour( hexColour );
-		}
-		else 
-		{
-			return new SolidColour();
-		}
-	}catch(...){}
+		return new SolidColour( PixelColour( colour ) );
+	}
+	catch(...){}
 
 	return new BlackAndWhite();
 }
@@ -288,12 +276,13 @@ int main( int argc, char* argv[] )
 
 		if (i["name"] == "MandelBox")
 		{
-			std::cout << "================================" << std::endl;
-			std::cout << "DRAWING BOX: " << i["iterationCount"] << "," << i["formulaScale"] << std::endl;
 			MandelBox mandelBox( i["formulaScale"], i["iterationCount"] );
 			const float minDepth = i["minDepth"];
 			const float maxDepth = i["maxDepth"];
 			const float increment = i["increment"];
+			std::cout << "================================" << std::endl;
+			std::cout << "\tMin " << minDepth << "\n\tMax:" << maxDepth << "\n\tIncrement: " << increment;
+			std::cout << mandelBox.GetFractalDesc() << std::endl;
 			DrawBox( 
 				mandelBox, 
 				*colourizer, 

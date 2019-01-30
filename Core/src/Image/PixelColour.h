@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <cstdint>
 #include <cmath>
+#include <string>
 
 struct PixelColour
 {
@@ -24,6 +25,19 @@ struct PixelColour
 		, g( _g )
 		, b( _b )
 	{}
+
+	PixelColour( std::string hexCode )
+		: r(0)
+		, g( 0 )
+		, b( 0 )
+	{
+		if (hexCode.at( 0 ) == '#')
+		{
+			r = std::stoi( hexCode.substr( 1, 2 ), nullptr, 16 );
+			g = std::stoi( hexCode.substr( 3, 2 ), nullptr, 16 );
+			b = std::stoi( hexCode.substr( 5, 2 ), nullptr, 16 );
+		}
+	}
 
 	uint8_t r;
 	uint8_t g;

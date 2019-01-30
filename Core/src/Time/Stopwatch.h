@@ -8,18 +8,29 @@ namespace Time
 	class Stopwatch
 	{
 	public:
-		Stopwatch(): m_started(false) { }
+		Stopwatch()
+			: m_started(false) 
+			, m_paused(false)
+		{ }
 
 		float GetStartTime() { return m_started ? ClockToSec( m_laps[0] ) : 0.f; }
 		
 		void Start()
 		{
-			if (m_started)
+			if (!m_paused)
 			{
-				return;
+				m_laps.push_back( std::clock() );
 			}
-
-			m_laps.push_back( std::clock() );
+			else
+			{
+				// Shift all the times up so the next lap doesn't include stopped time
+				std::clock_t timeShift = std::clock() - m_laps.back();
+				for (std::clock_t time : m_laps)
+				{
+					time += timeShift;
+				}
+			}
+			m_paused = false;
 			m_started = true;
 		}
 
@@ -37,8 +48,12 @@ namespace Time
 			}
 		}
 
-		// TODO: Allow to restart
-		void Stop() { m_started = false; m_laps.clear(); }
+		void Stop() 
+		{ 
+			m_paused = true;
+			// Count a stop as a lap, we'll need this later
+			m_laps.push_back( std::clock() );
+		}
 		
 		float GetLap( uint32_t i )
 		{
@@ -60,6 +75,7 @@ namespace Time
 	private:
 		std::vector<std::clock_t> m_laps;
 		bool m_started;
+		bool m_paused;
 
 	};
 }

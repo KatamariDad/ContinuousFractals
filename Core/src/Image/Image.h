@@ -18,7 +18,9 @@ namespace Image
 			, m_height(height)
 			, m_filename(filename)
 		{
-			m_pixels = new uint8_t[width * height * 3];
+			const uint32_t size = width * height * 3;
+			m_pixels = new uint8_t[size];
+			memset( m_pixels, 255, size );
 		}
 
 		~Image()

@@ -144,11 +144,11 @@ void DrawJulia(
 	const uint32_t height,
 	const std::string& baseDir )
 {
+	uint32_t imageIdx = 0;
 	ComplexNumber currentScalar = scalarMin;
 	while( currentScalar < scalarMax )
 	{
 		juliaSet.ResetFunctorScalar( currentScalar );
-		currentScalar = currentScalar + scalarIncrement;
 
 		const std::string extension( ".png" );
 		const std::string directory = baseDir + "\\" + juliaSet.GetFractalDesc() + "_" + colourizer.ToString();
@@ -163,7 +163,7 @@ void DrawJulia(
 		const Vector3f scale( 2.5f );
 
 		std::stringstream dimensionsStream;
-		dimensionsStream << width << "_x_" << height << "_" << 0 << "_" << "c=(" << center.x << "," << center.y << "," << center.z << ")" << "imgS=" << scale.x;
+		dimensionsStream << width << "_x_" << height << "_" << imageIdx << "_" << "c=" << currentScalar << "imgS=" << scale.x;
 		const std::string dimensions( dimensionsStream.str() );
 
 		const std::string fullpath = directory + "\\" + dimensions + extension;
@@ -178,6 +178,9 @@ void DrawJulia(
 
 		// write to file
 		image.Save();
+
+		++imageIdx;
+		currentScalar = currentScalar + scalarIncrement;
 	}
 
 }

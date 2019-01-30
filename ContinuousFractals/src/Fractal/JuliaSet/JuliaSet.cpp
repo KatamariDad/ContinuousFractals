@@ -48,6 +48,6 @@ void JuliaSet::GenerateColourForInput(
 std::string JuliaSet::GetFractalDesc() const
 {
 	std::stringstream dimensionsStream;
-	dimensionsStream << m_functorDesc << "_it=" << m_maxIterations << "_c=" << m_functionScalar;
+	dimensionsStream << m_functorDesc << "_it=" << m_maxIterations;
 	return dimensionsStream.str();
 }

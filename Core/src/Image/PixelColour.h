@@ -10,26 +10,31 @@ struct PixelColour
 		: r( 0 )
 		, g( 0 )
 		, b( 0 )
+		, a( 1.f )
 	{}
 
 	PixelColour( uint8_t c )
 		: r( c )
 		, g( c )
 		, b( c )
+		, a( 1.f )
 	{}
 
 	PixelColour( uint8_t _r
 		, uint8_t _g
-		, uint8_t _b )
+		, uint8_t _b
+		, float _a = 1.f )
 		: r( _r )
 		, g( _g )
 		, b( _b )
+		, a( _a )
 	{}
 
 	PixelColour( std::string hexCode )
-		: r(0)
+		: r( 0 )
 		, g( 0 )
 		, b( 0 )
+		, a( 1.f )
 	{
 		if (hexCode.at( 0 ) == '#')
 		{
@@ -39,6 +44,7 @@ struct PixelColour
 		}
 	}
 
+	float a;
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;

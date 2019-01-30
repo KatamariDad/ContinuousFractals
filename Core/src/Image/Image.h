@@ -31,25 +31,13 @@ namespace Image
 		void WritePixel(
 			uint32_t x,
 			uint32_t y,
-			uint8_t R,
-			uint8_t G,
-			uint8_t B )
-		{
-			const uint32_t i = y * m_width * 3 + x * 3;
-			m_pixels[i + 0] = R;
-			m_pixels[i + 1] = G;
-			m_pixels[i + 2] = B;
-		}
-
-		void WritePixel(
-			uint32_t x,
-			uint32_t y,
 			const PixelColour& colour)
 		{
 			const uint32_t i = y * m_width * 3 + x * 3;
-			m_pixels[i + 0] = colour.r;
-			m_pixels[i + 1] = colour.g;
-			m_pixels[i + 2] = colour.b;
+			const float currentValScale = 1.0f - colour.a;
+			m_pixels[i + 0] = static_cast<uint8_t>( colour.a * colour.r + m_pixels[i + 0] * currentValScale );
+			m_pixels[i + 1] = static_cast<uint8_t>( colour.a * colour.g + m_pixels[i + 1] * currentValScale );
+			m_pixels[i + 2] = static_cast<uint8_t>( colour.a * colour.b + m_pixels[i + 2] * currentValScale );
 		}
 
 		void Save() const;

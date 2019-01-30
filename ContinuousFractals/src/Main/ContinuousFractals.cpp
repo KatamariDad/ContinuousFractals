@@ -303,7 +303,7 @@ int main( int argc, char* argv[] )
 			JuliaSet julia( SelectFunctor( i["functionName"] ), ComplexNumber(i["scalarMin"]["r"], i["scalarMin"]["i"]), i["iterationCount"] );
 			DrawJulia( 
 				julia, 
-				ComplexNumber(i["scalarMin"]["r"], i["scalarMax"]["i"]),
+				ComplexNumber(i["scalarMin"]["r"], i["scalarMin"]["i"]),
 				ComplexNumber(i["scalarMax"]["r"], i["scalarMax"]["i"]),
 				ComplexNumber(i["scalarIncrement"]["r"], i["scalarIncrement"]["i"]),
 				*colourizer, 

@@ -85,9 +85,9 @@ public:
 		return r != other.r || i != other.i;
 	}
 
-	std::ostream& operator<<(std::ostream& out)
+	friend std::ostream& operator<< (std::ostream& out, const ComplexNumber& c) 
 	{
-		out << "(" << r << "+" << i << "i" << ")";
+		out << "(" << c.r << "+" << c.i << "i" << ")";
 		return out;
 	}
 
@@ -106,6 +106,26 @@ public:
 	float i;
 
 };
+
+static bool operator<=( const ComplexNumber& lhs, const ComplexNumber& rhs ) 
+{
+	return lhs.r <= rhs.r && lhs.i <= rhs.i;
+}
+
+static bool operator>=( const ComplexNumber& lhs, const ComplexNumber& rhs ) 
+{
+	return lhs.r >= rhs.r && lhs.i >= rhs.i;
+}
+
+static bool operator<( const ComplexNumber& lhs, const ComplexNumber& rhs ) 
+{
+	return lhs.r < rhs.r && lhs.i < rhs.i;
+}
+
+static bool operator>( const ComplexNumber& lhs, const ComplexNumber& rhs ) 
+{
+	return lhs.r > rhs.r && lhs.i > rhs.i;
+}
 
 static ComplexNumber operator*( const float s, const ComplexNumber& v ) 
 {

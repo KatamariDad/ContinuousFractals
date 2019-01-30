@@ -4,7 +4,10 @@
       "name": "JuliaSet",
       "iterationCount": 300,
       "colourizer": "BlackAndWhite",
-	  "functionName" : "circleThing"
+	  "functionName" : "circleThing",
+	  "scalarMin" : { "r" : -0.18, "i" : -0.18 },
+	  "scalarMax" : { "r" : 0.18, "i" : 0.18 },
+	  "scalarIncrement" : { "r" : 0.01, "i" : 0.01 }
     },
     {
       "name": "MandelBox",

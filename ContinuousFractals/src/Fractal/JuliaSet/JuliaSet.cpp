@@ -8,9 +8,10 @@ namespace
 {
 	ComplexNumber MandelbrotFunctor( 
 		const ComplexNumber& functionInput,
-		const ComplexNumber& iteration )
+		const ComplexNumber& iterationValue,
+		const ComplexNumber& scalar )
 	{
-		return ( iteration * iteration ) + functionInput;
+		return ( iterationValue * iterationValue ) + functionInput;
 	}
 }
 
@@ -27,7 +28,7 @@ void JuliaSet::GenerateColourForInput(
 	ComplexNumber z( input );
 	for( uint32_t i = 0; i < m_maxIterations; ++i )
 	{
-		z = m_iterationFunctor( input, z );
+		z = m_iterationFunctor( input, z, m_functionScalar );
 
 		if( z.SquaredLength() > 4.f )
 		{
@@ -47,6 +48,6 @@ void JuliaSet::GenerateColourForInput(
 std::string JuliaSet::GetFractalDesc() const
 {
 	std::stringstream dimensionsStream;
-	dimensionsStream << m_functorDesc << "_it=" << m_maxIterations;
+	dimensionsStream << m_functorDesc << "_it=" << m_maxIterations << "_c=" << m_functionScalar;
 	return dimensionsStream.str();
 }

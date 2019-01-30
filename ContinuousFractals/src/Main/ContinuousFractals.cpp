@@ -68,9 +68,9 @@ void DrawBox(
 	ComplexNumber juliaIterationOffset( 0.379998f, 0.2f );
 	JuliaSet::JuliaFunctor f = 
 		[&juliaIterationOffset]
-		( const ComplexNumber& i, const ComplexNumber& z ) 
-		{ return ComplexNumber::WholePower( z, 2 ) + juliaIterationOffset; };
-	JuliaSet mandelBox( f, 500 );
+		( const ComplexNumber& i, const ComplexNumber& z, const ComplexNumber& scalar ) 
+		{ return ComplexNumber::WholePower( z, 2 ) + scalar; };
+	JuliaSet mandelBox( f, juliaIterationOffset, 500 );
 
 	const std::string extension( ".png" );
 	const std::string directory = baseDir + "\\" + mandelBox.GetFractalDesc() + "_" + colourizer.ToString();
@@ -135,46 +135,50 @@ void DrawBox(
 }
 
 void DrawJulia(
-	const JuliaSet& juliaSet,
+	JuliaSet& juliaSet,
+	const ComplexNumber& scalarMin,
+	const ComplexNumber& scalarMax,
+	const ComplexNumber& scalarIncrement,
 	FractalColourizer& colourizer,
 	const uint32_t width,
 	const uint32_t height,
 	const std::string& baseDir )
 {
-	ComplexNumber juliaIterationOffset( 0.379998f, 0.2f );
-	JuliaSet::JuliaFunctor f =
-		[&juliaIterationOffset]
-	( const ComplexNumber& i, const ComplexNumber& z )
-	{ return ComplexNumber::WholePower( z, 2 ) + juliaIterationOffset; };
-
-	const std::string extension( ".png" );
-	const std::string directory = baseDir + "\\" + juliaSet.GetFractalDesc() + "_" + colourizer.ToString();
-	if( !CreateDirectoryA( directory.c_str(), NULL ) )
+	ComplexNumber currentScalar = scalarMin;
+	while( currentScalar < scalarMax )
 	{
-		std::cerr << "Error creating directory to save fractal output" << std::endl;
+		juliaSet.ResetFunctorScalar( currentScalar );
+		currentScalar = currentScalar + scalarIncrement;
+
+		const std::string extension( ".png" );
+		const std::string directory = baseDir + "\\" + juliaSet.GetFractalDesc() + "_" + colourizer.ToString();
+		if( !CreateDirectoryA( directory.c_str(), NULL ) )
+		{
+			std::cerr << "Error creating directory to save fractal output" << std::endl;
+		}
+
+		size_t size = width * height * 4;
+		std::vector<uint8_t> frame( size );
+		const Vector3f center( 0.f, 0.0f, 0.f );
+		const Vector3f scale( 2.5f );
+
+		std::stringstream dimensionsStream;
+		dimensionsStream << width << "_x_" << height << "_" << 0 << "_" << "c=(" << center.x << "," << center.y << "," << center.z << ")" << "imgS=" << scale.x;
+		const std::string dimensions( dimensionsStream.str() );
+
+		const std::string fullpath = directory + "\\" + dimensions + extension;
+		Image::Image image( width, height, fullpath );
+
+		FractalGenerator mandelBoxGenerator;
+		FractalGenerator::GenerateParams params( colourizer );
+		params.origin = center;
+		params.scale = scale;
+		params.multithreadEnabled = true;
+		mandelBoxGenerator.Generate( image, params, juliaSet );
+
+		// write to file
+		image.Save();
 	}
-
-	size_t size = width * height * 4;
-	std::vector<uint8_t> frame( size );
-	const Vector3f center( 0.f, 0.0f, 0.f );
-	const Vector3f scale( 2.5f );
-
-	std::stringstream dimensionsStream;
-	dimensionsStream << width << "_x_" << height << "_" << 0 << "_" << "c=(" << center.x << "," << center.y << "," << center.z << ")" << "imgS=" << scale.x;
-	const std::string dimensions( dimensionsStream.str() );
-
-	const std::string fullpath = directory + "\\" + dimensions + extension;
-	Image::Image image( width, height, fullpath );
-
-	FractalGenerator mandelBoxGenerator;
-	FractalGenerator::GenerateParams params( colourizer );
-	params.origin = center;
-	params.scale = scale;
-	params.multithreadEnabled = true;
-	mandelBoxGenerator.Generate( image, params, juliaSet );
-
-	// write to file
-	image.Save();
 
 }
 
@@ -234,11 +238,12 @@ JuliaSet::JuliaFunctor SelectFunctor( const std::string& name )
 	}
 	else if( name == "circleThing" )
 	{
+		// c = -0.18 -> 0.18 is valid range
 		return []
-		( const ComplexNumber& input, const ComplexNumber& iteration )
+		( const ComplexNumber& input, const ComplexNumber& iteration, const ComplexNumber& c )
 		{
 			const ComplexNumber z_3 = ComplexNumber::WholePower( iteration, 3 );
-			return ( z_3 - 0.18f ) / iteration;
+			return ( z_3 - c ) / iteration;
 		};
 	}
 
@@ -306,9 +311,12 @@ int main( int argc, char* argv[] )
 		{
 			std::cout << "================================" << std::endl;
 			std::cout << "DRAWING BOX: " << i["iterationCount"] << "," << i["formulaScale"] << std::endl;
-			JuliaSet julia( SelectFunctor( i["functionName"] ), i["iterationCount"] );
+			JuliaSet julia( SelectFunctor( i["functionName"] ), ComplexNumber(i["scalarMin"]["r"], i["scalarMin"]["i"]), i["iterationCount"] );
 			DrawJulia( 
 				julia, 
+				ComplexNumber(i["scalarMin"]["r"], i["scalarMax"]["i"]),
+				ComplexNumber(i["scalarMax"]["r"], i["scalarMax"]["i"]),
+				ComplexNumber(i["scalarIncrement"]["r"], i["scalarIncrement"]["i"]),
 				*colourizer, 
 				width, 
 				height, 

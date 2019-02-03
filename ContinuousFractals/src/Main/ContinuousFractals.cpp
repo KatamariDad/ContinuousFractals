@@ -4,7 +4,6 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <chrono>
 #include <ctime>
 #include <time.h>
 #include <cstdio>
@@ -18,6 +17,7 @@
 #include <IOManip/json.hpp>
 #include <Math/Interpolation.h>
 #include <Time/Stopwatch.h>
+#include <Time/TimeUtil.h>
 
 #include <Fractal/JuliaSet/JuliaSet.h>
 #include <Fractal/MandelBulb/MandelBulb.h>
@@ -26,36 +26,11 @@
 #include <Fractal/Colourizers/ColourSchemeTime.h>
 #include <Fractal/Colourizers/TimeRainbow.h>
 
-
-#define _IMAGE_SIZE_ 256 
-
 FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json colourizerName );
-
-std::string CurrentTimeAndDate()
-{
-	auto now = std::chrono::system_clock::now();
-	auto in_time_t = std::chrono::system_clock::to_time_t( now );
-
-	time_t t = time( NULL );
-	struct tm buf;
-	::localtime_s( &buf, &t );
-	char str[26];
-	::asctime_s( str, sizeof str, &buf );
-	for (char& c : str)
-	{
-		if (c == ':')
-		{
-			c = '-';
-		}
-	}
-	std::string ret( str );
-	return ret.substr( 0, ret.size() - 1 );
-}
-
 
 
 void DrawBox( 
-	const MandelBox& mandel,
+	const MandelBox& mandelBox,
 	FractalColourizer& colourizer,
 	const uint32_t width, 
 	const uint32_t height, 
@@ -70,7 +45,6 @@ void DrawBox(
 		[&juliaIterationOffset]
 		( const ComplexNumber& i, const ComplexNumber& z, const ComplexNumber& scalar ) 
 		{ return ComplexNumber::WholePower( z, 2 ) + scalar; };
-	JuliaSet mandelBox( f, juliaIterationOffset, 500 );
 
 	const std::string extension( ".png" );
 	const std::string directory = baseDir + "\\" + mandelBox.GetFractalDesc() + "_" + colourizer.ToString();
@@ -269,30 +243,21 @@ JuliaSet::JuliaFunctor SelectFunctor( const std::string& name )
 int main( int argc, char* argv[] )
 {
 	using json = nlohmann::json;
-	std::string directory = "D:\\Projects\\ContinuousFractals\\out";
-	CLI::Match( "-dir", argc, argv, [&directory]( char* param ) {directory = param; } );
-	directory += "\\" + CurrentTimeAndDate();
 
-	uint32_t width = _IMAGE_SIZE_, height = _IMAGE_SIZE_;
-	CLI::Match( "-img", argc, argv, [&width, &height]( char* param ) {
-		sscanf_s( param, "%dx%d", &width, &height );
-	} );
+	std::ifstream i( "config.json" );
+	json config;
+	i >> config;
+
+	std::string directory = config["globals"]["OUTPUT_DIR"];
+	directory += "\\" + Time::CurrentTimeAndDate();
+
+	uint32_t width = config["globals"]["IMAGE_WIDTH"], height = config["globals"]["IMAGE_HEIGHT"];
 
 	if (!CreateDirectoryA( directory.c_str(), NULL ))
 	{
 		std::cerr << "Error creating directory to save fractal output" << std::endl;
 		return 1;
 	}
-
-	CLI::Match( "-interpTest", argc, argv, [&directory]( char* param ) {
-		Interpolation::InterpolationTestRunner test( directory.c_str() );
-		test.Run();
-	} );
-
-	std::ifstream i( "config.json" );
-	json config;
-	i >> config;
-
 
 	// YOLO NO INPUT ERROR HANDLING
 	auto fractals = config["fractals"];
@@ -307,8 +272,8 @@ int main( int argc, char* argv[] )
 			const float maxDepth = i["maxDepth"];
 			const float increment = i["increment"];
 			std::cout << "================================" << std::endl;
-			std::cout << "\tMin " << minDepth << "\n\tMax:" << maxDepth << "\n\tIncrement: " << increment;
 			std::cout << mandelBox.GetFractalDesc() << std::endl;
+			std::cout << "Min " << minDepth << " Max:" << maxDepth << " Increment: " << increment << std::endl;
 			DrawBox( 
 				mandelBox, 
 				*colourizer, 

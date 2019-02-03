@@ -1,21 +1,14 @@
 #pragma once
 #include <cmath>
 #include <functional>
+#include <cassert>
 
+#define ASSERT_NORMALIZED(t) assert( t >= -1.f && t <= 1.0f )
 
 // https://www.youtube.com/watch?v=mr5xkf6zSzk
 namespace Interpolation
 {
 	using TransformFunc1D = std::function<float( float )>;
-
-	inline void Clamp( float& t )
-	{
-		if (t > 1.f || t < -1.f)
-		{
-			float intPart;
-			t = std::modf( t, &intPart );
-		}
-	}
 
 	// TODO
 	inline void BounceClamp( float& t )
@@ -25,31 +18,31 @@ namespace Interpolation
 
 	inline float Flip( float t )
 	{
-		Clamp( t );
+		ASSERT_NORMALIZED( t );
 		return 1 - t;
 	}
 
 	inline float SmoothStart2( float t )
 	{
-		Clamp( t );
+		ASSERT_NORMALIZED( t );
 		return t * t;
 	}
 
 	inline float SmoothStart3( float t )
 	{
-		Clamp( t );
+		ASSERT_NORMALIZED( t );
 		return t * t * t;
 	}
 
 	inline float SmoothStart4( float t )
 	{
-		Clamp( t );
+		ASSERT_NORMALIZED( t );
 		return t * t * t * t;
 	}
 
 	inline float SmoothStart5( float t )
 	{
-		Clamp( t );
+		ASSERT_NORMALIZED( t );
 		return t * t * t * t * t;
 	}
 
@@ -95,17 +88,18 @@ namespace Interpolation
 		return (pow * xMax) + (1 - pow * xMin);
 	}
 
+	// Interpolate from a -> b based on the percentage of blend
 	template<typename T>
 	inline T Mix( T a, T b, float blend )
 	{
-		Clamp( blend );
+		ASSERT_NORMALIZED( blend );
 		return ((1 - blend) * a) + (blend * b);
 	}
 
 
 	inline float Mix( TransformFunc1D fn1, TransformFunc1D fn2, float blend, float t )
 	{
-		Clamp( blend );
+		ASSERT_NORMALIZED( blend );
 		return ((1 - blend) * fn1( t )) + (blend * fn2( t ));
 	}
 
@@ -116,13 +110,13 @@ namespace Interpolation
 
 	inline float Scale( TransformFunc1D fn, float t )
 	{
-		Clamp( t );
+		ASSERT_NORMALIZED( t );
 		return t * fn(t);
 	}
 
 	inline float ReverseScale( TransformFunc1D fn, float t )
 	{
-		Clamp( t );
+		ASSERT_NORMALIZED( t );
 		return (1 - t) * fn( t );
 	}
 

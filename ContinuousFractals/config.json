@@ -1,4 +1,9 @@
 {
+  "globals": {
+    "IMAGE_HEIGHT": 256,
+    "IMAGE_WIDTH": 256,
+    "OUTPUT_DIR": "D:\\Projects\\ContinuousFractals\\out"
+  },
   "fractals": [
     {
       "name": "JuliaSet",
@@ -14,9 +19,9 @@
       "formulaScale": 2,
       "iterationCount": 300,
       "colourizer": "BlueShades",
-	  "minDepth": -1,
-	  "maxDepth": 1,
-	  "increment": 0.1
+      "minDepth": -1,
+      "maxDepth": 1,
+      "increment": 0.1
     }
   ]
 }

@@ -3,8 +3,6 @@
 #include <Image/PixelColour.h>
 #include <Factory/Factory.h>
 
-class TimeRainbow;
-
 class BlackAndWhite final : public FractalColourizer
 {
 public:
@@ -70,13 +68,6 @@ public:
 		  const PixelColour& backgroundColour )
 		: m_backgroundColour( backgroundColour )
 	{}
-
-	SimpleColourScaledByFunctorOutputValue( const nlohmann::json& params )
-		: m_backgroundColour( 0 )
-	{
-		std::string hexCode = params["colour"];
-		m_backgroundColour = PixelColour( hexCode );
-	}
 
 	virtual void GenerateColour(
 		const Vector3f& input,

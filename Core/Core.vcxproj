@@ -165,6 +165,7 @@
     <ClInclude Include="src\Image\PNG\png.h" />
     <ClInclude Include="src\Image\PNG\pngUtil.h" />
     <ClInclude Include="src\IOManip\CommandLineParser.h" />
+    <ClInclude Include="src\IOManip\FileSystem.h" />
     <ClInclude Include="src\IOManip\json.hpp" />
     <ClInclude Include="src\Math\ComplexNumber.h" />
     <ClInclude Include="src\Math\Interpolation.h" />

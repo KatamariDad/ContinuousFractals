@@ -103,5 +103,8 @@
     <ClInclude Include="src\Factory\Factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\IOManip\FileSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -228,7 +228,7 @@ JuliaSet::JuliaFunctor SelectFunctor( const std::string& name )
 	{
 		return JuliaSet::Mandelbrot;
 	}
-	else if( name == "circleThing" )
+	else if( name == "donut" )
 	{
 		// c = -0.18 -> 0.18 is valid range
 		return []
@@ -238,7 +238,29 @@ JuliaSet::JuliaFunctor SelectFunctor( const std::string& name )
 			return ( z_3 - c ) / iteration;
 		};
 	}
-
+	else if( name == "donut2" ) // idk how 2 name things sry mybad
+	{
+		// c = (-.45 + -.45i) -> (0.45 + 0.45i) is valid range
+		return []
+		( const ComplexNumber& input, const ComplexNumber& z, const ComplexNumber& c )
+		{
+			const ComplexNumber z_5 = ComplexNumber::WholePower( z, 5 );
+			const ComplexNumber z_3 = ComplexNumber::WholePower( z, 2 );
+			return ( z_5 + c ) / z;
+		};
+	}
+	else if( name == "swirls" )
+	{
+		return []
+		( const ComplexNumber& input, const ComplexNumber& z, const ComplexNumber& c )
+		{
+			const ComplexNumber z_3 = ComplexNumber::WholePower( z, 3 );
+			const ComplexNumber z_5 = ComplexNumber::WholePower( z, 5 );
+			const ComplexNumber c1( 0.95, -0.31225 );
+			const ComplexNumber c2( 0.001, 0.001 );
+			return ( z_3 + c2 ) / ( c1 * z );
+		};
+	}
 	return JuliaSet::Mandelbrot;
 }
 

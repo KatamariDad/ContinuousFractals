@@ -9,10 +9,10 @@
       "name": "JuliaSet",
       "iterationCount": 300,
       "colourizer": "BlackAndWhite",
-	  "functionName" : "flower",
+	  "functionName" : "mandelbrot",
 	  "scalarMin" : { "r" : -0.45, "i" : -0.45 },
 	  "scalarMax" : { "r" : 0.45, "i" : 0.45 },
-	  "scalarIncrement" : { "r" : 0.005, "i" : 0.005 }
+	  "scalarIncrement" : { "r" : 0.05, "i" : 0.05 }
     },
     {
       "name": "MandelBox",

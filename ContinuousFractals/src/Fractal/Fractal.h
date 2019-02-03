@@ -5,6 +5,8 @@
 #include <Math/Vector3.h>
 #include <Math/ComplexNumber.h>
 
+#include <IOManip/json.hpp>
+
 struct PixelColour;
 class FractalColourizer;
 class FractalFunctor3D;

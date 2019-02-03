@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Factory\Factory.h" />
     <ClInclude Include="src\Image\ColourScheme.h" />
     <ClInclude Include="src\Image\GIF\gif.h" />
     <ClInclude Include="src\Image\GIF\GifUtil.h" />

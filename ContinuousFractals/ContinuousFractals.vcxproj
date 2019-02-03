@@ -158,6 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="src\Fractal\Colourizers\ColourizerFactory.h" />
     <ClInclude Include="src\Fractal\Colourizers\Colourizers.h" />
     <ClInclude Include="src\Fractal\Colourizers\ColourSchemeTime.h" />
     <ClInclude Include="src\Fractal\Colourizers\TimeRainbow.h" />

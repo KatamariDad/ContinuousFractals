@@ -1,6 +1,9 @@
 #pragma once
 #include <Fractal/Fractal.h>
 #include <Image/PixelColour.h>
+#include <Factory/Factory.h>
+
+class TimeRainbow;
 
 class BlackAndWhite final : public FractalColourizer
 {
@@ -25,7 +28,12 @@ class SolidColour final : public FractalColourizer
 public:
 	SolidColour():SolidColour( PixelColour( 0, 0, 0 ) ) {} // Fuck yeah c++11
 
-	SolidColour( PixelColour colour ) : m_colour( colour ) {}
+	SolidColour( PixelColour colour ) : m_colour( colour ) 
+	{
+		m_name = "rgb(" + std::to_string( m_colour.r )
+			+ "," + std::to_string( m_colour.g )
+			+ "," + std::to_string( m_colour.b ) + ")";
+	}
 
 
 	virtual void GenerateColour(
@@ -42,14 +50,12 @@ public:
 
 	virtual const char* ToString() const 
 	{ 
-		std::string name = "rgb(" + std::to_string( m_colour.r )
-			+ "," + std::to_string( m_colour.g )
-			+ "," + std::to_string( m_colour.b ) + ")";
-		return name.c_str(); 
+		return m_name.c_str(); 
 	}
 
 private:
 	PixelColour m_colour;
+	std::string m_name;
 };
 
 
@@ -64,6 +70,13 @@ public:
 		  const PixelColour& backgroundColour )
 		: m_backgroundColour( backgroundColour )
 	{}
+
+	SimpleColourScaledByFunctorOutputValue( const nlohmann::json& params )
+		: m_backgroundColour( 0 )
+	{
+		std::string hexCode = params["colour"];
+		m_backgroundColour = PixelColour( hexCode );
+	}
 
 	virtual void GenerateColour(
 		const Vector3f& input,
@@ -138,4 +151,3 @@ public:
 
 	virtual const char* ToString() const { return "BlueShades"; }
 };
-

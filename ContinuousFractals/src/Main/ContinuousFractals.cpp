@@ -22,12 +22,7 @@
 #include <Fractal/JuliaSet/JuliaSet.h>
 #include <Fractal/MandelBulb/MandelBulb.h>
 #include <Fractal/MandelBox/MandelBox.h>
-#include <Fractal/Colourizers/Colourizers.h>
-#include <Fractal/Colourizers/ColourSchemeTime.h>
-#include <Fractal/Colourizers/TimeRainbow.h>
-
-FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json colourizerName );
-
+#include <Fractal/Colourizers/ColourizerFactory.h>
 
 void DrawBox( 
 	const MandelBox& mandelBox,
@@ -160,41 +155,6 @@ void DrawJulia(
 
 }
 
-
-FractalColourizer* GetColourizerFromFractalSettings( nlohmann::json fractal )
-{
-	try
-	{
-		std::string colourizerName = fractal.at( "colourizer" );
-		if (colourizerName == "OutputScale")
-		{
-			return new SimpleColourScaledByFunctorOutputValue();
-		}
-		else if (colourizerName == "BlueShades")
-		{
-			return new ShadesOfBlueColourizer();
-		}
-		else if (colourizerName == "TimeRainbow")
-		{
-			return new TimeRainbow();
-		}
-		else
-		{
-			return new BlackAndWhite();
-		}
-	}
-	catch (...){} // Catch block executes twice even if we return? Thanks C++
-
-	try 
-	{
-		std::string colour = fractal.at( "colour" );
-		return new SolidColour( PixelColour( colour ) );
-	}
-	catch(...){}
-
-	return new BlackAndWhite();
-}
-
 JuliaSet::JuliaFunctor SelectFunctor( const std::string& name )
 {
 	// Try out different formulas!!!
@@ -237,11 +197,14 @@ int main( int argc, char* argv[] )
 		return 1;
 	}
 
+	Factory<FractalColourizer> ColourizerFactory;
+
 	// YOLO NO INPUT ERROR HANDLING
 	auto fractals = config["fractals"];
 	for (auto& i : fractals)
 	{
-		FractalColourizer* colourizer(GetColourizerFromFractalSettings(i));
+		const std::string& colourizerName = i["colourizer"];
+		std::unique_ptr<FractalColourizer> colourizer = ColourizerFactory.Build( colourizerName, i );
 
 		if (i["name"] == "MandelBox")
 		{
@@ -281,10 +244,6 @@ int main( int argc, char* argv[] )
 				directory );
 			std::cout << "================================" << std::endl;
 		}
-
-		// SUCH MEMORY MANAGAMENT
-		// WOW
-		delete colourizer;
 	}
 
 	return 0;

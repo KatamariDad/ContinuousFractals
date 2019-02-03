@@ -127,7 +127,7 @@ void DrawJulia(
 		juliaSet.ResetFunctorScalar( currentScalar );
 
 		const Vector3f center( 0.f, 0.0f, 0.f );
-		const Vector3f scale( 2.5f );
+		const Vector3f scale( 4.5f );
 
 		std::stringstream dimensionsStream;
 		dimensionsStream << width << "_x_" << height << "_" << imageIdx << "_" << "c=" << currentScalar << "imgS=" << scale.x;
@@ -162,7 +162,7 @@ JuliaSet::JuliaFunctor SelectFunctor( const std::string& name )
 	{
 		return JuliaSet::Mandelbrot;
 	}
-	else if( name == "circleThing" )
+	else if( name == "donut" )
 	{
 		// c = -0.18 -> 0.18 is valid range
 		return []
@@ -172,7 +172,38 @@ JuliaSet::JuliaFunctor SelectFunctor( const std::string& name )
 			return ( z_3 - c ) / iteration;
 		};
 	}
-
+	else if( name == "donut2" ) // idk how 2 name things sry mybad
+	{
+		// c = (-.45 + -.45i) -> (0.45 + 0.45i) is valid range
+		return []
+		( const ComplexNumber& input, const ComplexNumber& z, const ComplexNumber& c )
+		{
+			const ComplexNumber z_5 = ComplexNumber::WholePower( z, 5 );
+			const ComplexNumber z_3 = ComplexNumber::WholePower( z, 2 );
+			return ( z_5 + c ) / z;
+		};
+	}
+	else if( name == "donut3" ) // idk how 2 name things sry mybad
+	{
+		// c = (-.08 -.08i) -> (0.08 + 0.08i) is valid range
+		return []
+		( const ComplexNumber& input, const ComplexNumber& z, const ComplexNumber& c )
+		{
+			const ComplexNumber z_5 = ComplexNumber::WholePower( z, 5 );
+			const ComplexNumber z_3 = ComplexNumber::WholePower( z, 2 );
+			return ( z_5 + c ) / z_3;
+		};
+	}
+	else if( name == "thereIsNoGod" )
+	{
+		// valid from like (-1 + 1i) -> (1 + 1i)? idk this one's weird.
+		return []
+		( const ComplexNumber& input, const ComplexNumber& z, const ComplexNumber& c )
+		{
+			const ComplexNumber z_3 = ComplexNumber::WholePower( z, 3 );
+			return ( z_3 + c ) / ( z_3 - c );
+		};
+	}
 	return JuliaSet::Mandelbrot;
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <Math/Vector3.h>
+#include <Scene/SceneNode.h>
 
 class Material;
 
@@ -7,6 +8,11 @@ class Geometry
 {
 public:
 
-	virtual bool Intersect( const Vector3f& ray ) = 0;
-
+	virtual bool IntersectRay(
+		const Vector3f& sceneOrigin,
+		const Vector3f& rayOrigin,
+		const Vector3f& rayDir,
+		Vector3f& hitLocation,
+		Vector3f& hitNormal
+	) const = 0;
 };

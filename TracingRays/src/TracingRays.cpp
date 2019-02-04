@@ -3,8 +3,11 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include <string>
 
 #include <Scene/SceneNode.h>
+#include <Scene/Geometry/Sphere/Sphere.h>
+#include <Scene/Material/Material.h>
 #include <Scene/Light/Light.h>
 #include <Image/Image.h>
 #include <RayTrace/RayTracer.h>
@@ -15,27 +18,16 @@
 #define NUM_THREADS 16
 
 
-
-int main()
-{
-	return 0;
-}
-
-
-
-void A4_Render(
+void RenderScene(
 		// What to render
 		SceneNode* root,
-
 		// Image to write to, set to a given width and height
 		Image::Image& image,
-
 		// Viewing parameters
 		const Vector3f& eye,
 		const Vector3f& view,
 		const Vector3f& up,
 		double fovy,
-
 		// Lighting parameters
 		const Vector3f& ambient,
 		const std::vector<Light *>& lights
@@ -85,6 +77,34 @@ void A4_Render(
         threads[i].join();
     }
 
+}
+
+
+int main()
+{
+	Material material;
+	Sphere sphere( 2.f );
+	SceneNode root(sphere, material);
+	Light* primaryLight;
+	const std::string directory( "D:\\Projects\\ContinuousFractals\\out\\" );
+	const std::string filename = "rayTrace.png";
+	Image::Image image( FIXED_IMAGE_SIZE, FIXED_IMAGE_SIZE, directory + filename );
+	// z forward
+	const Vector3f eyePosition( 0.f, 0.f, -5.f );
+	const Vector3f view( 0.f, 0.f, 1.f );
+	const Vector3f up( 0.f, 1.f, 0.f );
+	const Vector3f ambientLight( 0.f ); // TODO: as PixelColour
+	double fovy = 15.f;
+	std::vector<Light*> lights;
+
+	RenderScene( &root,
+		image, eyePosition,
+		view, up, fovy, 
+		ambientLight, lights );
+
+
+	image.Save();
+	return 0;
 }
 
 

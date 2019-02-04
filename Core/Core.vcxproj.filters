@@ -44,6 +44,9 @@
     <ClCompile Include="src\Scene\Material\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scene\Material\PhongMaterial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -108,8 +111,11 @@
     </ClInclude>
     <ClInclude Include="src\Scene\Material\Material.h">
       <Filter>Header Files</Filter>
-    </ClInclude>    
+    </ClInclude>
     <ClInclude Include="src\IOManip\FileSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\Material\PhongMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -175,6 +175,7 @@
     <ClInclude Include="src\Scene\Geometry\Sphere\Sphere.h" />
     <ClInclude Include="src\Scene\Light\Light.h" />
     <ClInclude Include="src\Scene\Material\Material.h" />
+    <ClInclude Include="src\Scene\Material\PhongMaterial.h" />
     <ClInclude Include="src\Scene\SceneNode.h" />
     <ClInclude Include="src\Time\Stopwatch.h" />
     <ClInclude Include="src\Time\TimeUtil.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="src\Scene\Geometry\Sphere\Sphere.cpp" />
     <ClCompile Include="src\Scene\Light\Light.cpp" />
     <ClCompile Include="src\Scene\Material\Material.cpp" />
+    <ClCompile Include="src\Scene\Material\PhongMaterial.cpp" />
     <ClCompile Include="src\Scene\SceneNode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

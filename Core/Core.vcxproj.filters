@@ -108,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="src\Scene\Material\Material.h">
       <Filter>Header Files</Filter>
+    </ClInclude>    
+    <ClInclude Include="src\IOManip\FileSystem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

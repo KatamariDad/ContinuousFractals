@@ -52,6 +52,8 @@ struct PixelColour
 
 namespace Colours
 {
+	const PixelColour BLACK( 0, 0, 0 );
+	const PixelColour WHITE( 255, 255, 255 );
 	const PixelColour RED( 255, 0, 0 );
 	const PixelColour ORANGE( 255, 175, 0 );
 	const PixelColour YELLOW( 255, 255, 0 );

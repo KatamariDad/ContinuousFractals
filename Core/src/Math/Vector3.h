@@ -2,6 +2,7 @@
 #include <math.h>
 #include <limits>
 #include <ostream>
+#include <cassert>
 
 
 class Vector3f
@@ -45,6 +46,25 @@ public:
 			|| x == -inf || y == -inf || z == -inf;
 	}
 
+	float operator[]( size_t i ) const
+	{
+		switch( i )
+		{
+		case 0:
+			return x;
+			break;
+		case 1:
+			return y;
+			break;
+		case 2:
+			return z;
+			break;
+		default:
+			assert( false );
+		}
+		return 0.f;
+	}
+
 	Vector3f operator+( const Vector3f& other ) const
 	{
 		return Vector3f(
@@ -69,6 +89,15 @@ public:
 			z * s );
 	}
 
+	Vector3f operator/( const float s ) const
+	{
+		assert( s != 0.f );
+		return Vector3f(
+			x / s,
+			y / s,
+			z / s );
+	}
+
 	float SquaredLength() const
 	{
 		return ( x * x + y * y + z * z );
@@ -77,6 +106,20 @@ public:
 	float Length() const
 	{
 		return sqrtf( x * x + y * y + z * z );
+	}
+
+	Vector3f ComputeNormal() const
+	{
+		return *this / Length();
+	}
+
+	void Normalize() 
+	{
+		const float length = Length();
+		assert( length > 0.f );
+		x /= length;
+		y /= length;
+		z /= length;
 	}
 
 	friend std::ostream& operator<<(std::ostream& out, const Vector3f& v)
@@ -141,10 +184,19 @@ static Vector3f operator-( const Vector3f& v, const float s )
 
 static Vector3f operator/( const Vector3f& v, const float s ) 
 {
+	assert( s != 0.f );
 	return Vector3f(
 		v.x / s,
 		v.y / s,
 		v.z / s );
+}
+
+static Vector3f CrossProduct( const Vector3f& a, const Vector3f& b )
+{
+	return Vector3f(
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x );
 }
 
 

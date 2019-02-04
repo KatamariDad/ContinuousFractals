@@ -191,6 +191,15 @@ static Vector3f operator/( const Vector3f& v, const float s )
 		v.z / s );
 }
 
+static float DotProduct( const Vector3f& a, const Vector3f& b )
+{
+	return
+		a.x * b.x +
+		a.y * b.y +
+		a.z * b.z;
+
+}
+
 static Vector3f CrossProduct( const Vector3f& a, const Vector3f& b )
 {
 	return Vector3f(

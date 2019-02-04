@@ -182,13 +182,13 @@ static Vector3f operator-( const Vector3f& v, const float s )
 }
 
 
-static Vector3f operator/( const Vector3f& v, const float s ) 
+static Vector3f operator/( const float s, const Vector3f& v )
 {
-	assert( s != 0.f );
+	assert( v.x != 0.f && v.y != 0.f && v.z != 0.f );
 	return Vector3f(
-		v.x / s,
-		v.y / s,
-		v.z / s );
+		s / v.x,
+		s / v.y,
+		s / v.z);
 }
 
 static Vector3f CrossProduct( const Vector3f& a, const Vector3f& b )

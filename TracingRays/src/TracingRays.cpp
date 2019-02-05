@@ -8,6 +8,7 @@
 #include <Scene/SceneNode.h>
 #include <Scene/Geometry/Sphere/Sphere.h>
 #include <Scene/Material/Material.h>
+#include <Scene/Material/PhongMaterial.h>
 #include <Scene/Light/Light.h>
 #include <Image/Image.h>
 #include <RayTrace/RayTracer.h>
@@ -30,7 +31,7 @@ void RenderScene(
 		double fovy,
 		// Lighting parameters
 		const Vector3f& ambient,
-		const std::vector<Light *>& lights
+		const std::vector<const Light *>& lights
 ) {
 
     // Render the Scene
@@ -82,10 +83,21 @@ void RenderScene(
 
 int main()
 {
-	Material material;
+	// lights
+	Light topLight( 
+		Vector3f( 0.f, 5.f, 0.f ), 
+		Vector3f( 200.2, 0, 0 ) );
+
+	std::vector<const Light*> lights;
+	lights.push_back( &topLight );
+
+	PhongMaterial phongMaterial;
+	phongMaterial.m_diffuse = Vector3f( 0.f, 200.f, 0.f );
+	phongMaterial.m_specular = Vector3f( 0.f, 200.f, 0.f );
+	phongMaterial.m_shininess = 2;
+
 	Sphere sphere( 2.f );
-	SceneNode root(sphere, material);
-	Light* primaryLight;
+	SceneNode root(sphere, phongMaterial);
 	const std::string directory( "D:\\Projects\\ContinuousFractals\\out\\" );
 	const std::string filename = "rayTrace.png";
 	Image::Image image( FIXED_IMAGE_SIZE, FIXED_IMAGE_SIZE, directory + filename );
@@ -95,7 +107,6 @@ int main()
 	const Vector3f up( 0.f, 1.f, 0.f );
 	const Vector3f ambientLight( 0.f ); // TODO: as PixelColour
 	double fovy = 15.f;
-	std::vector<Light*> lights;
 
 	RenderScene( &root,
 		image, eyePosition,

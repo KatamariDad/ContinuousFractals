@@ -37,19 +37,20 @@ public:
 			const Vector3f& in_view,
 			const Vector3f& in_up,
 			const Vector3f& in_ambient,
-			const std::vector<Light*>& in_lights,
+			const std::vector<const Light*>& in_lights,
 			size_t in_threadId
 		) :
-			m_topLeft(in_topLeft),
-			m_projectionDistance(in_projection_distance),
-			m_deltaX(in_deltaX),
-			m_deltaY(in_deltaY),
-			m_sceneRoot(in_root),
-			m_eye(in_eye),
-			m_view(in_view),
-			m_up(in_up),
-			m_ambient(in_ambient),
-			m_threadId(in_threadId)
+			m_topLeft( in_topLeft ),
+			m_projectionDistance( in_projection_distance ),
+			m_deltaX( in_deltaX ),
+			m_deltaY( in_deltaY ),
+			m_sceneRoot( in_root ),
+			m_eye( in_eye ),
+			m_view( in_view ),
+			m_up( in_up ),
+			m_ambient( in_ambient ),
+			m_lights( in_lights ),
+			m_threadId( in_threadId )
 		{}
 
 		void SetIndices(

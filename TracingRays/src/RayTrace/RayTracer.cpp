@@ -34,7 +34,7 @@ void RayTracer::Trace(const TraceParameters* inputParameters, Image::Image* imag
             const Vector3f pixelWorldLocation( 
                 params.m_topLeft.x + (double)x * params.m_deltaX,
                 params.m_topLeft.y - (double)y * params.m_deltaY,
-                params.m_projectionDistance);
+                params.m_eye.z + params.m_projectionDistance);
             preLightingParams.m_rayDir = ( pixelWorldLocation - params.m_eye ).ComputeNormal();
 
                 
@@ -53,6 +53,7 @@ void RayTracer::Trace(const TraceParameters* inputParameters, Image::Image* imag
 				printf( "" );
 			
 			}
+
 
 			outImage.WritePixel( x, y, colour );
 

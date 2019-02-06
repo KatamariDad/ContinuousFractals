@@ -15,7 +15,7 @@
 
 
 #define PI 3.14159265358979323846
-#define FIXED_IMAGE_SIZE 256
+#define FIXED_IMAGE_SIZE 256 
 #define NUM_THREADS 16
 
 
@@ -39,10 +39,10 @@ void RenderScene(
 	const size_t h = fixedImageSize; //image.height();
 	const size_t w = fixedImageSize; //image.width();
     const float r = h / w;
-    const float d = 100.f;
+    const float d = 1.f;
     const float fovy_radian = fovy * (PI / 180.f);
 
-    const float windowH = 2 * d * std::tan( fovy_radian );
+	const float windowH = 2 * ( d / std::tan( fovy_radian ) );
     const float windowW = r * windowH;
     const float deltaX = windowW / (float)w;
     const float deltaY = windowH / (float)h;
@@ -53,7 +53,7 @@ void RenderScene(
     const Vector3f left = CrossProduct(forward, up.ComputeNormal());
 
     const Vector3f topLeft = 
-        projection_centerpoint - ((double)windowW / 2.f) * left + ((double)windowH / 2.f) * up;
+        projection_centerpoint + ((double)windowW / 2.f) * left + ((double)windowH / 2.f) * up;
 
     RayTracer::TraceParameters params[NUM_THREADS];
     std::thread threads[NUM_THREADS];
@@ -96,7 +96,9 @@ int main()
 	phongMaterial.m_specular = Vector3f( 0.f, 200.f, 0.f );
 	phongMaterial.m_shininess = 2;
 
-	Sphere sphere( 2.f );
+	Material nullMaterial;
+
+	Sphere sphere( 1.f );
 	SceneNode root(sphere, phongMaterial);
 	const std::string directory( "D:\\Projects\\ContinuousFractals\\out\\" );
 	const std::string filename = "rayTrace.png";
@@ -106,7 +108,7 @@ int main()
 	const Vector3f view( 0.f, 0.f, 1.f );
 	const Vector3f up( 0.f, 1.f, 0.f );
 	const Vector3f ambientLight( 0.f ); // TODO: as PixelColour
-	double fovy = 15.f;
+	double fovy = 35.f;
 
 	RenderScene( &root,
 		image, eyePosition,

@@ -17,24 +17,29 @@ void PhongMaterial::ApplyMaterial(
 	const std::vector<const Light*>& lights,
 	PixelColour& outColour ) const
 {
+	// it's technically blinn-phong, u mad?
     for (const Light* light : lights)
     {
-        // Diffuse
-        const Vector3f L = light->GetPosition() - hitLocation;
-		const float d = L.Length(); 
-        const Vector3f L_n = L / d;
+		const Vector3f L = light->GetPosition() - hitLocation;
+		const float dist2 = L.SquaredLength();
+		const float dist = sqrtf( dist2 );
+		const Vector3f L_n = L / ( dist );
 
-		float diffuse = DotProduct( L_n, hitNormal );
-        clamp(diffuse, 0.f, 1.f);
+		// Diffuse
+		float intensity = DotProduct( hitNormal, L_n );
+		clamp( intensity, 0.f, 1.f );
+		const Vector3f diffuse = ( static_cast<float>( m_shininess ) / dist ) *  intensity * m_diffuse;
 
-        // Specular
-        const Vector3f H = ( L_n - incomingRayDirection ).ComputeNormal();
-        const float nDotH = DotProduct( H, hitNormal );
-        float specular = std::pow( nDotH, m_shininess );
-        clamp( specular, 0.f, 1.f );
+		// specular
+		// half vector btwn view and light vectors
+		const Vector3f H = ( L_n + incomingRayDirection ).ComputeNormal();
+		float NdotH = DotProduct(hitNormal, H);
+		clamp( NdotH, 0.f, 1.f );
+		const float specularIntensity = std::powf( NdotH, m_shininess );
 
-        const Vector3f& I = light->GetColour(); // * ( 1.f / ( d * 0.001f ) );
-		const Vector3f result = CrossProduct( I, ( diffuse * m_diffuse + specular * m_specular ) );
+		// combine specular and diffuse colours
+		const Vector3f specular = specularIntensity * ( static_cast<float>( m_shininess ) / dist ) * m_specular;
+		const Vector3f result = specular + diffuse;
 		outColour.r += static_cast<uint8_t>( result.x );
 		outColour.g += static_cast<uint8_t>( result.y );
 		outColour.b += static_cast<uint8_t>( result.z );

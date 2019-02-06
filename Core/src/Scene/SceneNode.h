@@ -10,9 +10,11 @@ class SceneNode
 public:
 
 	SceneNode(
+		const Vector3f& location,
 		const Geometry& geometry,
 		const Material& material )
-		: m_geometry( geometry )
+		: m_relativePosition( location )
+		, m_geometry( geometry )
 		, m_material( material )
 	{}
 

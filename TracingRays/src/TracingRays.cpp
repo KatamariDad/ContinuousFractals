@@ -99,7 +99,8 @@ int main()
 	Material nullMaterial;
 
 	Sphere sphere( 1.f );
-	SceneNode root(sphere, phongMaterial);
+	const Vector3f sceneLocation( -3.f, -3.f, 0.f );
+	SceneNode root( sceneLocation, sphere, phongMaterial );
 	const std::string directory( "D:\\Projects\\ContinuousFractals\\out\\" );
 	const std::string filename = "rayTrace.png";
 	Image::Image image( FIXED_IMAGE_SIZE, FIXED_IMAGE_SIZE, directory + filename );

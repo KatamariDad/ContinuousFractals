@@ -84,32 +84,34 @@ void RenderScene(
 int main()
 {
 	// lights
-	Light topLight( 
-		Vector3f( 0.f, 5.f, 0.f ), 
-		Vector3f( 200.2, 0, 0 ) );
+	Light topRightLight( 
+		Vector3f( 1.f, 1.f, -2.5f ), 
+		Vector3f( 20, 0, 0 ) );
+	Light bottomLight( 
+		Vector3f( 0.f, -1.f, -2.5f ), 
+		Vector3f( 256, 256, 256 ) );
 
 	std::vector<const Light*> lights;
-	lights.push_back( &topLight );
+	lights.push_back( &bottomLight );
+	lights.push_back( &topRightLight );
 
-	PhongMaterial phongMaterial;
-	phongMaterial.m_diffuse = Vector3f( 0.f, 200.f, 0.f );
-	phongMaterial.m_specular = Vector3f( 0.f, 200.f, 0.f );
-	phongMaterial.m_shininess = 2;
+	PhongMaterial phongMaterial(
+		Vector3f( 0.f, 1.f, 5.f ),
+		Vector3f( 1.f, 0.f, 0.f ),
+		100, 100 );
 
-	Material nullMaterial;
-
-	Sphere sphere( 1.f );
-	const Vector3f sceneLocation( -3.f, -3.f, 0.f );
+	Sphere sphere( 2.f );
+	const Vector3f sceneLocation( 0.f, 0.f, 0.f );
 	SceneNode root( sceneLocation, sphere, phongMaterial );
 	const std::string directory( "D:\\Projects\\ContinuousFractals\\out\\" );
 	const std::string filename = "rayTrace.png";
 	Image::Image image( FIXED_IMAGE_SIZE, FIXED_IMAGE_SIZE, directory + filename );
-	// z forward
-	const Vector3f eyePosition( 0.f, 0.f, -5.f );
+	// look down the Z positive axis
+	const Vector3f eyePosition( 0.f, 0.f, -3.f );
 	const Vector3f view( 0.f, 0.f, 1.f );
 	const Vector3f up( 0.f, 1.f, 0.f );
-	const Vector3f ambientLight( 0.f ); // TODO: as PixelColour
-	double fovy = 35.f;
+	const Vector3f ambientLight( 0.f, 0.f, 0.f ); // TODO: as PixelColour
+	double fovy = 25.f;
 
 	RenderScene( &root,
 		image, eyePosition,

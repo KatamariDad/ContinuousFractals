@@ -43,7 +43,7 @@ void RayTracer::Trace(const TraceParameters* inputParameters, Image::Image* imag
 
             if (!hitPrimitive)
             {
-				colour = Colours::BLACK;
+				colour = Colours::WHITE;
                 //RayTracer::Generate_Background( 
                 //    fixedImageSize, fixedImageSize, x, y, 
                 //    pixelColour[x]);

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Sphere.h"
 
+#include <algorithm>
 #include <cmath>
 
 bool Sphere::IntersectRay(
@@ -26,16 +27,14 @@ bool Sphere::IntersectRay(
 	}
 
 	const float c = sqrtf( m_radiusSqr - d2 );
-	float t0 = dot - c;
-	float t1 = dot + c;
-	if( t0 > t1 ) std::swap( t0, t1 );
+	const float t0 = dot - c;
+	//float t0 = std::min( dot - c, dot + c );
+	//if (t0 < 0.f) 
+	//{ 
+	//	return false;
+	//} 
 
-	if (t0 < 0) { 
-		t0 = t1; // if t0 is negative, let's use t1 instead 
-		if (t0 < 0) return false; // both t0 and t1 are negative 
-	} 
-
-	hitLocation = t0 * rayDir;
+	hitLocation = t0 * rayDir + rayOrigin;
 	hitNormal = ( hitLocation - sceneOrigin ).ComputeNormal();
 	return true;
 	

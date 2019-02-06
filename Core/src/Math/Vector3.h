@@ -39,6 +39,11 @@ public:
 		, z( other.z )
 	{}
 
+	bool IsZero() const
+	{
+		return x == 0.f && y == 0.f && z == 0.f;
+	}
+
 	bool IsInfinity() const
 	{
 		const float inf = std::numeric_limits<float>::infinity();

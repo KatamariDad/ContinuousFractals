@@ -19,6 +19,7 @@ void PhongMaterial::ApplyMaterial(
 	PixelColour& outColour ) const
 {
 	// it's technically blinn-phong, u mad?
+	Vector3f result;
     for (const Light* light : lights)
     {
 		const Vector3f L =  light->GetPosition() - hitLocation;
@@ -28,6 +29,10 @@ void PhongMaterial::ApplyMaterial(
 		// Diffuse
 		float intensity = DotProduct( hitNormal, L_n );
 		clamp( intensity, 0.f, 1.f );
+		if( intensity == 0.f )
+		{
+			printf( "" );
+		}
 		const Vector3f diffuse = ( m_diffusePower / distanceToLight ) *  intensity * m_diffuse;
 
 		// specular
@@ -35,25 +40,22 @@ void PhongMaterial::ApplyMaterial(
 		const Vector3f H = L_n - incomingRayDirection;
 		const Vector3f H_n = H.IsZero() ? incomingRayDirection : H.ComputeNormal();
 		float NdotH = DotProduct( hitNormal, H_n );
-		if( NdotH > 0.f )
-		{
-			printf( "" );
-		
-		}
+
 		clamp( NdotH, 0.f, 1.f );
 		const float specularIntensity = std::powf( NdotH, m_shininess );
 
 		// combine specular and diffuse colours
 		const Vector3f specular = specularIntensity * ( m_shininess / distanceToLight ) * m_specular;
-		Vector3f result = specular + diffuse + Vector3f( outColour.r, outColour.g, outColour.b );
-		clamp( result.x, 0.f, 255.f );
-		clamp( result.y, 0.f, 255.f );
-		clamp( result.z, 0.f, 255.f );
-		outColour.r = static_cast<uint8_t>( result.x );
-		outColour.g = static_cast<uint8_t>( result.y );
-		outColour.b = static_cast<uint8_t>( result.z );
+		result = specular + diffuse + result;
     }
 
+	//result = m_ambient + result;
 
+	clamp( result.x, 0.f, 255.f );
+	clamp( result.y, 0.f, 255.f );
+	clamp( result.z, 0.f, 255.f );
+	outColour.r = static_cast<uint8_t>( result.x );
+	outColour.g = static_cast<uint8_t>( result.y );
+	outColour.b = static_cast<uint8_t>( result.z );
 }
 

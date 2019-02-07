@@ -35,7 +35,11 @@ void RayTracer::Trace(const TraceParameters* inputParameters, Image::Image* imag
                 params.m_topLeft.x + (double)x * params.m_deltaX,
                 params.m_topLeft.y - (double)y * params.m_deltaY,
                 params.m_eye.z + params.m_projectionDistance);
-            preLightingParams.m_rayDir = ( pixelWorldLocation - params.m_eye ).ComputeNormal();
+            //preLightingParams.m_eyeRayDir = ( pixelWorldLocation - params.m_eye ).ComputeNormal();
+
+			// so we're just gonna fake the projection math here lmfao
+			preLightingParams.m_rayOrigin = pixelWorldLocation;
+			preLightingParams.m_rayDir = params.m_view;
 
                 
 			PixelColour colour;

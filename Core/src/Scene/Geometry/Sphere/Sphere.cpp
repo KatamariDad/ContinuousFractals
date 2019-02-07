@@ -11,8 +11,6 @@ bool Sphere::IntersectRay(
 	Vector3f& hitLocation,
 	Vector3f& hitNormal ) const
 {
-	// test if closest point on ray to origin is within radius
-
 	const Vector3f L = sceneOrigin - rayOrigin;
 	const float dot = DotProduct( L, rayDir );
 	if( dot < 0.f )

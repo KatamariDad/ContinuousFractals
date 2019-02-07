@@ -29,6 +29,33 @@ bool SceneNode::IntersectRay(
 	{
 		hitMaterial = &m_material;
 	}
+	else
+	{
+		// no guarantee about z ordering of the children, so we've gotta
+		// test them all and take the closest hit.
+		Vector3f childHitLocation;
+		Vector3f childHitNormal;
+		const Material* childHitMaterial;
+		float closestToEye = std::numeric_limits<float>::max();
+		for( const auto& child : m_children )
+		{
+			if( child->IntersectRay(
+				rayOrigin, rayDir,
+				childHitLocation,
+				childHitNormal,
+				childHitMaterial ) )
+			{
+				const float distToEye = ( childHitLocation - rayOrigin ).SquaredLength();
+				if( distToEye < closestToEye )
+				{
+					hitLocation = childHitLocation;
+					hitNormal = childHitNormal;
+					hitMaterial = childHitMaterial;
+					closestToEye = distToEye;
+				}
+			}
+		}
+	}
 
 	return bHit;
 

@@ -10,10 +10,12 @@ public:
 	PhongMaterial(
 		const Vector3f& diffuse,
 		const Vector3f& specular,
+		const Vector3f& ambient,
 		float shininess,
 		float diffusePower) :
 		m_diffuse( diffuse ),
 		m_specular( specular ),
+		m_ambient( ambient ),
 		m_shininess( shininess ),
 		m_diffusePower( diffusePower )
 	{}
@@ -25,9 +27,9 @@ public:
 		const std::vector<const Light*>& lights,
 		PixelColour& outColour ) const override;
 
-private:
 	Vector3f m_diffuse;
 	Vector3f m_specular;
+	Vector3f m_ambient;
 	// Material shininess constant.  Larger positive values model surfaces that
 	// are smoother or mirror-like.  Smaller positive values model rougher surfaces.
 	float m_shininess;

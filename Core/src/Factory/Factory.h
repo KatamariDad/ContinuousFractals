@@ -2,7 +2,7 @@
 #include <functional>
 #include <map>
 
-#include <IOManip/json.hpp>
+#include <JSON/json.hpp>
 
 template<class T>
 class Factory

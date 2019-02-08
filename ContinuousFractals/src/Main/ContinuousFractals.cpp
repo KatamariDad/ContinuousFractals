@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 
-#include <IOManip/json.hpp>
+#include <JSON/json.hpp>
 #include <IOManip/FileSystem.h>
 #include <Fractal/FractalFactory.h>
 

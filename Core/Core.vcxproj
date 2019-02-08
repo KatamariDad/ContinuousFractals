@@ -166,7 +166,8 @@
     <ClInclude Include="src\Image\PNG\pngUtil.h" />
     <ClInclude Include="src\IOManip\CommandLineParser.h" />
     <ClInclude Include="src\IOManip\FileSystem.h" />
-    <ClInclude Include="src\IOManip\json.hpp" />
+    <ClInclude Include="src\JSON\json.hpp" />
+    <ClInclude Include="src\JSON\JSONUtil.h" />
     <ClInclude Include="src\Math\ComplexNumber.h" />
     <ClInclude Include="src\Math\Interpolation.h" />
     <ClInclude Include="src\Math\Vector3.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="src\Scene\Light\Light.h" />
     <ClInclude Include="src\Scene\Material\Material.h" />
     <ClInclude Include="src\Scene\Material\PhongMaterial.h" />
+    <ClInclude Include="src\Scene\SceneFactory.h" />
     <ClInclude Include="src\Scene\SceneNode.h" />
     <ClInclude Include="src\Time\Stopwatch.h" />
     <ClInclude Include="src\Time\TimeUtil.h" />
@@ -185,6 +187,7 @@
     <ClCompile Include="src\Image\Image.cpp" />
     <ClCompile Include="src\Image\PNG\png.cpp" />
     <ClCompile Include="src\Image\PNG\pngUtil.cpp" />
+    <ClCompile Include="src\JSON\JSONUtil.cpp" />
     <ClCompile Include="src\Math\Interpolation.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

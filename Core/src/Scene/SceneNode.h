@@ -35,4 +35,6 @@ private:
 	std::vector<SceneNode*> m_children;
 	const Material& m_material;
 
+	// If you call yourself a Camera just fuck my shit up fam
+	friend class Camera;
 };

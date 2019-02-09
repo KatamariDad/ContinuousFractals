@@ -11,8 +11,8 @@ public:
 
 	SceneNode(
 		const Vector3f& location,
-		std::unique_ptr<Geometry> geometry,
-		std::unique_ptr<Material> material )
+		GeometryPtr geometry,
+		MaterialPtr material )
 		: m_relativePosition( location )
 		, m_geometry( std::move(geometry) )
 		, m_material( std::move(material) )
@@ -33,9 +33,13 @@ private:
 	Vector3f m_relativePosition;
 	std::vector<SceneNode*> m_children;
 
-	std::unique_ptr<Geometry> m_geometry;
-	std::unique_ptr<Material> m_material;
+	GeometryPtr m_geometry;
+	MaterialPtr m_material;
 
 	// If you call yourself a Camera just fuck my shit up fam
 	friend class Camera;
 };
+
+
+using SceneNodePtr = std::unique_ptr<SceneNode>;
+using SceneNodeSharedPtr = std::shared_ptr<SceneNode>;

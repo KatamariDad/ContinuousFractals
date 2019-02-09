@@ -16,3 +16,6 @@ public:
 		return false;
 	}
 };
+
+using GeometryPtr = std::unique_ptr<Geometry>;
+using GeometrySharedPtr = std::shared_ptr<Geometry>;

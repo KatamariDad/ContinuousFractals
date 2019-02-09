@@ -22,3 +22,6 @@ private:
 
 
 };
+
+using LightPtr = std::unique_ptr<Light>;
+using LightSharedPtr = std::shared_ptr<Light>;

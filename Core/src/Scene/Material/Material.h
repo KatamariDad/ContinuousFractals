@@ -20,3 +20,7 @@ public:
 		outColour = Colours::WHITE;
 	}
 };
+
+
+using MaterialPtr = std::unique_ptr<Material>;
+using MaterialSharedPtr = std::shared_ptr<Material>;

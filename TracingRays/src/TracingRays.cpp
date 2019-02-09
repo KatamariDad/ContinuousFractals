@@ -24,16 +24,18 @@ int main()
 	std::string directory = config["globals"]["OUTPUT_DIR"];
 	size_t fixedImageSize = config["globals"]["IMAGE_SIZE"];
 	
+	// Setup lights
 	Vector3f ambientLight;
 	JSON::Make(config["lights"]["ambient"], ambientLight);	
-	std::vector<std::shared_ptr<Light>> lights;
+	std::vector<LightSharedPtr> lights;
 	for (json light : config["lights"]["directional"])
 	{
-		std::shared_ptr<Light> l(new Light(0,0));
+		LightSharedPtr l(new Light(0,0));
 		JSON::Make( light, *l );
 		lights.push_back( l );
 	}
 	
+	// Setup camera params
 	Vector3f eyePosition;
 	JSON::Make( config["camera"]["eyePosition"], eyePosition );
 	Vector3f view;
@@ -43,9 +45,11 @@ int main()
 	
 	double fovy = config["camera"]["fovy"];
 	
+	// Setup scene
 	Factory<SceneNode> sceneFactory;
-	std::unique_ptr<SceneNode> root = sceneFactory.Build( "", config["scene"] );
+	SceneNodePtr root = sceneFactory.Build( "", config["scene"] );
 	
+	// Action!
 	Camera camera( root.get(), eyePosition, view, up, fovy, ambientLight, lights );
 	
 	const std::string gifName = directory + "rayTrace.gif";

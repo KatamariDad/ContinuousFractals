@@ -15,7 +15,7 @@ void PhongMaterial::ApplyMaterial(
 	const Vector3f& incomingRayDirection,
 	const Vector3f& hitLocation,
 	const Vector3f& hitNormal,
-	const std::vector<std::shared_ptr<Light>>& lights,
+	const std::vector<LightSharedPtr>& lights,
 	PixelColour& outColour ) const
 {
 	// it's technically blinn-phong, u mad?
@@ -24,7 +24,7 @@ void PhongMaterial::ApplyMaterial(
 	{
 		const Vector3f L = lights[i]->GetPosition() - hitLocation;
 		const float distanceToLight = L.Length();
-		const Vector3f L_n = L / (distanceToLight);
+		const Vector3f L_n = L / ( distanceToLight );
 
 		// Diffuse
 		float intensity = DotProduct( hitNormal, L_n );
@@ -33,7 +33,7 @@ void PhongMaterial::ApplyMaterial(
 		{
 			printf( "" );
 		}
-		const Vector3f diffuse = (m_diffusePower / distanceToLight) *  intensity * m_diffuse;
+		const Vector3f diffuse = ( m_diffusePower / distanceToLight ) *  intensity * m_diffuse;
 
 		// specular
 		// half vector btwn view and light vectors
@@ -45,10 +45,10 @@ void PhongMaterial::ApplyMaterial(
 		const float specularIntensity = std::powf( NdotH, m_shininess );
 
 		// combine specular and diffuse colours
-		const Vector3f specular = specularIntensity * (m_shininess / distanceToLight) * m_specular;
+		const Vector3f specular = specularIntensity * ( m_shininess / distanceToLight ) * m_specular;
 		result = specular + diffuse + result;
 	}
-    
+
 
 	//result = m_ambient + result;
 

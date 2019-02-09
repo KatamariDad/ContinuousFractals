@@ -9,8 +9,8 @@ class Light;
 
 namespace JSON
 {
-	static bool Make( nlohmann::json json, Vector3f& outVector3f );
-	static bool Make( nlohmann::json json, Vector3d& outVector3d );
-	static bool Make( nlohmann::json json, PixelColour& outPixelColour );
-	static bool Make( nlohmann::json json, Light& outLight );
+	bool Make( nlohmann::json json, Vector3f& outVector3f );
+	bool Make( nlohmann::json json, Vector3d& outVector3d );
+	bool Make( nlohmann::json json, PixelColour& outPixelColour );
+	bool Make( nlohmann::json json, Light& outLight );
 }

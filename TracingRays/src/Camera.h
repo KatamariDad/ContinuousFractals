@@ -17,7 +17,7 @@ public:
 		double fovy,
 		// Lighting parameters
 		const Vector3f& ambient,
-		const std::vector<const Light *>& lights )
+		std::vector<std::shared_ptr<Light>> lights )
 		: m_root( root )
 		, m_eye( eye )
 		, m_view( view )
@@ -40,5 +40,5 @@ private:
 	Vector3f m_up;
 	double m_fovy;
 	const Vector3f m_ambient;
-	const std::vector<const Light *> m_lights;
+	std::vector<std::shared_ptr<Light>> m_lights;
 };

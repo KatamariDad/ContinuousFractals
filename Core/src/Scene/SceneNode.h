@@ -2,8 +2,8 @@
 #include <Math/Vector3.h>
 #include <vector>
 
-class Geometry;
-class Material;
+#include <Scene/Material/Material.h>
+#include <Scene/Geometry/Geometry.h>
 
 class SceneNode
 {
@@ -11,11 +11,11 @@ public:
 
 	SceneNode(
 		const Vector3f& location,
-		const Geometry& geometry,
-		const Material& material )
+		std::unique_ptr<Geometry> geometry,
+		std::unique_ptr<Material> material )
 		: m_relativePosition( location )
-		, m_geometry( geometry )
-		, m_material( material )
+		, m_geometry( std::move(geometry) )
+		, m_material( std::move(material) )
 	{}
 
 	void AddChild( SceneNode& child );
@@ -31,9 +31,10 @@ private:
 
 	// relative position from parent
 	Vector3f m_relativePosition;
-	const Geometry& m_geometry;
 	std::vector<SceneNode*> m_children;
-	const Material& m_material;
+
+	std::unique_ptr<Geometry> m_geometry;
+	std::unique_ptr<Material> m_material;
 
 	// If you call yourself a Camera just fuck my shit up fam
 	friend class Camera;

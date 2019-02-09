@@ -25,7 +25,6 @@ public:
 	struct TraceParameters
 	{
 	public:
-		TraceParameters(){}
 		TraceParameters( const TraceParameters& ) = default;
 		TraceParameters(
 			const Vector3f& in_topLeft,
@@ -37,7 +36,7 @@ public:
 			const Vector3f& in_view,
 			const Vector3f& in_up,
 			const Vector3f& in_ambient,
-			const std::vector<const Light*>& in_lights,
+			const std::vector<std::shared_ptr<Light>>& in_lights,
 			size_t in_threadId
 		) :
 			m_topLeft( in_topLeft ),
@@ -49,9 +48,10 @@ public:
 			m_view( in_view ),
 			m_up( in_up ),
 			m_ambient( in_ambient ),
-			m_lights( in_lights ),
-			m_threadId( in_threadId )
-		{}
+			m_threadId( in_threadId ),
+			m_lights( in_lights )
+		{
+		}
 
 		void SetIndices(
 			const size_t in_startX,
@@ -78,7 +78,7 @@ public:
 		Vector3f m_view;
 		Vector3f m_up;
 		Vector3f m_ambient;
-		std::vector<const Light*> m_lights;
+		const std::vector<std::shared_ptr<Light>>& m_lights;
 		size_t m_threadId;
 	};
 
@@ -90,20 +90,21 @@ private:
 			const Vector3f& rayOrigin,
 			const Vector3f& rayDir,
 			const Vector3f& ambient,
-			const std::vector<const Light*>& lights )
+			const std::vector<std::shared_ptr<Light>>& lights )
 			: m_sceneRoot( root )
 			, m_rayOrigin( rayOrigin )
 			, m_rayDir( rayDir )
 			, m_ambient( ambient )
 			, m_lights( lights )
-		{}
+		{
+		}
 
 		// What to render
 		const SceneNode* m_sceneRoot;
 		Vector3f m_rayOrigin;
 		Vector3f m_rayDir;
 		Vector3f m_ambient;
-		const std::vector<const Light*>& m_lights;
+		const std::vector<std::shared_ptr<Light>>& m_lights;
 	};
 
 	static bool TraceInternal( 

@@ -18,9 +18,17 @@ public:
 	{
 		if (key == "sphere")
 		{
+			return std::unique_ptr<Geometry>( new Sphere( params["radius"] ));
+		}
+		return nullptr;
+	}
+
+	std::unique_ptr<Geometry> Build( nlohmann::json params )
+	{
+		if (params["type"] == "sphere")
+		{
 			return std::unique_ptr<Geometry>( new Sphere( params["radius"] ) );
 		}
-
 		return nullptr;
 	}
 };
@@ -43,13 +51,31 @@ public:
 
 			float shininess = params["shininess"];
 			float diffusePower = params["diffusePower"];
-
 			return std::unique_ptr<Material>( new PhongMaterial( diffuse, specular, ambient, shininess, diffusePower ) );
 		}
+		return nullptr;
+	}
 
+	std::unique_ptr<Material> Build( nlohmann::json params )
+	{
+		if (params["type"] == "phong")
+		{
+			Vector3f diffuse;
+			Vector3f specular;
+			Vector3f ambient;
+
+			JSON::Make( params["diffuse"], diffuse );
+			JSON::Make( params["specular"], specular );
+			JSON::Make( params["ambient"], ambient );
+
+			float shininess = params["shininess"];
+			float diffusePower = params["diffusePower"];
+			return std::unique_ptr<Material>( new PhongMaterial( diffuse, specular, ambient, shininess, diffusePower ) );
+		}
 		return nullptr;
 	}
 };
+
 
 template<>
 class Factory<SceneNode>
@@ -57,17 +83,32 @@ class Factory<SceneNode>
 public:
 	std::unique_ptr<SceneNode> Build( std::string key, nlohmann::json params )
 	{
-		Factory<Geometry> geometryFactory;
-		nlohmann::json geoParams = params["geometry"];
-		std::unique_ptr<Geometry> geo = geometryFactory.Build( geoParams["type"], geoParams );
-		Material material;
-		return std::unique_ptr<SceneNode>( new SceneNode( *geo, material ) );
+		// Soon, precious
+		//nlohmann::json geometryList = params["geometry"];
+		//std::vector< std::unique_ptr<Geometry> > sceneGeometry;
+		//for (nlohmann::json geometry : geometryList)
+		//{
+		//	std::unique_ptr<Geometry> geo = geometryFactory.Build( geometry["type"], geoParams );
+		//	if (geo != nullptr)
+		//	{
+		//		sceneGeometry.push_back( geo );
+		//	}
+		//}
+
+
+		Factory<Geometry> geoFactory;
+		Factory<Material> materialFactory;
+		
+		Vector3f position;
+		JSON::Make( params["position"], position );
+		
+		return std::unique_ptr<SceneNode>( new SceneNode( 
+			position, 
+			geoFactory.Build( params["geometry"] ),
+			materialFactory.Build( params["material"] )
+		));
 	}
 
 private:
-	void RenderScene(
-		SceneNode* root,
-		const std::vector<Light *>& lights,
-		nlohmann::json params );
 
 };

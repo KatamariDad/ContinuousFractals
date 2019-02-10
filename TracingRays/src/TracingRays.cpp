@@ -1,59 +1,59 @@
 #include "pch.h"
 #include <ctime>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <vector>
 #include <string>
 
-#include <Scene/SceneNode.h>
-#include <Scene/Geometry/Sphere/Sphere.h>
-#include <Scene/Material/Material.h>
-#include <Scene/Material/PhongMaterial.h>
+#include <Scene/Scenefactory.h>
 #include <Scene/Light/Light.h>
 #include <Image/GIF/GifUtil.h>
 #include <Image/Image.h>
+#include <JSON/JSONUtil.h>
 
 #include "Camera.h"
 
-#define FIXED_IMAGE_SIZE 256 
-
-
 int main()
 {
-	// lights
-	Light topRightLight( 
-		Vector3f( 1.f, 3.f, -2.5f ), 
-		Vector3f( 20, 0, 0 ) );
-	Light bottomLight( 
-		Vector3f( 0.f, -3.f, -2.5f ), 
-		Vector3f( 200, 200, 200 ) );
+	using json = nlohmann::json;
+	std::ifstream i( "config.json" );
+	json config;
+	i >> config;
 
-	std::vector<const Light*> lights;
-	lights.push_back( &bottomLight );
-	lights.push_back( &topRightLight );
-
-	PhongMaterial phongMaterial(
-		Vector3f( 5.f, 1.f, 0.f ),
-		Vector3f( 1.f, 0.f, 0.f ),
-		Vector3f( 0.f, 0.f, 30.f ),
-		100, 100 );
-
-	Sphere sphere( 2.f );
-	// look down the Z positive axis
-	const Vector3f eyePosition( 0.f, 0.f, -3.f );
-	const Vector3f view( 0.f, 0.f, 1.f );
-	const Vector3f up( 0.f, 1.f, 0.f );
-	const Vector3f ambientLight( 0.f, 0.f, 0.f ); // TODO: as PixelColour
-	double fovy = 15.f;
-
-	const std::string directory( "D:\\Projects\\ContinuousFractals\\out\\" );
+	std::string directory = config["globals"]["OUTPUT_DIR"];
+	size_t fixedImageSize = config["globals"]["IMAGE_SIZE"];
+	
+	// Setup lights
+	Vector3f ambientLight;
+	JSON::Make(config["lights"]["ambient"], ambientLight);	
+	std::vector<LightSharedPtr> lights;
+	for (json light : config["lights"]["directional"])
+	{
+		LightSharedPtr l(new Light(0,0));
+		JSON::Make( light, *l );
+		lights.push_back( l );
+	}
+	
+	// Setup camera params
+	Vector3f eyePosition;
+	JSON::Make( config["camera"]["eyePosition"], eyePosition );
+	Vector3f view;
+	JSON::Make( config["camera"]["view"], view);
+	Vector3f up;
+	JSON::Make( config["camera"]["up"], up);
+	
+	double fovy = config["camera"]["fovy"];
+	
+	// Setup scene
+	Factory<SceneNode> sceneFactory;
+	SceneNodePtr root = sceneFactory.Build( "", config["scene"] );
+	
+	// Action!
+	Camera camera( root.get(), eyePosition, view, up, fovy, ambientLight, lights );
+	
 	const std::string gifName = directory + "rayTrace.gif";
-
-	Image::Gif giraffe( gifName.c_str(), FIXED_IMAGE_SIZE, FIXED_IMAGE_SIZE );
-	Vector3f sceneLocation( -3.f, 0.f, 0.f );
-	SceneNode root( sceneLocation, sphere, phongMaterial );
-
-	Camera camera( &root, eyePosition, view, up, fovy, ambientLight, lights );
+	Image::Gif giraffe( gifName.c_str(), fixedImageSize, fixedImageSize );
 	
 	for( size_t i = 0; i < 70; ++i )
 	{
@@ -76,7 +76,7 @@ int main()
 		
 		std::stringstream filename;
 		filename << "rayTrace_" << i << ".png";
-		Image::Image image( FIXED_IMAGE_SIZE, FIXED_IMAGE_SIZE, directory + filename.str() );
+		Image::Image image( fixedImageSize, fixedImageSize, directory + filename.str() );
 		
 		camera.Render( image );
 

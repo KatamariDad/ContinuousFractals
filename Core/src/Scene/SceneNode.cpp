@@ -1,9 +1,6 @@
 #include "pch.h"
 #include "SceneNode.h"
 
-#include <Scene/Material/Material.h>
-#include <Scene/Geometry/Geometry.h>
-
 
 void SceneNode::AddChild( 
 	SceneNode& child )
@@ -18,7 +15,7 @@ bool SceneNode::IntersectRay(
 	Vector3f& hitNormal,
 	const Material*& hitMaterial ) const
 {
-	const bool bHit = m_geometry.IntersectRay(
+	const bool bHit = m_geometry->IntersectRay(
 		m_relativePosition,
 		rayOrigin,
 		rayDir,
@@ -27,7 +24,7 @@ bool SceneNode::IntersectRay(
 
 	if( bHit )
 	{
-		hitMaterial = &m_material;
+		hitMaterial = m_material.get();
 	}
 	else
 	{

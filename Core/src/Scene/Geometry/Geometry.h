@@ -1,8 +1,5 @@
 #pragma once
 #include <Math/Vector3.h>
-#include <Scene/SceneNode.h>
-
-class Material;
 
 class Geometry
 {
@@ -14,5 +11,11 @@ public:
 		const Vector3f& rayDir,
 		Vector3f& hitLocation,
 		Vector3f& hitNormal
-	) const = 0;
+	) const
+	{
+		return false;
+	}
 };
+
+using GeometryPtr = std::unique_ptr<Geometry>;
+using GeometrySharedPtr = std::shared_ptr<Geometry>;

@@ -14,9 +14,13 @@ public:
 		const Vector3f& incomingRayDirection,
 		const Vector3f& hitLocation,
 		const Vector3f& hitNormal,
-		const std::vector<const Light*>& lights,
+		const std::vector<std::shared_ptr<Light>>& lights,
 		PixelColour& outColour ) const
 	{
 		outColour = Colours::WHITE;
 	}
 };
+
+
+using MaterialPtr = std::unique_ptr<Material>;
+using MaterialSharedPtr = std::shared_ptr<Material>;

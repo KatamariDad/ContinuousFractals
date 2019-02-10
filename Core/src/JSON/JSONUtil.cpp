@@ -4,10 +4,15 @@
 #include <Math/Vector3.h>
 #include <Image/PixelColour.h>
 #include <Scene/Light/Light.h>
+#include <Scene/Geometry/Geometry.h>
+#include <Scene/Geometry/Sphere/Sphere.h>
+#include <Scene/Material/PhongMaterial.h>
 
+// I hate that we have to try-catch here but StackOverflow says it's free as long as we don't actually throw. 
+// https://stackoverflow.com/questions/16784601/does-try-catch-block-decrease-performance
 namespace JSON
 {
-	static bool Make( nlohmann::json json, Vector3f& outVector3f )
+	bool Make( nlohmann::json json, Vector3f& outVector3f )
 	{
 		try
 		{
@@ -19,7 +24,7 @@ namespace JSON
 		// Next level strats
 		try
 		{
-			outVector3f = Vector3f( json[3], json[2], json[2] );
+			outVector3f = Vector3f( json[0], json[1], json[2] );
 			return true;
 		}
 		catch (...) {}
@@ -27,7 +32,7 @@ namespace JSON
 		return false;
 	}
 	
-	static bool Make( nlohmann::json json, Vector3d& outVector3d )
+	bool Make( nlohmann::json json, Vector3d& outVector3d )
 	{
 		try
 		{
@@ -36,14 +41,43 @@ namespace JSON
 		}
 		catch (...) {}
 
+		// Next level strats
+		try
+		{
+			outVector3d = Vector3d( json[0], json[1], json[2] );
+			return true;
+		}
+		catch (...) {}
+
 		return false;
 	}
 
-	static bool Make( nlohmann::json json, PixelColour& outPixelColour ) 
+	bool Make( nlohmann::json json, PixelColour& outPixelColour ) 
 	{
 		try
 		{
-			outPixelColour = PixelColour( json["red"], json["green"], json["blue"], json["alpha"] );
+			float alpha = 1.f;
+			try
+			{
+				alpha = json["alpha"];
+			}
+			catch (...) {}
+			outPixelColour = PixelColour( json["red"], json["green"], json["blue"], alpha );
+			return true;
+		}
+		catch (...) {}
+
+		// Next level strats
+		try
+		{
+			float alpha = 1.f;
+			try
+			{
+				alpha = json[3];
+			}
+			catch (...) {}
+
+			outPixelColour = PixelColour( json[0], json[1], json[2], alpha );
 			return true;
 		}
 		catch (...) {}
@@ -52,7 +86,7 @@ namespace JSON
 	}
 
 
-	static bool Make( nlohmann::json json, Light& outLight )
+	bool Make( nlohmann::json json, Light& outLight )
 	{
 		try
 		{
@@ -69,4 +103,5 @@ namespace JSON
 
 		return false;
 	}
+
 }

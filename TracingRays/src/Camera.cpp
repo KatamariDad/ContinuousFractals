@@ -30,21 +30,27 @@ void Camera::Render( Image::Image& image )
 	const Vector3f topLeft =
 		projection_centerpoint + ((double)windowW / 2.f) * left + ((double)windowH / 2.f) * m_up;
 
-	RayTracer::TraceParameters params[NUM_THREADS];
+	std::vector<RayTracer::TraceParameters> params;
 	std::thread threads[NUM_THREADS];
 
 	size_t width_x = fixedImageSize; // (float)fixedImageSize / (float)NUM_THREADS;
 	float width_y = (float)fixedImageSize / (float)NUM_THREADS;
 	for (size_t i = 0; i < NUM_THREADS; ++i)
 	{
-		params[i] = RayTracer::TraceParameters(
+		RayTracer::TraceParameters param(
 			topLeft, projection_distance, deltaX, deltaY,
 			m_root, m_eye, m_view, m_up, m_ambient, m_lights, i
 		);
-		params[i].SetIndices(
+
+		param.SetIndices(
 			0, fixedImageSize,
 			width_y * i, (width_y * (i + 1)) );
 
+		params.push_back( param );
+	}
+
+	for (size_t i = 0; i < NUM_THREADS; ++i)
+	{
 		threads[i] = std::thread( RayTracer::Trace, &params[i], &image );
 	}
 

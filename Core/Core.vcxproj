@@ -170,7 +170,12 @@
     <ClInclude Include="src\JSON\JSONUtil.h" />
     <ClInclude Include="src\Math\ComplexNumber.h" />
     <ClInclude Include="src\Math\Interpolation.h" />
+    <ClInclude Include="src\Math\Math.h" />
+    <ClInclude Include="src\Math\Vector2.h" />
     <ClInclude Include="src\Math\Vector3.h" />
+    <ClInclude Include="src\Paint\Layer.h" />
+    <ClInclude Include="src\Paint\Primitive2D.h" />
+    <ClInclude Include="src\Paint\Rasterizer.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Scene\Geometry\Geometry.h" />
     <ClInclude Include="src\Scene\Geometry\Sphere\Sphere.h" />
@@ -189,6 +194,9 @@
     <ClCompile Include="src\Image\PNG\pngUtil.cpp" />
     <ClCompile Include="src\JSON\JSONUtil.cpp" />
     <ClCompile Include="src\Math\Interpolation.cpp" />
+    <ClCompile Include="src\Paint\Layer.cpp" />
+    <ClCompile Include="src\Paint\Primitive2D.cpp" />
+    <ClCompile Include="src\Paint\Rasterizer.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -3,13 +3,9 @@
 
 #include <Scene/Light/Light.h>
 #include <Image/PixelColour.h>
+#include <Math/Math.h>
 
-template<typename T>
-void clamp( T& f, T min, T max )
-{
-	f = f < min ? min : f;
-	f = f > max ? max : f;
-}
+
 
 void PhongMaterial::ApplyMaterial(
 	const Vector3f& incomingRayDirection,
@@ -28,7 +24,7 @@ void PhongMaterial::ApplyMaterial(
 
 		// Diffuse
 		float intensity = DotProduct( hitNormal, L_n );
-		clamp( intensity, 0.f, 1.f );
+		intensity = clamp( intensity, 0.f, 1.f );
 		if (intensity == 0.f)
 		{
 			printf( "" );
@@ -41,7 +37,7 @@ void PhongMaterial::ApplyMaterial(
 		const Vector3f H_n = H.IsZero() ? incomingRayDirection : H.ComputeNormal();
 		float NdotH = DotProduct( hitNormal, H_n );
 
-		clamp( NdotH, 0.f, 1.f );
+		NdotH = clamp( NdotH, 0.f, 1.f );
 		const float specularIntensity = std::powf( NdotH, m_shininess );
 
 		// combine specular and diffuse colours
@@ -52,9 +48,9 @@ void PhongMaterial::ApplyMaterial(
 
 	//result = m_ambient + result;
 
-	clamp( result.x, 0.f, 255.f );
-	clamp( result.y, 0.f, 255.f );
-	clamp( result.z, 0.f, 255.f );
+	result.x = clamp( result.x, 0.f, 255.f );
+	result.y = clamp( result.y, 0.f, 255.f );
+	result.z = clamp( result.z, 0.f, 255.f );
 	outColour.r = static_cast<uint8_t>( result.x );
 	outColour.g = static_cast<uint8_t>( result.y );
 	outColour.b = static_cast<uint8_t>( result.z );

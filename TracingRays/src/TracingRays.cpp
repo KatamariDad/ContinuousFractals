@@ -14,8 +14,26 @@
 
 #include "Camera.h"
 
+#include <Paint/Primitive2D.h>
+#include <Paint/Rasterizer.h>
+#include <Paint/Layer.h>
+
 int main()
 {
+
+	Line line( Vector2f( -0.5f, -0.5f ), Vector2f( 1.0f, 1.0f ) );
+	Layer2D l;
+	l.m_primitives.push_back( &line );
+
+	Image::Image image( 256, 256, "D:\\Projects\\ContinuousFractals\\out\\abc.png" );
+	LayerClippingWindow window( Vector2f( -1.f, -1.f ), Vector2f( 1.f, 1.f ), image );
+
+	Rasterizer::RasterizeLayerToImage( l, window, image );
+
+	image.Save();
+
+	return 0;
+
 	using json = nlohmann::json;
 	std::ifstream i( "config.json" );
 	json config;
@@ -87,5 +105,4 @@ int main()
 
 	return 0;
 }
-
 

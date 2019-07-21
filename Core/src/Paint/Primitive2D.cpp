@@ -25,11 +25,15 @@ void Line::Rasterize( LayerClippingWindow& window, Image::Image& outImage ) cons
 	const float deltaY = lineStartY != lineEndY ? pixelSize.y / ( lineEndY - lineStartY ) : k_infinity;
 	const Vector2f delta = Vector2f( deltaX < 0.f ? -deltaX : deltaX, deltaY ) * 0.1f;
 
-	Vector2f pos = m_p1.x < m_p2.x ? m_p1.x : m_p2.x;
-
-	while (pos.x < m_p2.x)
+	for( size_t i = 0; i < m_width; ++i )
 	{
-		window.ApplyColourToLocation( m_colour, pos );
-		pos = pos + delta;
+		Vector2f pos = m_p1.x < m_p2.x ? m_p1.x : m_p2.x;
+
+		while (pos.x < m_p2.x)
+		{
+			window.ApplyColourToLocation( m_colour, pos );
+			pos = pos + delta;
+		}
+	
 	}
 }

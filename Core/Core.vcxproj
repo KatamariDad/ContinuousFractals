@@ -173,6 +173,12 @@
     <ClInclude Include="src\Math\Math.h" />
     <ClInclude Include="src\Math\Vector2.h" />
     <ClInclude Include="src\Math\Vector3.h" />
+    <ClInclude Include="src\MIDI\Binasc.h" />
+    <ClInclude Include="src\MIDI\MidiEvent.h" />
+    <ClInclude Include="src\MIDI\MidiEventList.h" />
+    <ClInclude Include="src\MIDI\MidiFile.h" />
+    <ClInclude Include="src\MIDI\MidiMessage.h" />
+    <ClInclude Include="src\MIDI\Options.h" />
     <ClInclude Include="src\Paint\Layer.h" />
     <ClInclude Include="src\Paint\Primitive2D.h" />
     <ClInclude Include="src\Paint\Rasterizer.h" />
@@ -194,6 +200,12 @@
     <ClCompile Include="src\Image\PNG\pngUtil.cpp" />
     <ClCompile Include="src\JSON\JSONUtil.cpp" />
     <ClCompile Include="src\Math\Interpolation.cpp" />
+    <ClCompile Include="src\MIDI\Binasc.cpp" />
+    <ClCompile Include="src\MIDI\MidiEvent.cpp" />
+    <ClCompile Include="src\MIDI\MidiEventList.cpp" />
+    <ClCompile Include="src\MIDI\MidiFile.cpp" />
+    <ClCompile Include="src\MIDI\MidiMessage.cpp" />
+    <ClCompile Include="src\MIDI\Options.cpp" />
     <ClCompile Include="src\Paint\Layer.cpp" />
     <ClCompile Include="src\Paint\Primitive2D.cpp" />
     <ClCompile Include="src\Paint\Rasterizer.cpp" />

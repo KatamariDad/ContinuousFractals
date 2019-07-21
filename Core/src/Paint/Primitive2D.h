@@ -27,6 +27,7 @@ public:
 	Line( const Vector2f& p1, const Vector2f& p2, const PixelColour& colour )
 		: m_p1( p1 )
 		, m_p2( p2 )
+		, m_width( 3 )
 		, m_colour( colour )
 	{
 	}
@@ -34,6 +35,7 @@ public:
 	Line( const Vector2f& p1, const Vector2f& p2 )
 		: m_p1( p1 )
 		, m_p2( p2 )
+		, m_width( 3 )
 		, m_colour( Colours::BLACK )
 	{
 	}
@@ -43,5 +45,6 @@ public:
 private:
 	Vector2f m_p1;
 	Vector2f m_p2;
+	size_t m_width;
 	PixelColour m_colour;
 };

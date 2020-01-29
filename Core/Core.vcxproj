@@ -23,32 +23,32 @@
     <ProjectGuid>{18413180-2DC2-4A92-95BC-5A9C1275C046}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Core</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\DSP\WavFile\WavFileTypes.h" />
     <ClInclude Include="src\Factory\Factory.h" />
     <ClInclude Include="src\Image\ColourScheme.h" />
     <ClInclude Include="src\Image\GIF\gif.h" />
@@ -192,6 +193,11 @@
     <ClInclude Include="src\Scene\SceneNode.h" />
     <ClInclude Include="src\Time\Stopwatch.h" />
     <ClInclude Include="src\Time\TimeUtil.h" />
+    <ClInclude Include="src\DSP\SynthDefs.h" />
+    <ClInclude Include="src\DSP\WavFile\SynthFile.h" />
+    <ClInclude Include="src\DSP\WavFile\SynthString.h" />
+    <ClInclude Include="src\DSP\WavFile\WaveFile.h" />
+    <ClInclude Include="src\DSP\WaveTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core.cpp" />
@@ -221,6 +227,10 @@
     <ClCompile Include="src\Scene\Material\Material.cpp" />
     <ClCompile Include="src\Scene\Material\PhongMaterial.cpp" />
     <ClCompile Include="src\Scene\SceneNode.cpp" />
+    <ClCompile Include="src\DSP\Global.cpp" />
+    <ClCompile Include="src\DSP\WavFile\SynthFileW.cpp" />
+    <ClCompile Include="src\DSP\WavFile\SynthString.cpp" />
+    <ClCompile Include="src\DSP\WavFile\WaveFile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

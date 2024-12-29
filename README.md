@@ -28,6 +28,14 @@
 | colourizer | _string_ | The type of colourizer to use when colouring the fractal image output | `"OutputScaled"`, `"BlueShades"`, `"B&W"`, `"TimeRainbow"` |
 | colour | _string_ | The hex value for a colour to be used in a colourizer. If no colourizer is specified the fractal will be coloured using this colour | Any hex colour (preceded with #) |
 
+See more generated output here: https://github.com/KatamariDad/ContinuousFractals/tree/master/CoolOutput
+
+![image](https://github.com/user-attachments/assets/6ab925ff-1def-4e07-9af5-38eef2bdb3a2)
+
 ![image](https://github.com/user-attachments/assets/ca67d146-c3a4-4c07-969c-ec4c2103fbb0)
-![image](https://github.com/user-attachments/assets/d01399f9-d34e-42d0-892b-b4ba93719c1e)
+
+![image](https://github.com/user-attachments/assets/f6558b47-8088-45fa-99bc-8e810f311538)
+
+
+
 

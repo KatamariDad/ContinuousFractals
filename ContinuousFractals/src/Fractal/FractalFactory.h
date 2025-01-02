@@ -10,6 +10,7 @@
 #include "Fractal/MandelBulb/MandelBulb.h"
 #include "Fractal/JuliaSet/JuliaSet.h"
 
+#include <iostream>
 
 template<>
 class Factory<JuliaSet::JuliaFunctor>

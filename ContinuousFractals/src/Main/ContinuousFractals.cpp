@@ -28,6 +28,11 @@ int main( int argc, char* argv[] )
 	auto fractals = config["fractals"];
 	for (auto& fractalParams : fractals)
 	{
+		if (fractalParams.find("disable") != fractalParams.end())
+		{
+			continue;
+		}
+
 		// Fill in global params
 		fractalParams["directory"] = directory;
 		fractalParams["width"] = width;

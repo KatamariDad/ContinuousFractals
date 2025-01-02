@@ -41,7 +41,7 @@ public:
 
 	bool IsInfinity() const
 	{
-		const float inf = std::numeric_limits<float>::infinity();
+		constexpr float inf = std::numeric_limits<float>::infinity();
 		return x == inf || y == inf 
 			|| x == -inf || y == -inf ;
 	}

@@ -184,6 +184,7 @@
     <ClInclude Include="src\Paint\Primitive2D.h" />
     <ClInclude Include="src\Paint\Rasterizer.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Scene\Geometry\Cube\AABB.h" />
     <ClInclude Include="src\Scene\Geometry\Geometry.h" />
     <ClInclude Include="src\Scene\Geometry\Sphere\Sphere.h" />
     <ClInclude Include="src\Scene\Light\Light.h" />
@@ -221,6 +222,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Scene\Geometry\Cube\AABB.cpp" />
     <ClCompile Include="src\Scene\Geometry\Geometry.cpp" />
     <ClCompile Include="src\Scene\Geometry\Sphere\Sphere.cpp" />
     <ClCompile Include="src\Scene\Light\Light.cpp" />

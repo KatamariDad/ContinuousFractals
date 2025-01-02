@@ -27,6 +27,8 @@ public:
 		Vector3f& hitNormal,
 		const Material*& hitMaterial ) const;
 
+	bool IsValid() const;
+
 private:
 
 	// relative position from parent

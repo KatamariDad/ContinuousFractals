@@ -10,6 +10,7 @@
 #include <Scene/Light/Light.h>
 #include <Image/GIF/GifUtil.h>
 #include <Image/Image.h>
+#include <IOManip/FileSystem.h>
 #include <JSON/JSONUtil.h>
 
 #include "Camera.h"
@@ -21,11 +22,12 @@
 int main()
 {
 
+	/*
 	Line line( Vector2f( -0.5f, -0.5f ), Vector2f( 1.0f, 1.0f ) );
 	Layer2D l;
 	l.m_primitives.push_back( &line );
 
-	Image::Image image( 256, 256, "D:\\Projects\\ContinuousFractals\\out\\abc.png" );
+	Image::Image image( 256, 256, "C:\\Users\\Sheri\\Documents\\ContinuousFractals\\Output\\TracingRays.png" );
 	LayerClippingWindow window( Vector2f( -1.f, -1.f ), Vector2f( 1.f, 1.f ), image );
 
 	Rasterizer::RasterizeLayerToImage( l, window, image );
@@ -33,6 +35,7 @@ int main()
 	image.Save();
 
 	return 0;
+	*/
 
 	using json = nlohmann::json;
 	std::ifstream i( "config.json" );
@@ -66,32 +69,27 @@ int main()
 	// Setup scene
 	Factory<SceneNode> sceneFactory;
 	SceneNodePtr root = sceneFactory.Build( "", config["scene"] );
+
+	if (!root->IsValid())
+	{
+		std::cout << "Invalid config" << std::endl;
+		return 1;
+	}
 	
 	// Action!
 	Camera camera( root.get(), eyePosition, view, up, fovy, ambientLight, lights );
 	
+	FileSystem::MakeDirectory( directory );
 	const std::string gifName = directory + "rayTrace.gif";
 	Image::Gif giraffe( gifName.c_str(), fixedImageSize, fixedImageSize );
 	
-	for( size_t i = 0; i < 70; ++i )
+	for( size_t i = 0; i < 100; ++i )
 	{
 		Vector3f position = camera.GetPosition();
 		position.x += 0.1f;
 		position.y = std::sinf( position.x  * 2);
 		camera.SetPosition( position );
 
-		//if( i % 2 == 0 )
-		{
-			//phongMaterial.m_diffuse.z = i * 0.1f;
-			//phongMaterial.m_diffuse.x = 5.f - ( i * 0.1f );
-		}
-		//else
-		//{
-		//	phongMaterial.m_diffuse.z = 0.f;
-		//	phongMaterial.m_diffuse.x = 0.f;
-		//}
-
-		
 		std::stringstream filename;
 		filename << "rayTrace_" << i << ".png";
 		Image::Image image( fixedImageSize, fixedImageSize, directory + filename.str() );

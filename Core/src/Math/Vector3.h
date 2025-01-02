@@ -46,7 +46,7 @@ public:
 
 	bool IsInfinity() const
 	{
-		const float inf = std::numeric_limits<float>::infinity();
+		constexpr float inf = std::numeric_limits<float>::infinity();
 		return x == inf || y == inf || z == inf
 			|| x == -inf || y == -inf || z == -inf;
 	}
@@ -251,7 +251,7 @@ public:
 
 	bool IsInfinity() const
 	{
-		const double inf = std::numeric_limits<double>::infinity();
+		constexpr double inf = std::numeric_limits<double>::infinity();
 		return x == inf || y == inf || z == inf
 			|| x == -inf || y == -inf || z == -inf;
 	}

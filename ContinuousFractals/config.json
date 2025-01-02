@@ -6,40 +6,40 @@
   },
   "fractals": [
     {		
-      "name": "JuliaSet",
-	  "functionName" : "donut",
-	  "scalarMin" : 
-		{
-			"r" : -0.18,
-			"i" : -0.18
-		},
-	  "scalarMax" : 
-		{
-			"r" : 0.18,
-			"i" : 0.18
-		},		
-	  "scalarIncrement" :
-	    {
-			"r" : 0.005,
-			"i" : 0.005			
-	    },
-      "formulaScale": 2.1,
-      "iterationCount": 300,
-      "colourizer": "OutputScale",
-	  "colour" : "#000000",
-      "minDepth": -0.9,
-      "maxDepth": 1,
-      "increment": 0.1
+        "name": "JuliaSet",
+        "functionName" : "donut",
+        "scalarMin" : 
+        {
+            "r" : -0.18,
+            "i" : -0.18
+        },
+        "scalarMax" : 
+        {
+            "r" : 0.18,
+            "i" : 0.18
+        },		
+        "scalarIncrement" :
+        {
+            "r" : 0.005,
+            "i" : 0.005			
+        },
+        "formulaScale": 2.1,
+        "iterationCount": 300,
+        "colourizer": "OutputScale",
+        "colour" : "#000000",
+        "minDepth": -0.9,
+        "maxDepth": 1,
+        "increment": 0.1
     },
     {
-      "name": "MandelBox",
-      "formulaScale": 2,
-      "iterationCount": 300,
-      "colourizer": "BlueShades",
-      "minDepth": -0.9,
-      "maxDepth": 1,
-      "increment": 0.01,
-	  "disable" : true
+        "name": "MandelBox",
+        "formulaScale": 2,
+        "iterationCount": 300,
+        "colourizer": "BlueShades",
+        "minDepth": -0.9,
+        "maxDepth": 1,
+        "increment": 0.01,
+        "disable" : true
     }
   ]
 }

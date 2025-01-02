@@ -5,8 +5,6 @@
 #include <Image/PixelColour.h>
 #include <Math/Math.h>
 
-
-
 void PhongMaterial::ApplyMaterial(
 	const Vector3f& incomingRayDirection,
 	const Vector3f& hitLocation,
@@ -25,10 +23,6 @@ void PhongMaterial::ApplyMaterial(
 		// Diffuse
 		float intensity = DotProduct( hitNormal, L_n );
 		intensity = clamp( intensity, 0.f, 1.f );
-		if (intensity == 0.f)
-		{
-			printf( "" );
-		}
 		const Vector3f diffuse = ( m_diffusePower / distanceToLight ) *  intensity * m_diffuse;
 
 		// specular
@@ -46,7 +40,7 @@ void PhongMaterial::ApplyMaterial(
 	}
 
 
-	//result = m_ambient + result;
+	result = m_ambient + result;
 
 	result.x = clamp( result.x, 0.f, 255.f );
 	result.y = clamp( result.y, 0.f, 255.f );

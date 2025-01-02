@@ -89,6 +89,9 @@
     <ClCompile Include="src\DSP\Global.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scene\Geometry\Cube\AABB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -215,6 +218,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DSP\WavFile\WavFileTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\Geometry\Cube\AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

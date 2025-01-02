@@ -2,6 +2,7 @@
 #include "SceneNode.h"
 
 #include "Geometry/Geometry.h"
+#include "Geometry/Cube/AABB.h"
 #include "Geometry/Sphere/Sphere.h"
 #include "Material/Material.h"
 #include "Material/PhongMaterial.h"
@@ -20,6 +21,12 @@ public:
 		{
 			return GeometryPtr( new Sphere( params["radius"] ));
 		}
+		else if (key == "AABB")
+		{
+			Vector3f extent;
+			JSON::Make(params["extent"], extent);
+			return GeometryPtr( new AABB( extent ));
+		}
 		return nullptr;
 	}
 
@@ -28,6 +35,12 @@ public:
 		if (params["type"] == "sphere")
 		{
 			return GeometryPtr( new Sphere( params["radius"] ) );
+		}
+		else if (params["type"] == "AABB")
+		{
+			Vector3f extent;
+			JSON::Make(params["extent"], extent);
+			return GeometryPtr( new AABB( extent ));
 		}
 		return nullptr;
 	}

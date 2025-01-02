@@ -12,25 +12,20 @@ bool Sphere::IntersectRay(
 	Vector3f& hitNormal ) const
 {
 	const Vector3f L = sceneOrigin - rayOrigin;
-	const float dot = DotProduct( L, rayDir );
+	const double dot = DotProduct( L, rayDir );
 	if( dot < 0.f )
 	{
 		return false;
 	}
 
-	const float d2 = DotProduct( L, L ) - dot * dot;
+	const double d2 = DotProduct( L, L ) - dot * dot;
 	if( d2 > m_radiusSqr )
 	{
 		return false;
 	}
 
-	const float c = sqrtf( m_radiusSqr - d2 );
-	const float t0 = dot - c;
-	//float t0 = std::min( dot - c, dot + c );
-	//if (t0 < 0.f) 
-	//{ 
-	//	return false;
-	//} 
+	const double c = sqrtf( m_radiusSqr - d2 );
+	const double t0 = dot - c;
 
 	hitLocation = t0 * rayDir + rayOrigin;
 	hitNormal = ( hitLocation - sceneOrigin ).ComputeNormal();

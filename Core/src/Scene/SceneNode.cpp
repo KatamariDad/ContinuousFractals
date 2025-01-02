@@ -8,6 +8,11 @@ void SceneNode::AddChild(
 	m_children.push_back( &child );
 }
 
+bool SceneNode::IsValid() const
+{
+	return m_geometry != nullptr && m_material != nullptr;
+}
+
 bool SceneNode::IntersectRay(
 	const Vector3f& rayOrigin,
 	const Vector3f& rayDir,
@@ -15,6 +20,11 @@ bool SceneNode::IntersectRay(
 	Vector3f& hitNormal,
 	const Material*& hitMaterial ) const
 {
+	if (m_geometry == nullptr)
+	{
+		return false;
+	}
+
 	const bool bHit = m_geometry->IntersectRay(
 		m_relativePosition,
 		rayOrigin,

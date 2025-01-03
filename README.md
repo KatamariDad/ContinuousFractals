@@ -76,6 +76,6 @@ See more generated output here: https://github.com/KatamariDad/ContinuousFractal
 ![image](https://github.com/user-attachments/assets/f6558b47-8088-45fa-99bc-8e810f311538)
 ---
 ### Future Dev:
-3D fractal ray traced visualization
-GUI
+- 3D fractal ray traced visualization
+- GUI
 

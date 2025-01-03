@@ -3,9 +3,9 @@
 
 
 void SceneNode::AddChild( 
-	SceneNode& child )
+	SceneNodePtr&& child )
 {
-	m_children.push_back( &child );
+	m_children.push_back(std::move(child));
 }
 
 bool SceneNode::IsValid() const
@@ -25,45 +25,44 @@ bool SceneNode::IntersectRay(
 		return false;
 	}
 
-	const bool bHit = m_geometry->IntersectRay(
+	bool bHit = m_geometry->IntersectRay(
 		m_relativePosition,
 		rayOrigin,
 		rayDir,
 		hitLocation,
 		hitNormal );
 
-	if( bHit )
+	float closestDistToCamera = std::numeric_limits<float>::max();
+	if (bHit)
 	{
 		hitMaterial = m_material.get();
+		closestDistToCamera = (hitLocation - rayOrigin).SquaredLength();
 	}
-	else
+
+	// no guarantee about z ordering of the children, so we've gotta
+	// test them all and take the closest hit.
+	Vector3f childHitLocation;
+	Vector3f childHitNormal;
+	const Material* childHitMaterial = nullptr;
+	for (const SceneNodePtr& child : m_children )
 	{
-		// no guarantee about z ordering of the children, so we've gotta
-		// test them all and take the closest hit.
-		Vector3f childHitLocation;
-		Vector3f childHitNormal;
-		const Material* childHitMaterial;
-		float closestToEye = std::numeric_limits<float>::max();
-		for( const auto& child : m_children )
+		if (child->IntersectRay(
+			rayOrigin, rayDir,
+			childHitLocation,
+			childHitNormal,
+			childHitMaterial ) )
 		{
-			if( child->IntersectRay(
-				rayOrigin, rayDir,
-				childHitLocation,
-				childHitNormal,
-				childHitMaterial ) )
+			bHit = true;
+			const float childDistToCamera = ( childHitLocation - rayOrigin ).SquaredLength();
+			if( childDistToCamera < closestDistToCamera )
 			{
-				const float distToEye = ( childHitLocation - rayOrigin ).SquaredLength();
-				if( distToEye < closestToEye )
-				{
-					hitLocation = childHitLocation;
-					hitNormal = childHitNormal;
-					hitMaterial = childHitMaterial;
-					closestToEye = distToEye;
-				}
+				hitLocation = childHitLocation;
+				hitNormal = childHitNormal;
+				hitMaterial = childHitMaterial;
+				closestDistToCamera = childDistToCamera;
 			}
 		}
 	}
 
 	return bHit;
-
 }

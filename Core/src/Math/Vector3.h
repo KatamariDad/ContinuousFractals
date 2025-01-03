@@ -186,6 +186,13 @@ static Vector3f operator-( const Vector3f& v, const float s )
 		v.z - s );
 }
 
+static Vector3f operator*( const Vector3f& v1, const Vector3f& v2 ) 
+{
+	return Vector3f(
+		v1.x * v2.x,
+		v1.y * v2.y,
+		v1.z * v2.z );
+}
 
 static Vector3f operator/( const float s, const Vector3f& v )
 {

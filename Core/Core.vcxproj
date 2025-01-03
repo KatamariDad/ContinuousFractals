@@ -187,6 +187,7 @@
     <ClInclude Include="src\Scene\Geometry\Cube\AABB.h" />
     <ClInclude Include="src\Scene\Geometry\Geometry.h" />
     <ClInclude Include="src\Scene\Geometry\Sphere\Sphere.h" />
+    <ClInclude Include="src\Scene\Geometry\VoxelizedShape.h" />
     <ClInclude Include="src\Scene\Light\Light.h" />
     <ClInclude Include="src\Scene\Material\Material.h" />
     <ClInclude Include="src\Scene\Material\PhongMaterial.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="src\Scene\Geometry\Cube\AABB.cpp" />
     <ClCompile Include="src\Scene\Geometry\Geometry.cpp" />
     <ClCompile Include="src\Scene\Geometry\Sphere\Sphere.cpp" />
+    <ClCompile Include="src\Scene\Geometry\VoxelizedShape.cpp" />
     <ClCompile Include="src\Scene\Light\Light.cpp" />
     <ClCompile Include="src\Scene\Material\Material.cpp" />
     <ClCompile Include="src\Scene\Material\PhongMaterial.cpp" />

@@ -19,6 +19,8 @@
 #include <Paint/Rasterizer.h>
 #include <Paint/Layer.h>
 
+#include "Scene/Geometry/VoxelizedShape.h"
+
 int main()
 {
 
@@ -65,6 +67,79 @@ int main()
 	JSON::Make( config["camera"]["up"], up);
 	
 	double fovy = config["camera"]["fovy"];
+
+	/// <summary>
+	/// /// TEST
+	/// </summary>
+	/// <returns></returns>
+	bool bTestOutput = false;
+	bool bTestInput = false;
+	if (bTestOutput)
+	{
+
+		std::ofstream testOut(
+			"C:\\Users\\Sheri\\Documents\\ContinuousFractals\\Output\\TracingRays\\Vox.txt",
+			std::ios::out);
+
+		std::vector<std::vector<std::vector<bool>>> VoxelData;
+		VoxelData.push_back(std::vector<std::vector<bool>>());
+		VoxelData.push_back(std::vector<std::vector<bool>>());
+		VoxelData.push_back(std::vector<std::vector<bool>>());
+
+		VoxelData[0].push_back(std::vector<bool>());
+		VoxelData[0].push_back(std::vector<bool>());
+		VoxelData[0].push_back(std::vector<bool>());
+		VoxelData[1].push_back(std::vector<bool>());
+		VoxelData[1].push_back(std::vector<bool>());
+		VoxelData[1].push_back(std::vector<bool>());
+		VoxelData[2].push_back(std::vector<bool>());
+		VoxelData[2].push_back(std::vector<bool>());
+		VoxelData[2].push_back(std::vector<bool>());
+
+		VoxelData[0][0].push_back(false);
+		VoxelData[0][0].push_back(false);
+		VoxelData[1][0].push_back(false);
+		VoxelData[1][0].push_back(false);
+		VoxelData[2][0].push_back(false);
+		VoxelData[2][0].push_back(false);
+
+		VoxelData[0][1].push_back(false);
+		VoxelData[0][1].push_back(false);
+		VoxelData[1][1].push_back(false);
+		VoxelData[1][1].push_back(false);
+		VoxelData[2][1].push_back(false);
+		VoxelData[2][1].push_back(false);
+
+		VoxelData[0][2].push_back(false);
+		VoxelData[0][2].push_back(false);
+		VoxelData[1][2].push_back(false);
+		VoxelData[1][2].push_back(false);
+		VoxelData[2][2].push_back(false);
+		VoxelData[2][2].push_back(false);
+
+		VoxelData[1][1][0] = true;
+		VoxelData[1][0][1] = true;
+		VoxelData[2][2][0] = true;
+
+		VoxelizedShape* V = new VoxelizedShape(Vector3f(1), VoxelData);
+		V->Serialize(testOut);
+		delete V;
+		return 0;
+	}
+
+	if (bTestInput)
+	{
+		std::ifstream testIn(
+			"C:\\Users\\Sheri\\Documents\\ContinuousFractals\\Output\\TracingRays\\Vox.txt",
+			std::ios::in);
+		VoxelizedShape* V = new VoxelizedShape();
+		V->Deserialize(testIn);
+
+
+		delete V;
+		return 0;
+	}
+
 	
 	// Setup scene
 	Factory<SceneNode> sceneFactory;
@@ -83,7 +158,7 @@ int main()
 	const std::string gifName = directory + "rayTrace.gif";
 	Image::Gif giraffe( gifName.c_str(), fixedImageSize, fixedImageSize );
 	
-	for( size_t i = 0; i < 100; ++i )
+	for( size_t i = 0; i < 30; ++i )
 	{
 		Vector3f position = camera.GetPosition();
 		position.x += 0.1f;

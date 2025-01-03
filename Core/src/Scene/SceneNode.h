@@ -5,6 +5,9 @@
 #include <Scene/Material/Material.h>
 #include <Scene/Geometry/Geometry.h>
 
+using SceneNodePtr = std::unique_ptr<class SceneNode>;
+using SceneNodeSharedPtr = std::shared_ptr<class SceneNode>;
+
 class SceneNode
 {
 public:
@@ -18,7 +21,7 @@ public:
 		, m_material( std::move(material) )
 	{}
 
-	void AddChild( SceneNode& child );
+	void AddChild(SceneNodePtr&& child );
 
 	bool IntersectRay(
 		const Vector3f& rayOrigin,
@@ -33,7 +36,7 @@ private:
 
 	// relative position from parent
 	Vector3f m_relativePosition;
-	std::vector<SceneNode*> m_children;
+	std::vector<SceneNodePtr> m_children;
 
 	GeometryPtr m_geometry;
 	MaterialPtr m_material;
@@ -43,5 +46,3 @@ private:
 };
 
 
-using SceneNodePtr = std::unique_ptr<SceneNode>;
-using SceneNodeSharedPtr = std::shared_ptr<SceneNode>;

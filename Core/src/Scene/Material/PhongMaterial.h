@@ -20,6 +20,8 @@ public:
 		m_diffusePower( diffusePower )
 	{}
 
+	static std::string GetJsonTypeName() { return "phong"; }
+
 	virtual void ApplyMaterial(
 		const Vector3f& incomingRayDirection,
 		const Vector3f& hitLocation,

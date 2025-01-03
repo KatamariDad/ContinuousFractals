@@ -9,6 +9,8 @@ public:
 		: m_halfExtent(0.5f * extent)
 	{}
 
+	static std::string GetJsonTypeName() { return "AABB"; }
+
 	virtual bool IntersectRay(
 		const Vector3f& sceneOrigin,
 		const Vector3f& rayOrigin,

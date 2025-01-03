@@ -10,6 +10,8 @@ public:
 		, m_radiusSqr( radius * radius )
 	{}
 
+	static std::string GetJsonTypeName() { return "sphere"; }
+
 	virtual bool IntersectRay(
 		const Vector3f& sceneOrigin,
 		const Vector3f& rayOrigin,

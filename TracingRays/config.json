@@ -24,19 +24,31 @@
     "fovy": 115
   },
   "scene": {
-    "position": [ -5, 0, 0 ],
-    "geometry": {
-      "type": "AABB",
-	  "extent" : [ 2, 2 , 2],
-	  "radius" : 2
-    },
-    "material": {
-      "type": "phong",
-      "diffuse": [ 0, 0, 20 ],
-      "specular": [ 20, 0, 0 ],
-      "ambient": [ 0, 20, 0 ],
-      "shininess": 10,
-      "diffusePower": 10
-    }
+	"materialList" : {
+		"material0": {
+		  "type": "phong",
+		  "diffuse": [ 0, 0, 20 ],
+		  "specular": [ 20, 0, 0 ],
+		  "ambient": [ 0, 20, 0 ],
+		  "shininess": 10,
+		  "diffusePower": 10
+		},
+		"material1": {
+		  "type": "phong",
+		  "diffuse": [ 10, 40, 20 ],
+		  "specular": [ 2, 20, 50 ],
+		  "ambient": [ 20, 10, 110 ],
+		  "shininess": 50,
+		  "diffusePower": 30
+		}
+	},
+	"geometryList" : [
+		{
+		  "position": [ 1, 1, 3 ],
+		  "type": "vox",
+		  "voxFile" : "C:\\Users\\Sheri\\Documents\\ContinuousFractals\\Output\\TracingRays\\Vox.txt",
+		  "material" : "material1"
+		}
+	]
   }
 }

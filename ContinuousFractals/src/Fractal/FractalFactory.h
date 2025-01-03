@@ -99,7 +99,13 @@ public:
 		if (key == "MandelBox")
 		{
 			MandelBox mandelBox( params["formulaScale"], params["iterationCount"] );
-			DrawBox( mandelBox, params, *colourizer );
+			DrawMandelBox( mandelBox, params, *colourizer );
+			return nullptr;
+		}
+		else if (key == "MandelBulb")
+		{
+			MandelBulb mandelBulb( params["exponent"], params["iterationCount"] );
+			DrawMandelBulb( mandelBulb, params, *colourizer );
 			return nullptr;
 		}
 		else if (key == "JuliaSet")
@@ -115,8 +121,13 @@ public:
 		return nullptr;
 	}
 private:
-	static void DrawBox(
+	static void DrawMandelBox(
 		const MandelBox& mandelBox,
+		const nlohmann::json& params,
+		const FractalColourizer& colourizer );
+
+	static void DrawMandelBulb(
+		const MandelBulb& mandelBulb,
 		const nlohmann::json& params,
 		const FractalColourizer& colourizer );
 	

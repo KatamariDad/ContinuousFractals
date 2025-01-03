@@ -1,7 +1,7 @@
 {
   "globals": {
-    "IMAGE_HEIGHT": 512,
-    "IMAGE_WIDTH": 512,
+    "IMAGE_HEIGHT": 1024,
+    "IMAGE_WIDTH": 1024,
     "OUTPUT_DIR": "C:\\Users\\Sheri\\Documents\\ContinuousFractals\\Output"
   },
   "fractals": [
@@ -29,7 +29,8 @@
         "colour" : "#000000",
         "minDepth": -0.9,
         "maxDepth": 1,
-        "increment": 0.1
+        "increment": 0.1,
+		"disable" : true
     },
     {
         "name": "MandelBox",
@@ -40,6 +41,16 @@
         "maxDepth": 1,
         "increment": 0.01,
         "disable" : true
+    },
+    {
+        "name": "MandelBulb",
+        "formulaScale": 2,
+		"exponent": 6,
+        "iterationCount": 100,
+        "colourizer": "OutputScale",
+        "minDepth": -0.9,
+        "maxDepth": 1,
+        "increment": 0.01
     }
   ]
 }

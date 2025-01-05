@@ -19,6 +19,7 @@
 #include <Paint/Rasterizer.h>
 #include <Paint/Layer.h>
 
+#include "Time/Stopwatch.h"
 #include "Scene/Geometry/VoxelizedShape.h"
 
 int main()
@@ -123,6 +124,7 @@ int main()
 
 		VoxelizedShape* V = new VoxelizedShape(Vector3f(1), VoxelData);
 		V->Serialize(testOut);
+		testOut.close();
 		delete V;
 		return 0;
 	}
@@ -157,11 +159,14 @@ int main()
 	FileSystem::MakeDirectory( directory );
 	const std::string gifName = directory + "rayTrace.gif";
 	Image::Gif giraffe( gifName.c_str(), fixedImageSize, fixedImageSize );
+
+	Time::Stopwatch stopwatch;
+	stopwatch.Start();
 	
 	for( size_t i = 0; i < 30; ++i )
 	{
 		Vector3f position = camera.GetPosition();
-		position.x += 0.1f;
+		position.x += 0.001f;
 		position.y = std::sinf( position.x  * 2);
 		camera.SetPosition( position );
 
@@ -173,6 +178,8 @@ int main()
 
 		giraffe.AddFrame( image );
 		image.Save();
+
+		std::cout << " - " << stopwatch.Lap() << " s / " << stopwatch.TotalTime() << " s\n";
 	}
 	giraffe.Save();
 

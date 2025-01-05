@@ -5,6 +5,7 @@
 #include <Fractal/Colourizers/Colourizers.h>
 #include <Image/Image.h>
 #include <Math/Vector3.h>
+#include <Scene/Geometry/VoxelizedShape.h>
 
 #include <thread>
 #include <vector>
@@ -15,18 +16,27 @@ void ComputeRowFractalFunctor3D(
 	Vector3f input,
 	float incrementX,
 	uint32_t numColumns,
-	uint32_t currentRow,
+	uint32_t currentY,
+	uint32_t currentZ,
 	const FractalColourizer* colourizer,
-	const FractalFunctor3D* fractalFunctor )
+	const FractalFunctor3D* fractalFunctor,
+	VoxelizedShape* voxelizedShape)
 {
 	for( uint32_t x = 0; x < numColumns; ++x )
 	{
 		PixelColour p;
+		bool bIsInSet = false;
 		fractalFunctor->GenerateColourForInput( 
 			input, 
 			*colourizer,
-			p );
-		outImage->WritePixel( x, currentRow, p );
+			p, bIsInSet );
+		outImage->WritePixel( x, currentY, p );
+
+		if (voxelizedShape)
+		{
+			voxelizedShape->Set(x, currentY, currentZ, bIsInSet);
+		}
+
 		input.x += incrementX;
 	}
 }
@@ -55,7 +65,8 @@ void ComputeRowFractalFunctor2DComplex(
 void FractalGenerator::Generate(
 	Image::Image& outImage,
 	const GenerateParams& params,
-	const FractalFunctor3D& fractalFunctor)
+	const FractalFunctor3D& fractalFunctor,
+	VoxelizedShape* voxelizedShape)
 {
 	const Vector3f& origin = params.origin;
 	const Vector3f& scale = params.scale;
@@ -84,9 +95,10 @@ void FractalGenerator::Generate(
 				&outImage, 
 				input, 
 				incrementX, 
-				w, y, 
+				w, y, params.depthIndex,
 				&params.colourizer,
-				&fractalFunctor );
+				&fractalFunctor,
+				voxelizedShape);
 			input.y -= incrementY;
 		}
 
@@ -105,9 +117,10 @@ void FractalGenerator::Generate(
 				&outImage, 
 				input, 
 				incrementX, 
-				w, y, 
+				w, y, params.depthIndex,
 				&params.colourizer, 
-				&fractalFunctor );
+				&fractalFunctor,
+				voxelizedShape );
 			input.y -= incrementY;
 		}
 	}

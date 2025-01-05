@@ -31,13 +31,15 @@ public:
 		Vector3f scale;
 		Vector3f origin;
 		const FractalColourizer& colourizer; 
+		uint32_t depthIndex = 0;
 		bool multithreadEnabled;
 	};
 
 	void Generate(
 		Image::Image& outImage,
 		const GenerateParams& params,
-		const FractalFunctor3D& fractalFunctor );
+		const FractalFunctor3D& fractalFunctor,
+		class VoxelizedShape* voxelizedShape );
 
 	void Generate(
 		Image::Image& outImage,
@@ -76,7 +78,8 @@ public:
 	virtual void GenerateColourForInput(
 		const Vector3f& input,
 		const FractalColourizer& colourizer,
-		PixelColour& outColour ) const = 0;
+		PixelColour& outColour,
+		bool& bOutIsInSet ) const = 0;
 
 	virtual std::string GetFractalDesc() const = 0;
 };

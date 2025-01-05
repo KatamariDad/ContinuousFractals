@@ -9,6 +9,7 @@
 #include "Fractal/MandelBox/MandelBox.h"
 #include "Fractal/MandelBulb/MandelBulb.h"
 #include "Fractal/JuliaSet/JuliaSet.h"
+#include "Scene/Geometry/VoxelizedShape.h"
 
 #include <iostream>
 
@@ -98,14 +99,55 @@ public:
 		std::unique_ptr<FractalColourizer> colourizer = ColourizerFactory.Build( colourizerName, params );
 		if (key == "MandelBox")
 		{
+			const float minDepth = params["minDepth"];
+			const float maxDepth = params["maxDepth"];
+			const float increment = params["increment"];
+			const uint32_t width = params["width"];
+			const uint32_t height = params["height"];
+			std::unique_ptr<VoxelizedShape> voxelizedShape = nullptr;
+			if (params.find("generateVox") != params.end() && params["generateVox"] == true)
+			{
+				const uint32_t sizeZ = (uint32_t)(abs(maxDepth - minDepth)) / increment;
+				//voxelizedShape.reset(new VoxelizedShape(width, height, sizeZ));
+			}
+
 			MandelBox mandelBox( params["formulaScale"], params["iterationCount"] );
-			DrawMandelBox( mandelBox, params, *colourizer );
+			DrawMandelBox( mandelBox, params, *colourizer, voxelizedShape.get() );
 			return nullptr;
 		}
 		else if (key == "MandelBulb")
 		{
+			const float minDepth = params["minDepth"];
+
+			FractalGenerator::GenerateParams generateParams(*colourizer);
+			generateParams.multithreadEnabled = true;
+			generateParams.origin = Vector3f(0.f, 0.f, minDepth);
+			generateParams.scale = Vector3f(2.5f);
+
+			std::unique_ptr<VoxelizedShape> voxelizedShape = nullptr;
+			if (params.find("generateVox") != params.end() && params["generateVox"] == true)
+			{
+				const float maxDepth = params["maxDepth"];
+				const float increment = params["increment"];
+				const uint32_t width = params["width"];
+				const uint32_t height = params["height"];
+
+				const Vector3f topLeft(generateParams.origin.x - ( 0.5f * generateParams.scale.x ), generateParams.origin.y + ( 0.5f * generateParams.scale.y ), generateParams.origin.z );
+				const Vector3f bottomRight(generateParams.origin.x + ( 0.5f * generateParams.scale.x ), generateParams.origin.y - 0.5f * generateParams.scale.y, generateParams.origin.z );
+				const float incrementX = ( bottomRight.x - topLeft.x ) / static_cast<float>( width );
+				const float incrementY = ( topLeft.y - bottomRight.y ) / static_cast<float>( height );
+
+				const uint32_t sizeZ = (abs(maxDepth - minDepth)) / increment;
+				voxelizedShape.reset(new VoxelizedShape(width, height, sizeZ, Vector3f(incrementX, incrementY, increment)));
+			}
+
 			MandelBulb mandelBulb( params["exponent"], params["iterationCount"] );
-			DrawMandelBulb( mandelBulb, params, *colourizer );
+			DrawMandelBulb( mandelBulb, params, *colourizer, generateParams, voxelizedShape.get() );
+
+			if (voxelizedShape != nullptr)
+			{
+				voxelizedShape->Save(params["directory"]);
+			}
 			return nullptr;
 		}
 		else if (key == "JuliaSet")
@@ -124,12 +166,15 @@ private:
 	static void DrawMandelBox(
 		const MandelBox& mandelBox,
 		const nlohmann::json& params,
-		const FractalColourizer& colourizer );
+		const FractalColourizer& colourizer,
+		VoxelizedShape* voxelizedShape );
 
 	static void DrawMandelBulb(
 		const MandelBulb& mandelBulb,
 		const nlohmann::json& params,
-		const FractalColourizer& colourizer );
+		const FractalColourizer& colourizer,
+		FractalGenerator::GenerateParams& generateParams,
+		VoxelizedShape* voxelizedShape);
 	
 	static void DrawJulia( 
 		JuliaSet& juliaSet, 

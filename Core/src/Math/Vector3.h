@@ -86,6 +86,20 @@ public:
 			z - other.z );
 	}
 
+	bool operator<( const Vector3f& other ) const
+	{
+		return x < other.x &&
+			y < other.y &&
+			z < other.z;
+	}
+
+	bool operator>( const Vector3f& other ) const
+	{
+		return x > other.x &&
+			y > other.y &&
+			z > other.z;
+	}
+
 	Vector3f operator*( const float s ) const
 	{
 		return Vector3f(

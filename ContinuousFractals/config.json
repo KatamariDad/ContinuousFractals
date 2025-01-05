@@ -1,7 +1,7 @@
 {
   "globals": {
-    "IMAGE_HEIGHT": 1024,
-    "IMAGE_WIDTH": 1024,
+    "IMAGE_HEIGHT": 128,
+    "IMAGE_WIDTH": 128,
     "OUTPUT_DIR": "C:\\Users\\Sheri\\Documents\\ContinuousFractals\\Output"
   },
   "fractals": [
@@ -49,8 +49,9 @@
         "iterationCount": 100,
         "colourizer": "OutputScale",
         "minDepth": -0.9,
-        "maxDepth": 1,
-        "increment": 0.01
+        "maxDepth": -0.7,
+        "increment": 0.1,
+		"generateVox" : true
     }
   ]
 }

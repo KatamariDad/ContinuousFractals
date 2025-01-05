@@ -12,7 +12,8 @@
 void Factory<FractalGenerator>::DrawMandelBox(
 	const MandelBox& mandelBox,
 	const nlohmann::json& params,
-	const FractalColourizer& colourizer )
+	const FractalColourizer& colourizer,
+	VoxelizedShape* voxelizedShape)
 {
 	const float minDepth = params["minDepth"];
 	const float maxDepth = params["maxDepth"];
@@ -51,7 +52,7 @@ void Factory<FractalGenerator>::DrawMandelBox(
 		params.origin = center;
 		params.scale = scale;
 		params.multithreadEnabled = true;
-		mandelBoxGenerator.Generate( image, params, mandelBox );
+		mandelBoxGenerator.Generate( image, params, mandelBox, voxelizedShape );
 
 		giraffe.AddFrame( image );
 
@@ -72,7 +73,9 @@ void Factory<FractalGenerator>::DrawMandelBox(
 void Factory<FractalGenerator>::DrawMandelBulb(
 	const MandelBulb& mandelBulb,
 	const nlohmann::json& params,
-	const FractalColourizer& colourizer)
+	const FractalColourizer& colourizer,
+	FractalGenerator::GenerateParams& generateParams,
+	VoxelizedShape* voxelizedShape)
 {
 	const float minDepth = params["minDepth"];
 	const float maxDepth = params["maxDepth"];
@@ -96,10 +99,9 @@ void Factory<FractalGenerator>::DrawMandelBulb(
 	while (currentDepth <= maxDepth)
 	{
 		const Vector3f center(0.f, 0.0f, currentDepth);
-		const Vector3f scale(2.5f);
 
 		std::stringstream dimensionsStream;
-		dimensionsStream << width << "_x_" << height << "_" << imageIdx << "_" << "c=(" << center.x << "," << center.y << "," << center.z << ")" << "imgS=" << scale.x;
+		dimensionsStream << width << "_x_" << height << "_" << imageIdx << "_" << "c=(" << center.x << "," << center.y << "," << center.z << ")" << "imgS=" << generateParams.scale.x;
 		const std::string dimensions(dimensionsStream.str());
 
 
@@ -107,11 +109,10 @@ void Factory<FractalGenerator>::DrawMandelBulb(
 		Image::Image image(width, height, fullpath);
 
 		FractalGenerator mandelBulbGenerator;
-		FractalGenerator::GenerateParams params(colourizer);
-		params.origin = center;
-		params.scale = scale;
-		params.multithreadEnabled = true;
-		mandelBulbGenerator.Generate(image, params, mandelBulb);
+		generateParams.origin = center;
+		generateParams.multithreadEnabled = true;
+		generateParams.depthIndex = currentDepth;
+		mandelBulbGenerator.Generate(image, generateParams, mandelBulb, voxelizedShape);
 
 		giraffe.AddFrame(image);
 

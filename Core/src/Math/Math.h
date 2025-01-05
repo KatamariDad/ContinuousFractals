@@ -1,5 +1,8 @@
 #pragma once
 
+#include <algorithm>
+#include <cmath>
+
 template<typename T>
 T clamp( T f, T min, T max )
 {
@@ -130,9 +133,40 @@ bool AABBIntersectRay(
 	const V P = hitLocation - boxOrigin;
 	constexpr float bias = 1.00001;
 
-	hitNormal.x = (int)((P.x / D.x) * bias);
-	hitNormal.y = (int)((P.y / D.y) * bias);
-	hitNormal.z = (int)((P.z / D.z) * bias);
+	hitNormal.x = (int32_t)((P.x / D.x) * bias);
+	hitNormal.y = (int32_t)((P.y / D.y) * bias);
+	hitNormal.z = (int32_t)((P.z / D.z) * bias);
 	hitNormal.Normalize();
 	return true;
+}
+
+template<typename V>
+bool SphereIntersectRay(
+	const V& center,
+	float radiusSqr,
+	const V& rayOrigin,
+	const V& rayDir,
+	V& hitLocation,
+	V& hitNormal) 
+{
+	const V L = center - rayOrigin;
+	const double dot = DotProduct( L, rayDir );
+	if( dot < 0.f )
+	{
+		return false;
+	}
+
+	const double d2 = DotProduct( L, L ) - dot * dot;
+	if( d2 > radiusSqr )
+	{
+		return false;
+	}
+
+	const double c = sqrtf( radiusSqr - d2 );
+	const double t0 = dot - c;
+
+	hitLocation = t0 * rayDir + rayOrigin;
+	hitNormal = ( hitLocation - center).ComputeNormal();
+
+	return false;
 }

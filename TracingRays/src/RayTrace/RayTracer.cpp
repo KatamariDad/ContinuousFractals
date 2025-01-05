@@ -7,6 +7,7 @@
 #include <Image/PixelColour.h>
 #include <Scene/Material/Material.h>
 #include <Scene/SceneNode.h>
+#include <Time/Stopwatch.h>
 
 #define PI 3.14159265358979323846
 #define FIXED_IMAGE_SIZE 256
@@ -14,6 +15,9 @@
 
 void RayTracer::Trace(const TraceParameters* inputParameters, Image::Image* image) 
 {
+	Time::Stopwatch stopwatch;
+	stopwatch.Start();
+
 	const TraceParameters& params = *inputParameters;
 	Image::Image& outImage = *image;
     std::cout<<"Thread "<<params.m_threadId<<" start"<<std::endl;
@@ -56,6 +60,8 @@ void RayTracer::Trace(const TraceParameters* inputParameters, Image::Image* imag
 		}
 	}
     std::cout<<"Thread "<<params.m_threadId<<" end"<<std::endl;
+	std::cout << " - " << stopwatch.Lap() << " s / " << stopwatch.TotalTime() << " s\n";
+	stopwatch.Stop();
 }
 
 

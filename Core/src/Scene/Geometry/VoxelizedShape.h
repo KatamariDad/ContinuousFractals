@@ -8,15 +8,11 @@ public:
 	VoxelizedShape() {}
 
 	VoxelizedShape(const std::string& voxFilename);
-
-	VoxelizedShape(
-		const Vector3f& voxelExtent, 
-		const std::vector<std::vector<std::vector<bool>>>& voxelData)
-		: m_voxelExtent(voxelExtent)
-		, m_voxelData(voxelData)
-	{}
+	VoxelizedShape(uint32_t sizeX, uint32_t sizeY, uint32_t sizeZ, const Vector3f& voxelExtent);
+	VoxelizedShape(const Vector3f& voxelExtent, const std::vector<std::vector<std::vector<bool>>>& voxelData);
 
 	static std::string GetJsonTypeName() { return "vox"; }
+	void Set(uint32_t x, uint32_t y, uint32_t z, bool val);
 
 	virtual bool IntersectRay(
 		const Vector3f& sceneOrigin,
@@ -25,13 +21,19 @@ public:
 		Vector3f& hitLocation,
 		Vector3f& hitNormal) const override;
 
-	void Serialize(std::ofstream& outStream);
+	void Save(const std::string& directory) const;
+	void Serialize(std::ofstream& outStream) const;
 	void Deserialize(std::ifstream& inStream);
 
 private:
 
+	void ComputeRadius();
+	bool PointToIndices(const Vector3f& point, const Vector3f& origin, int32_t& x, int32_t& y, int32_t& z) const;
+
 	std::vector<std::vector<std::vector<bool>>> m_voxelData;
 	Vector3f m_voxelExtent;
+	Vector3f m_size;
+	float m_radiusSqr = 1.f;
 
 };
 

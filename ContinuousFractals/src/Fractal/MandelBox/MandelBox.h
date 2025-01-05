@@ -24,7 +24,8 @@ public:
 	virtual void GenerateColourForInput(
 		const Vector3f& Input,
 		const FractalColourizer& colourizer,
-		PixelColour& outColour ) const override;
+		PixelColour& outColour,
+		bool& bOutIsInSet ) const override;
 
 	virtual std::string GetFractalDesc() const override;
 
